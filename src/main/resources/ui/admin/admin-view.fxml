@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="565.0" prefWidth="726.0"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+>
+    <bottom>
+        <Pane prefHeight="50.0">
+            <Label fx:id="statusLabel" layoutX="14.0" layoutY="17.0" text="User" />
+        </Pane>
+    </bottom>
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE" tabMaxHeight="25.0" tabMaxWidth="150.0" tabMinHeight="25.0" tabMinWidth="150.0" BorderPane.alignment="CENTER">
+            <Tab closable="false" text="Work Front">
+                <TableView fx:id="workFrontTable">
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </Tab>
+            <Tab closable="false" text="Closed">
+                <VBox>
+                    <HBox spacing="20.0">
+                        <padding>
+                            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        </padding>
+                        <DatePicker fx:id="startDateOrder" prefWidth="150.0" />
+                        <Button fx:id="loadOrdersButton" mnemonicParsing="false" prefWidth="150.0" text="Load" />
+                    </HBox>
+                    <TableView fx:id="closedOrdersTable" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                </VBox>
+            </Tab>
+            <Tab closable="false" text="Change Log">
+                <VBox>
+                    <HBox spacing="20.0">
+                        <VBox.margin>
+                            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        </VBox.margin>
+                        <DatePicker fx:id="startDateLog" prefWidth="150.0" />
+                        <Button fx:id="loadLogButton" mnemonicParsing="false" prefWidth="150.0" text="Load" />
+                    </HBox>
+                    <TableView fx:id="workLogTable" VBox.vgrow="ALWAYS">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                </VBox>
+            </Tab>
+        </TabPane>
+    </center>
+    <left>
+        <Pane prefWidth="150.0" BorderPane.alignment="CENTER">
+            <fx:include fx:id="menu" source="admin-menu.fxml" />
+        </Pane>
+    </left>
+</BorderPane>

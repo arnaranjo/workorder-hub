@@ -1,0 +1,81 @@
+package com.workorderhub.core.entity;
+
+/**
+ * Represents the company's employees, who are the end users of the application.
+ */
+public class User {
+
+    private int id;
+    private String userName;
+    private String userPhoneNumber;
+    private String userEmail;
+    private int idRol;
+    private int idAccess;
+
+    public User(
+            int id,
+            String userName,
+            String userPhoneNumber,
+            String userEmail,
+            int idRol,
+            int idAccess
+    ) {
+        this.id = id;
+        this.userName = userName;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userEmail = userEmail;
+        this.idRol = idRol;
+        this.idAccess = idAccess;
+    }
+
+    public User() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+
+    public int getIdRol() {
+        return idRol;
+    }
+
+    public void setIdRol(int idRol) {
+        this.idRol = idRol;
+    }
+
+    public int getIdAccess() {
+        return idAccess;
+    }
+
+    public void setIdAccess(int idAccess) {
+        this.idAccess = idAccess;
+    }
+}

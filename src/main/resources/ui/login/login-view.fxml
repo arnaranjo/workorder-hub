@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" prefHeight="250.0" prefWidth="250.0" spacing="10.0"
+      xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+>
+    <Label fx:id="loginLabel" alignment="CENTER" prefWidth="250.0">
+        <padding>
+            <Insets bottom="15.0" top="15.0"/>
+        </padding>
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+    <Label text="User name"/>
+    <TextField fx:id="userTextField" maxWidth="150.0"/>
+    <Label text="Password"/>
+    <PasswordField fx:id="passwordTextField" maxWidth="150.0"/>
+    <Button mnemonicParsing="false" text="Log In"/>
+</VBox>
