@@ -13,7 +13,7 @@ public class DBUser implements UserGateway {
     private Connection sqlManager;
 
     @Override
-    public List<User> GetAllUser() {
+    public List<User> getAllUser() {
         List<User> userList = new ArrayList<>();
         String sql = """
                 SELECT *
@@ -52,7 +52,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public List<User> GetUsersByRole(UserRoleEnum userRole) {
+    public List<User> getUsersByRole(UserRoleEnum userRole) {
         List<User> userList = new ArrayList<>();
         String sql = """
                 SELECT e.*
@@ -94,7 +94,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public User GetUser(String name, String email) {
+    public User getUser(String name, String email) {
         User user = null;
         String sql = """
                 SELECT *
@@ -136,7 +136,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public User GetUserByCredentials(int idCredentials) {
+    public User getUserByCredentials(int idCredentials) {
         User user = null;
         String sql = """
                 SELECT *
@@ -177,7 +177,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public int InsertUser(User user) {
+    public int insertUser(User user) {
         int id = 0;
         String sql = """
                 INSERT INTO employee (employee_name, phone_number, company_email, role_id, user_credentials_id)
@@ -215,7 +215,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public boolean DeleteUser(User user) {
+    public boolean deleteUser(User user) {
         String sql = """
                 DELETE FROM employee
                 WHERE employee_id = ? AND employee_name = ?;
@@ -242,7 +242,7 @@ public class DBUser implements UserGateway {
     }
 
     @Override
-    public boolean UpdateUser(User user) {
+    public boolean updateUser(User user) {
         String sql = """
                 UPDATE employee
                 SET employee_name = ?, phone_number = ?, company_email  = ?, role_id  = ?, user_credentials_id  = ?

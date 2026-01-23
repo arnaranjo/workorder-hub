@@ -10,7 +10,7 @@ public class DBCredentials implements CredentialsGateway {
     private Connection sqlManager;
 
     @Override
-    public int GetCredentialsId(Credentials access) {
+    public int getCredentialsId(Credentials access) {
 
         String sql = """
                 SELECT user_credentials_id
@@ -45,7 +45,7 @@ public class DBCredentials implements CredentialsGateway {
     }
 
     @Override
-    public Credentials GetCredentialsById(int id) {
+    public Credentials getCredentialsById(int id) {
 
         Credentials credentials = null;
         String sql = """
@@ -85,7 +85,7 @@ public class DBCredentials implements CredentialsGateway {
     }
 
     @Override
-    public int InsertCredentials(Credentials access) {
+    public int insertCredentials(Credentials access) {
         int id = 0;
         String sql = """
                 INSERT INTO user_credentials (user_name, user_password)
@@ -117,7 +117,7 @@ public class DBCredentials implements CredentialsGateway {
     }
 
     @Override
-    public boolean DeleteCredentials(Credentials access) {
+    public boolean deleteCredentials(Credentials access) {
 
         String sql = """
                 DELETE FROM user_credentials
@@ -148,7 +148,7 @@ public class DBCredentials implements CredentialsGateway {
     }
 
     @Override
-    public boolean UpdateCredentials(Credentials access) {
+    public boolean updateCredentials(Credentials access) {
 
         String sql = """
                 UPDATE user_credentials

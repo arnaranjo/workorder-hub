@@ -21,5 +21,5 @@
     <TextField fx:id="userTextField" maxWidth="150.0"/>
     <Label text="Password"/>
     <PasswordField fx:id="passwordTextField" maxWidth="150.0"/>
-    <Button mnemonicParsing="false" text="Log In"/>
+    <Button mnemonicParsing="false" onAction="#grantAccess" text="Log In"/>
 </VBox>

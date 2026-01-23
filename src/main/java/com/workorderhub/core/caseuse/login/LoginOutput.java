@@ -1,7 +1,8 @@
 package com.workorderhub.core.caseuse.login;
 
+import com.workorderhub.core.entity.UserRoleEnum;
+
 public interface LoginOutput {
-    public void DisplayUserNoFound();
-    public void LoadView(LoginResponse response);
-    public void ClosedCurrentScreen();
+    void displayUserNoFound();
+    void loadView(LoginResponse response, UserRoleEnum userRole);
 }

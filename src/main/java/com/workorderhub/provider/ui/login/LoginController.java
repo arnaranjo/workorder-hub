@@ -2,14 +2,14 @@ package com.workorderhub.provider.ui.login;
 
 import com.workorderhub.core.caseuse.login.LoginInteractor;
 import com.workorderhub.core.caseuse.login.LoginRequest;
-import javafx.event.ActionEvent;
+import com.workorderhub.provider.common.Util;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class LoginController implements LoginView{
-
 
     private LoginInteractor interactor;
 
@@ -20,17 +20,9 @@ public class LoginController implements LoginView{
     @FXML
     private PasswordField passwordTextField;
 
-
-    public TextField getUserTextField() {
-        return userTextField;
-    }
-
-    public Label getLoginLabel() {
-        return loginLabel;
-    }
-
-    public PasswordField getPasswordTextField() {
-        return passwordTextField;
+    public void initialize() {
+        loginLabel.setText(Util.GetText("login.default"));
+        loginLabel.setStyle(Util.GetText("login.defaultStyle"));
     }
 
     public void setLoginInteractor(LoginInteractor interactor){
@@ -39,7 +31,7 @@ public class LoginController implements LoginView{
 
 
     @FXML
-    protected void GrantAccess() {
+    private void grantAccess() {
         LoginRequest request = new LoginRequest(
                 userTextField.getText(),
                 passwordTextField.getText()
@@ -52,5 +44,13 @@ public class LoginController implements LoginView{
     public void setTopDisplay(String message, String style) {
         loginLabel.setText(message);
         loginLabel.setStyle(style);
+    }
+
+    /**
+     * Closes the login screen.
+     */
+    @Override
+    public void closedScreen() {
+        ((Stage) userTextField.getScene().getWindow()).close();
     }
 }

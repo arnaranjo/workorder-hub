@@ -2,6 +2,7 @@ package com.workorderhub.core.caseuse.login;
 
 import com.workorderhub.core.entity.Credentials;
 import com.workorderhub.core.entity.User;
+import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.core.gateway.CredentialsGateway;
 import com.workorderhub.core.gateway.UserGateway;
 
@@ -25,16 +26,28 @@ public class LoginInteractor implements LoginInput {
     @Override
     public void grantAccess(LoginRequest request) {
         Credentials credentials = new Credentials(request.userName, request.accessKey);
-        int id = credentialsGateway.GetCredentialsId(credentials);
+        int id = credentialsGateway.getCredentialsId(credentials);
 
         if (id == -1) {
-            output.DisplayUserNoFound();
+            output.displayUserNoFound();
 
         } else {
-            User user = userGateway.GetUserByCredentials(id);
-            LoginResponse response = new LoginResponse(user.getUserName(), user.getIdRol());
-            output.LoadView(response);
+            User user = userGateway.getUserByCredentials(id);
+            response = new LoginResponse(user.getUserName());
 
+            switch (user.getIdRol()) {
+                case 1:
+                    output.loadView(response, UserRoleEnum.MANAGER);
+                    break;
+
+                case 2:
+                    output.loadView(response, UserRoleEnum.SUPERVISOR);
+                    break;
+
+                case 3:
+                    output.loadView(response, UserRoleEnum.TECHNICIAN);
+                    break;
+            }
         }
     }
 }
