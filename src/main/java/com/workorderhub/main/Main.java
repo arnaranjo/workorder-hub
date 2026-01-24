@@ -17,15 +17,28 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/login/login-view.fxml"));
 
-        LoginController loginController = new LoginController();
+        LoginPresenter presenter = new LoginPresenter();
         LoginInteractor interactor = new LoginInteractor(
                 new DBUser(),
                 new DBCredentials(),
-                new LoginPresenter(loginController)
+                presenter
         );
 
-        loginController.setLoginInteractor(interactor);
-        fxmlLoader.setController(loginController);
+        fxmlLoader.setControllerFactory(type -> {
+            if (type == LoginController.class) {
+
+                LoginController controller = new LoginController(interactor);
+                presenter.setView(controller);
+
+                return controller;
+            }
+
+            try {
+                return type.getConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Cannot instantiate controller: " + type, e);
+            }
+        });
 
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Log in");

@@ -17,7 +17,7 @@ public final class AppState {
     /**
      * REF. [1]
      */
-    public static AppState GetInstance() {
+    public static AppState getInstance() {
         if (instance == null) {
             synchronized (AppState.class) {
                 if (instance == null) {
