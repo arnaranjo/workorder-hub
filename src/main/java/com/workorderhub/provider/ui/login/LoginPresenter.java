@@ -8,7 +8,6 @@ import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.ViewLoader;
 import com.workorderhub.provider.ui.admin.AdminMainController;
 import com.workorderhub.provider.ui.admin.AdminMenuController;
-import javafx.fxml.FXMLLoader;
 
 import java.net.URL;
 
@@ -37,30 +36,16 @@ public class LoginPresenter implements LoginOutput {
     @Override
     public void loadView(LoginResponse response, UserRoleEnum userRole) {
 
-        FXMLLoader fxmlLoader;
+        ViewLoader viewLoader = new ViewLoader();
         AppState appState = AppState.getInstance();
         appState.setLoggedUser(response.getUserName());
 
         switch (userRole) {
             case MANAGER:
-                fxmlLoader = new FXMLLoader(adminView);
-
-                fxmlLoader.setControllerFactory(type -> {
-                    if (type == AdminMainController.class) {
-                        return new AdminMainController();
-                    } else if (type == AdminMenuController.class) {
-                        return new AdminMenuController();
-                    }
-
-                    try {
-                        return type.getConstructor().newInstance();
-                    } catch (Exception e) {
-                        throw new RuntimeException("Cannot instantiate controller: " + type, e);
-                    }
-                });
-
-                ViewLoader.LoadView(
-                        fxmlLoader,
+                viewLoader.registerController(AdminMainController.class, ()-> new AdminMainController());
+                viewLoader.registerController(AdminMenuController.class, ()-> new AdminMenuController());
+                viewLoader.LoadView(
+                        adminView,
                         PropertiesLoader.GetText("login.managerScreen"),
                         PropertiesLoader.GetDouble("mainScreen.width"),
                         PropertiesLoader.GetDouble("mainScreen.height")
@@ -68,9 +53,8 @@ public class LoginPresenter implements LoginOutput {
                 break;
 
             case SUPERVISOR:
-                fxmlLoader = new FXMLLoader(supervisorView);
-                ViewLoader.LoadView(
-                        fxmlLoader,
+                viewLoader.LoadView(
+                        supervisorView,
                         PropertiesLoader.GetText("login.supervisorScreen"),
                         PropertiesLoader.GetDouble("mainScreen.width"),
                         PropertiesLoader.GetDouble("mainScreen.height")
@@ -78,9 +62,8 @@ public class LoginPresenter implements LoginOutput {
                 break;
 
             case TECHNICIAN:
-                fxmlLoader = new FXMLLoader(technicianView);
-                ViewLoader.LoadView(
-                        fxmlLoader,
+                viewLoader.LoadView(
+                        technicianView,
                         PropertiesLoader.GetText("login.technicianScreen"),
                         PropertiesLoader.GetDouble("mainScreen.width"),
                         PropertiesLoader.GetDouble("mainScreen.height")

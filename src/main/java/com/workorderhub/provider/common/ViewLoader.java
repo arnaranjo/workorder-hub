@@ -5,59 +5,99 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class ViewLoader {
 
-    private ViewLoader() {}
+    private final Map<Class<?>, Supplier<?>> controllerCreators = new HashMap<>();
 
-    /**
-     * Loads the window into a resizable view.
-     *
-     * @param title     Title of the screen.
-     * @param minWidth  minimum window width.
-     * @param minHeight minimum window height.
-     */
-    public static void LoadView(
-            FXMLLoader fxmlLoader,
-            String title,
-            double minWidth,
-            double minHeight
-    ) {
-        try {
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setTitle(title);
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.setMinWidth(minWidth);
-            stage.setMinHeight(minHeight);
-            stage.setScene(scene);
-            stage.show();
+    public <T> void registerController(Class<T> clazz, Supplier<T> creator) {
+        controllerCreators.put(clazz, creator);
+    }
 
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    public ViewLoader() {
     }
 
     /**
      * Loads the window into a fixed view.
      *
-     * @param title Title of the screen.
+     * @param viewPath View URL.
+     * @param title    Title of the screen.
      */
-    public static void LoadView(
-            FXMLLoader fxmlLoader,
+    public void LoadView(
+            URL viewPath,
             String title
     ) {
+        FXMLLoader loader = new FXMLLoader(viewPath);
+
+        loader.setControllerFactory(type -> {
+            if (controllerCreators.containsKey(type)) {
+                return controllerCreators.get(type).get();
+            }
+
+            try {
+                return type.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Error al crear controlador: " + type, e);
+            }
+        });
+
         try {
-            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
             stage.setTitle(title);
-            stage.setResizable(false);
-            stage.setScene(scene);
             stage.show();
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+
+        }
+    }
+
+    /**
+     * Loads the window into a resizable view.
+     *
+     * @param viewPath  View URL.
+     * @param title     Title of the screen.
+     * @param minWidth  minimum window width.
+     * @param minHeight minimum window height.
+     */
+    public void LoadView(
+            URL viewPath,
+            String title,
+            double minWidth,
+            double minHeight
+    ) {
+        FXMLLoader loader = new FXMLLoader(viewPath);
+
+        loader.setControllerFactory(type -> {
+            if (controllerCreators.containsKey(type)) {
+                return controllerCreators.get(type).get();
+            }
+
+            try {
+                return type.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Error al crear controlador: " + type, e);
+            }
+        });
+
+        try {
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle(title);
+            stage.setResizable(true);
+            stage.setMaximized(true);
+            stage.setMinWidth(minWidth);
+            stage.setMinHeight(minHeight);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
         }
     }
 }
