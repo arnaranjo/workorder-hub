@@ -1,21 +1,23 @@
 package com.workorderhub.main;
 
 import com.workorderhub.core.caseuse.login.LoginInteractor;
+import com.workorderhub.provider.common.PropertiesLoader;
+import com.workorderhub.provider.common.ViewLoader;
 import com.workorderhub.provider.database.DBCredentials;
 import com.workorderhub.provider.database.DBUser;
 import com.workorderhub.provider.ui.login.LoginController;
 import com.workorderhub.provider.ui.login.LoginPresenter;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.net.URL;
 
 public class Main extends Application {
+
+    private final URL logInView = getClass().getResource("/ui/login/login-view.fxml");
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/ui/login/login-view.fxml"));
+    public void start(Stage stage){
 
         LoginPresenter presenter = new LoginPresenter();
         LoginInteractor interactor = new LoginInteractor(
@@ -24,27 +26,17 @@ public class Main extends Application {
                 presenter
         );
 
-        fxmlLoader.setControllerFactory(type -> {
-            if (type == LoginController.class) {
-
-                LoginController controller = new LoginController(interactor);
-                presenter.setView(controller);
-
-                return controller;
-            }
-
-            try {
-                return type.getConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Cannot instantiate controller: " + type, e);
-            }
+        ViewLoader viewLoader = new ViewLoader();
+        viewLoader.registerController(LoginController.class, () -> {
+            LoginController controller = new LoginController(interactor);
+            presenter.setView(controller);
+            return controller;
         });
 
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Log in");
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
+        viewLoader.LoadView(
+                logInView,
+                PropertiesLoader.GetText("login.title")
+        );
     }
 
     public static void main(String[] args) {

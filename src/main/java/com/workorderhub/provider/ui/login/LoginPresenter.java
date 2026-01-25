@@ -53,6 +53,8 @@ public class LoginPresenter implements LoginOutput {
                 break;
 
             case SUPERVISOR:
+                //Log the controllers here
+
                 viewLoader.LoadView(
                         supervisorView,
                         PropertiesLoader.GetText("login.supervisorScreen"),
@@ -62,6 +64,8 @@ public class LoginPresenter implements LoginOutput {
                 break;
 
             case TECHNICIAN:
+                //Log the controllers here
+
                 viewLoader.LoadView(
                         technicianView,
                         PropertiesLoader.GetText("login.technicianScreen"),
