@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.workorderhub.provider.ui.admin.EditUserController"
+>
+   <top>
+      <Label fx:id="editUserLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </top>
+   <left>
+      <GridPane hgap="20.0" vgap="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </BorderPane.margin>
+         <Label text="User Data" GridPane.columnIndex="1">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+            <GridPane.margin>
+               <Insets bottom="10.0" top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <Label text="Search User">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Label>
+         <Label text="Employee name" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="nameField" GridPane.rowIndex="2" />
+         <Label text="Employee company email" GridPane.rowIndex="3">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="emailField" GridPane.rowIndex="4" />
+         <Label text="Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="newNameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         <Label text="Phone number" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="newPhoneField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+         <Label text="E-Mail" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="newEmailField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+         <Label text="Role" GridPane.columnIndex="1" GridPane.rowIndex="7">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <ComboBox fx:id="newRolBox" prefWidth="520.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+         <Label text="Login name" GridPane.columnIndex="1" GridPane.rowIndex="10">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </Label>
+         <TextField fx:id="newLoginNameField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+         <GridPane hgap="20.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
+            <columnConstraints>
+               <ColumnConstraints hgrow="ALWAYS" />
+               <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <PasswordField fx:id="newPasswordField" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </PasswordField>
+            <Label text="Password">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <PasswordField fx:id="confPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets />
+               </GridPane.margin>
+            </PasswordField>
+            <Label text="Confirm password" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets top="10.0" />
+               </GridPane.margin>
+            </Label>
+            <rowConstraints>
+               <RowConstraints />
+               <RowConstraints />
+            </rowConstraints>
+         </GridPane>
+         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchUser" prefWidth="220.0" text="Search" GridPane.rowIndex="6" />
+         <Separator prefWidth="200.0" GridPane.rowIndex="7" />
+         <CheckBox fx:id="cBoxCredentials" mnemonicParsing="false" onAction="#toggleCredentialsFields" text="Edit / Add user credentials" GridPane.columnIndex="1" GridPane.rowIndex="9">
+            <GridPane.margin>
+               <Insets top="10.0" />
+            </GridPane.margin>
+         </CheckBox>
+         <Button fx:id="newSearchButton" mnemonicParsing="false" onAction="#setNewSearch" prefWidth="220.0" text="New Search" GridPane.rowIndex="8" />
+         <Button fx:id="deleteCredentialButton" mnemonicParsing="false" onAction="#deleteCredential" prefWidth="220.0" text="Delete User Credentials" GridPane.rowIndex="9" />
+         <Button fx:id="deleteUserButton" mnemonicParsing="false" onAction="#deleteUser" prefWidth="220.0" text="Delete User" GridPane.rowIndex="10" />
+         <Button fx:id="updateButton" mnemonicParsing="false" onAction="#updateUser" prefWidth="220.0" text="Update User" GridPane.rowIndex="11" />
+      </GridPane>
+   </left>
+</BorderPane>
