@@ -15,10 +15,37 @@ public class EditUserPresenter implements EditUserOutput {
     }
 
     @Override
-    public void displayConfirmation() {
-        String titleConf = "editUserView.updatedUserConfirmation.title";
-        String contentConf = "editUserView.updatedUserConfirmation.content";
-        Util.ShowMessage(titleConf, contentConf);
+    public boolean requestConfirmation(EditUserEnum editUserEnum) {
+        boolean confirmation = false;
+        switch (editUserEnum){
+            case CONFIRM_DELETE_CREDENTIALS:
+                String confTitle = "editUserView.deletedAccessConfirmation.title";
+                String confMessage = "editUserView.deletedAccessConfirmation.content";
+
+                confirmation = Util.RequestConfirmation(
+                        confTitle,
+                        confMessage
+                );
+                break;
+
+        }
+        return confirmation;
+    }
+
+    @Override
+    public void displayConfirmation(EditUserEnum editUserEnum) {
+        switch (editUserEnum){
+            case CREDENTIALS_DELETED:
+                String confTitle = "editUserView.deletedAccessApproval.title";
+                String confMessage = "editUserView.deletedAccessApproval.content";
+
+                Util.RequestConfirmation(
+                        confTitle,
+                        confMessage
+                );
+                break;
+
+        }
     }
 
     @Override

@@ -76,13 +76,13 @@
                <Insets top="10.0" />
             </GridPane.margin>
          </Label>
-         <TextField fx:id="newLoginNameField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+         <TextField fx:id="loginNameField" GridPane.columnIndex="1" GridPane.rowIndex="11" />
          <GridPane hgap="20.0" vgap="10.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
             <columnConstraints>
                <ColumnConstraints hgrow="ALWAYS" />
                <ColumnConstraints hgrow="ALWAYS" />
             </columnConstraints>
-            <PasswordField fx:id="newPasswordField" GridPane.rowIndex="1">
+            <PasswordField fx:id="passwordField" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets />
                </GridPane.margin>

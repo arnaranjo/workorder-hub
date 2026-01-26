@@ -1,5 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
+import com.workorderhub.core.caseuse.edituser.EditCredentialsRequest;
 import com.workorderhub.core.caseuse.edituser.EditUserInteractor;
 import com.workorderhub.core.caseuse.edituser.SearchUserRequest;
 import com.workorderhub.core.entity.UserRole;
@@ -29,9 +30,9 @@ public class EditUserController implements EditUserView {
     @FXML
     private ComboBox<String> newRolBox;
     @FXML
-    private TextField newLoginNameField;
+    private TextField loginNameField;
     @FXML
-    private PasswordField newPasswordField;
+    private PasswordField passwordField;
     @FXML
     private PasswordField confPasswordField;
     @FXML
@@ -70,8 +71,8 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void toggleCredentialsFields() {
-        newLoginNameField.setDisable(!cBoxCredentials.isSelected());
-        newPasswordField.setDisable(!cBoxCredentials.isSelected());
+        loginNameField.setDisable(!cBoxCredentials.isSelected());
+        passwordField.setDisable(!cBoxCredentials.isSelected());
         confPasswordField.setDisable(!cBoxCredentials.isSelected());
     }
 
@@ -84,6 +85,11 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void deleteCredential() {
+        EditCredentialsRequest request = new EditCredentialsRequest(
+                loginNameField.getText(),
+                passwordField.getText()
+        );
+        interactor.deleteCredentials(request);
     }
 
     @FXML
@@ -144,12 +150,12 @@ public class EditUserController implements EditUserView {
 
     @Override
     public void setNewLoginName(String loginName) {
-        newLoginNameField.setText(loginName);
+        loginNameField.setText(loginName);
     }
 
     @Override
     public void setNewPassword(String password) {
-        newPasswordField.setText(password);
+        passwordField.setText(password);
     }
 
 
@@ -164,8 +170,8 @@ public class EditUserController implements EditUserView {
     public void deactivateCredentials() {
         if (cBoxCredentials.isSelected()){
             cBoxCredentials.fire();
-            newLoginNameField.setText("");
-            newPasswordField.setText("");
+            loginNameField.setText("");
+            passwordField.setText("");
             confPasswordField.setText("");
         }
     }

@@ -77,12 +77,34 @@ public class EditUserInteractor implements EditUserInput{
     }
 
     @Override
+    public void deleteUser(SearchUserRequest request) {
+
+    }
+
+    @Override
     public void editUserCredentials(EditCredentialsRequest request) {
 
     }
 
     @Override
-    public void deleteUser(SearchUserRequest request) {
+    public void deleteCredentials(EditCredentialsRequest request) {
+        if (!request.loginName().isEmpty() && !request.password().isEmpty()){
+            Credentials credentials = new Credentials(request.loginName(), request.password());
 
+            int userCredentialsId = credentialsGateway.getCredentialsId(credentials);
+            credentials.setAccessId(userCredentialsId);
+
+            if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_CREDENTIALS)){
+                if (credentialsGateway.deleteCredentials(credentials)){
+                    output.displayConfirmation(EditUserEnum.CREDENTIALS_DELETED);
+                }
+                else {
+                    output.displayError(EditUserEnum.CREDENTIALS_DELETION_ERROR);
+                }
+            }
+        }
+        else {
+            output.displayError(EditUserEnum.NO_ACCESS_CREDENTIALS);
+        }
     }
 }
