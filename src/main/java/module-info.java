@@ -3,6 +3,7 @@ module com.workorderhub {
     requires javafx.fxml;
     requires java.sql;
     requires javafx.graphics;
+    requires java.desktop;
 
 
     exports com.workorderhub.main;

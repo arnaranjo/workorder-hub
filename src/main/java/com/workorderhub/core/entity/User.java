@@ -13,14 +13,12 @@ public class User {
     private int idAccess;
 
     public User(
-            int id,
             String userName,
             String userPhoneNumber,
             String userEmail,
             int idRol,
             int idAccess
     ) {
-        this.id = id;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
         this.userEmail = userEmail;

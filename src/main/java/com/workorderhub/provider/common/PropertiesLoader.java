@@ -4,6 +4,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Static class to provide methods load texts or numbers from the properties files.
+ */
 public class PropertiesLoader {
 
     private static FileInputStream propertiesInputStream;

@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+/**
+ * Class to provide methods to load new windows.
+ */
 public class ViewLoader {
 
     private final Map<Class<?>, Supplier<?>> controllerCreators = new HashMap<>();
