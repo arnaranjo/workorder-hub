@@ -10,21 +10,41 @@ public class EditUserPresenter implements EditUserOutput {
 
     private EditUserView view;
 
-    public void setView(EditUserView view){
+    public void setView(EditUserView view) {
         this.view = view;
     }
 
     @Override
     public boolean requestConfirmation(EditUserEnum editUserEnum) {
         boolean confirmation = false;
-        switch (editUserEnum){
+        switch (editUserEnum) {
             case CONFIRM_DELETE_CREDENTIALS:
-                String confTitle = "editUserView.deletedAccessConfirmation.title";
-                String confMessage = "editUserView.deletedAccessConfirmation.content";
+                String confCredentialsTitle = "editUserView.deletedAccessConfirmation.title";
+                String confCredentialsMessage = "editUserView.deletedAccessConfirmation.content";
 
                 confirmation = Util.RequestConfirmation(
-                        confTitle,
-                        confMessage
+                        confCredentialsTitle,
+                        confCredentialsMessage
+                );
+                break;
+
+            case CONFIRM_DELETE_USER:
+                String confUserTitle = "editUserView.deletedUserConfirmation.title";
+                String confUserMessage = "editUserView.deletedUserConfirmation.content";
+
+                confirmation = Util.RequestConfirmation(
+                        confUserTitle,
+                        confUserMessage
+                );
+                break;
+
+            case CONFIRM_UPDATE_USER:
+                String confUpdateUserTitle = "editUserView.updatedUserConfirmation.title";
+                String confUpdateUserMessage = "editUserView.updatedUserConfirmation.content";
+
+                confirmation = Util.RequestConfirmation(
+                        confUpdateUserTitle,
+                        confUpdateUserMessage
                 );
                 break;
 
@@ -34,26 +54,62 @@ public class EditUserPresenter implements EditUserOutput {
 
     @Override
     public void displayConfirmation(EditUserEnum editUserEnum) {
-        switch (editUserEnum){
+        switch (editUserEnum) {
             case CREDENTIALS_DELETED:
-                String confTitle = "editUserView.deletedAccessApproval.title";
-                String confMessage = "editUserView.deletedAccessApproval.content";
+                String credentialsTitle = "editUserView.deletedAccessApproval.title";
+                String credentialsMessage = "editUserView.deletedAccessApproval.content";
 
                 Util.RequestConfirmation(
-                        confTitle,
-                        confMessage
+                        credentialsTitle,
+                        credentialsMessage
                 );
                 break;
 
+            case USER_DELETED:
+                String userTitle = "editUserView.deletedUserApproval.title";
+                String userMessage = "editUserView.deletedUserApproval.content";
+
+                Util.RequestConfirmation(
+                        userTitle,
+                        userMessage
+                );
+                break;
+
+            case USER_UPDATED:
+                String updateUserTitle = "editUserView.updatedUserApproval.title";
+                String updateUserMessage = "editUserView.updatedUserApproval.content";
+
+                Util.RequestConfirmation(
+                        updateUserTitle,
+                        updateUserMessage
+                );
+                break;
         }
     }
 
     @Override
     public void displayError(EditUserEnum editUserEnum) {
-        switch (editUserEnum){
+        switch (editUserEnum) {
             case USER_NO_FOUND:
                 view.setTopDisplay(
                         PropertiesLoader.GetText("editUserView.userNotFound"),
+                        PropertiesLoader.GetText("editUserView.failStyle")
+                );
+                break;
+
+            case NO_ACCESS_CREDENTIALS:
+                String noCredentialTitle = "editUserView.deletedAccessError.title";
+                String noCredentialMessage = "editUserView.deletedAccessError.content";
+
+                Util.ShowMessage(
+                        noCredentialTitle,
+                        noCredentialMessage
+                );
+                break;
+
+            case INCOMPLETE_PASSWORD:
+                view.setTopDisplay(
+                        PropertiesLoader.GetText("editUserView.wrongUserCredentials"),
                         PropertiesLoader.GetText("editUserView.failStyle")
                 );
                 break;
@@ -63,12 +119,32 @@ public class EditUserPresenter implements EditUserOutput {
                         PropertiesLoader.GetText("editUserView.wrongUserInfo"),
                         PropertiesLoader.GetText("editUserView.failStyle")
                 );
-            break;
+                break;
 
             case PASSWORD_DO_NOT_MATCH:
                 view.setTopDisplay(
-                        PropertiesLoader.GetText("editUserView.wrongUserCredentials"),
+                        PropertiesLoader.GetText("editUserView.wrongPassword"),
                         PropertiesLoader.GetText("editUserView.failStyle")
+                );
+                break;
+
+            case CREDENTIALS_DELETION_ERROR:
+                String credentialErrTitle = "editUserView.deletedAccessError.title";
+                String credentialErrMessage = "editUserView.deletedAccessError.deletion";
+
+                Util.ShowMessage(
+                        credentialErrTitle,
+                        credentialErrMessage
+                );
+                break;
+
+            case USER_DELETION_ERROR:
+                String userErrTitle = "editUserView.deletedUserError.title";
+                String userErrMessage = "editUserView.deletedUserError.deletion";
+
+                Util.ShowMessage(
+                        userErrTitle,
+                        userErrMessage
                 );
                 break;
         }

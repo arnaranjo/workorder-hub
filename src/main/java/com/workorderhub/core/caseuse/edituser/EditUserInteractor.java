@@ -9,7 +9,7 @@ import com.workorderhub.core.gateway.UserRoleGateway;
 
 import java.util.List;
 
-public class EditUserInteractor implements EditUserInput{
+public class EditUserInteractor implements EditUserInput {
 
     SearchUserRequest searchUserRequest;
     EditUserRequest editUserRequest;
@@ -25,7 +25,7 @@ public class EditUserInteractor implements EditUserInput{
             UserGateway userGateway,
             CredentialsGateway credentialsGateway,
             UserRoleGateway userRoleGateway
-    ){
+    ) {
         this.output = output;
         this.userGateway = userGateway;
         this.credentialsGateway = credentialsGateway;
@@ -55,7 +55,7 @@ public class EditUserInteractor implements EditUserInput{
             );
             output.displayAllUserInformation(response);
 
-        } else if (userFound != null && userFound.getIdAccess() == 0){
+        } else if (userFound != null && userFound.getIdAccess() == 0) {
             SearchUserResponse response = new SearchUserResponse(
                     userFound.getUserName(),
                     userFound.getUserEmail(),
@@ -78,7 +78,26 @@ public class EditUserInteractor implements EditUserInput{
 
     @Override
     public void deleteUser(SearchUserRequest request) {
+        if (request.userName().isEmpty() || request.userEmail().isEmpty()) {
+            output.displayError(EditUserEnum.INCOMPLETE_INFORMATION);
 
+        } else {
+            User userFound = userGateway.getUser(request.userName(), request.userEmail());
+
+            if (userFound == null) {
+                output.displayError(EditUserEnum.USER_NO_FOUND);
+
+            } else if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_USER)) {
+
+                if (userGateway.deleteUser(userFound)) {
+                    output.displayConfirmation(EditUserEnum.USER_DELETED);
+
+                } else {
+                    output.displayError(EditUserEnum.USER_DELETION_ERROR);
+
+                }
+            }
+        }
     }
 
     @Override
@@ -88,22 +107,20 @@ public class EditUserInteractor implements EditUserInput{
 
     @Override
     public void deleteCredentials(EditCredentialsRequest request) {
-        if (!request.loginName().isEmpty() && !request.password().isEmpty()){
+        if (!request.loginName().isEmpty() && !request.password().isEmpty()) {
             Credentials credentials = new Credentials(request.loginName(), request.password());
 
             int userCredentialsId = credentialsGateway.getCredentialsId(credentials);
             credentials.setAccessId(userCredentialsId);
 
-            if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_CREDENTIALS)){
-                if (credentialsGateway.deleteCredentials(credentials)){
+            if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_CREDENTIALS)) {
+                if (credentialsGateway.deleteCredentials(credentials)) {
                     output.displayConfirmation(EditUserEnum.CREDENTIALS_DELETED);
-                }
-                else {
+                } else {
                     output.displayError(EditUserEnum.CREDENTIALS_DELETION_ERROR);
                 }
             }
-        }
-        else {
+        } else {
             output.displayError(EditUserEnum.NO_ACCESS_CREDENTIALS);
         }
     }

@@ -80,6 +80,11 @@ public class EditUserController implements EditUserView {
     private void setNewSearch() {
         nameField.setText("");
         emailField.setText("");
+
+        newNameField.setText("");
+        newPhoneField.setText("");
+        newEmailField.setText("");
+
         setDefaultView();
     }
 
@@ -94,6 +99,12 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void deleteUser() {
+        SearchUserRequest request = new SearchUserRequest(
+                nameField.getText(),
+                emailField.getText()
+        );
+        interactor.deleteUser(request);
+        searchUser();
     }
 
     @FXML
