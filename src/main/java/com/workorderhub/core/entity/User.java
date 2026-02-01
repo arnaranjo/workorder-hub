@@ -5,7 +5,7 @@ package com.workorderhub.core.entity;
  */
 public class User {
 
-    private int id;
+    private int userId;
     private String userName;
     private String userPhoneNumber;
     private String userEmail;
@@ -13,12 +13,14 @@ public class User {
     private int idAccess;
 
     public User(
+            int userId,
             String userName,
             String userPhoneNumber,
             String userEmail,
             int idRol,
             int idAccess
     ) {
+        this.userId = userId;
         this.userName = userName;
         this.userPhoneNumber = userPhoneNumber;
         this.userEmail = userEmail;
@@ -29,12 +31,12 @@ public class User {
     public User() {
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {

@@ -1,7 +1,8 @@
 package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.newuser.NewUserInteractor;
-import com.workorderhub.core.caseuse.newuser.NewUserRequest;
+import com.workorderhub.core.caseuse.newuser.RequestNewUser;
+import com.workorderhub.core.caseuse.newuser.NewUserView;
 import com.workorderhub.core.entity.UserRole;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.Util;
@@ -14,11 +15,11 @@ import javafx.scene.control.TextField;
 import java.util.HashMap;
 import java.util.List;
 
-public class NewUserController implements NewUserView{
+public class NewUserController implements NewUserView {
 
     private NewUserInteractor interactor;
     private HashMap<String, Integer> roleIdMap = new HashMap<>();
-    private NewUserRequest request;
+    private RequestNewUser request;
 
     @FXML
     private Label newUserLabel;
@@ -62,7 +63,7 @@ public class NewUserController implements NewUserView{
         {
             if (passwordField.getText().equals(confPasswordField.getText())) {
                 if (Util.RequestConfirmation(title, message)) {
-                    request = new NewUserRequest(
+                    request = new RequestNewUser(
                             nameField.getText(),
                             phoneField.getText(),
                             emailField.getText(),
@@ -80,7 +81,7 @@ public class NewUserController implements NewUserView{
 
         } else {
             if (Util.RequestConfirmation(title, message)) {
-                request = new NewUserRequest(
+                request = new RequestNewUser(
                         nameField.getText(),
                         phoneField.getText(),
                         emailField.getText(),

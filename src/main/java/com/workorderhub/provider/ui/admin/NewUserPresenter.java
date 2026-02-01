@@ -1,6 +1,7 @@
 package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.newuser.NewUserOutput;
+import com.workorderhub.core.caseuse.newuser.NewUserView;
 import com.workorderhub.provider.common.Util;
 
 public class NewUserPresenter implements NewUserOutput {

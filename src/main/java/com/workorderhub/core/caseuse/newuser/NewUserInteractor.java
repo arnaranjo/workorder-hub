@@ -12,7 +12,6 @@ import java.util.List;
 public class NewUserInteractor implements NewUserInput{
 
     NewUserOutput output;
-    NewUserResponse response;
     UserGateway userGateway;
     CredentialsGateway credentialsGateway;
     UserRoleGateway userRoleGateway;
@@ -30,7 +29,7 @@ public class NewUserInteractor implements NewUserInput{
     }
 
     @Override
-    public void createNewUser(NewUserRequest request) {
+    public void createNewUser(RequestNewUser request) {
         if (request.userLoginName() != null){
 
             Credentials newCredentials = new Credentials(
@@ -40,6 +39,7 @@ public class NewUserInteractor implements NewUserInput{
             int credentialId = credentialsGateway.insertCredentials(newCredentials);
 
             User newUser = new User(
+                    0,
                 request.userName(),
                 request.userPhoneNumber(),
                 request.userEmail(),
@@ -52,6 +52,7 @@ public class NewUserInteractor implements NewUserInput{
         }
         else {
             User newUser = new User(
+                    0,
                     request.userName(),
                     request.userPhoneNumber(),
                     request.userEmail(),

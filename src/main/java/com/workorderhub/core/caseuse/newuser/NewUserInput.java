@@ -5,6 +5,6 @@ import com.workorderhub.core.entity.UserRole;
 import java.util.List;
 
 public interface NewUserInput {
-    void createNewUser(NewUserRequest request);
+    void createNewUser(RequestNewUser request);
     List<UserRole> getUserRoleList();
 }
