@@ -11,9 +11,7 @@ import java.util.List;
 
 public class EditUserInteractor implements EditUserInput {
 
-    SearchUserRequest searchUserRequest;
-    EditUserRequest editUserRequest;
-    EditCredentialsRequest editCredentialsRequest;
+    private User userFound = null;
 
     EditUserOutput output;
     UserGateway userGateway;
@@ -40,12 +38,12 @@ public class EditUserInteractor implements EditUserInput {
     }
 
     @Override
-    public void searchUser(SearchUserRequest request) {
-        User userFound = userGateway.getUser(request.userName(), request.userEmail());
+    public void searchUser(RequestSearchUser request) {
+        userFound = userGateway.getUser(request.userName(), request.userEmail());
         if (userFound != null && userFound.getIdAccess() != 0) {
             Credentials userCredentials = credentialsGateway.getCredentialsById(userFound.getIdAccess());
 
-            SearchUserResponse response = new SearchUserResponse(
+            ResponseSearchUser response = new ResponseSearchUser(
                     userFound.getUserName(),
                     userFound.getUserEmail(),
                     userFound.getUserPhoneNumber(),
@@ -56,7 +54,7 @@ public class EditUserInteractor implements EditUserInput {
             output.displayAllUserInformation(response);
 
         } else if (userFound != null && userFound.getIdAccess() == 0) {
-            SearchUserResponse response = new SearchUserResponse(
+            ResponseSearchUser response = new ResponseSearchUser(
                     userFound.getUserName(),
                     userFound.getUserEmail(),
                     userFound.getUserPhoneNumber(),
@@ -72,12 +70,69 @@ public class EditUserInteractor implements EditUserInput {
     }
 
     @Override
-    public void editUser(EditUserRequest request) {
+    public void editUser(RequestEditUser request) {
+        if (!request.name().isEmpty() && !request.phoneNumber().isEmpty() && !request.email().isEmpty()) {
 
+            UserRole role = userRoleGateway.GetRole(request.roleName());
+            User user = new User(
+                    userFound.getUserId(),
+                    request.name(),
+                    request.phoneNumber(),
+                    request.email(),
+                    role.getRoleId(),
+                    userFound.getIdAccess()
+            );
+
+            if (
+                    !request.loginName().isEmpty() &&
+                            !request.password().isEmpty() &&
+                            !request.confPassword().isEmpty() &&
+                            userFound.getIdAccess() != 0
+            ) {
+                if (output.requestConfirmation(EditUserEnum.CONFIRM_UPDATE_USER)) {
+
+                    if (userGateway.updateUser(user) && editUserCredentials(request)) {
+                        output.displayConfirmation(EditUserEnum.USER_UPDATED);
+                        output.resetFields();
+                    } else {
+                        output.displayError(EditUserEnum.USER_UPDATE_ERROR);
+                    }
+                }
+            } else if (!request.loginName().isEmpty() &&
+                    !request.password().isEmpty() &&
+                    !request.confPassword().isEmpty() &&
+                    userFound.getIdAccess() == 0
+            ) {
+                if (output.requestConfirmation(EditUserEnum.CONFIRM_UPDATE_USER)) {
+
+                    int accessId = insertUserCredentials(request);
+                    user.setIdAccess(accessId);
+
+                    if (userGateway.updateUser(user) && accessId != 0) {
+                        output.displayConfirmation(EditUserEnum.USER_UPDATED);
+                        output.resetFields();
+                    } else {
+                        output.displayError(EditUserEnum.USER_UPDATE_ERROR);
+                    }
+                }
+            } else {
+                if (output.requestConfirmation(EditUserEnum.CONFIRM_UPDATE_USER)) {
+                    if (userGateway.updateUser(user)) {
+                        output.displayConfirmation(EditUserEnum.USER_UPDATED);
+                        output.resetFields();
+                    } else {
+                        output.displayError(EditUserEnum.USER_UPDATE_ERROR);
+                    }
+                }
+            }
+
+        } else {
+            output.displayError(EditUserEnum.INCOMPLETE_INFORMATION);
+        }
     }
 
     @Override
-    public void deleteUser(SearchUserRequest request) {
+    public void deleteUser(RequestSearchUser request) {
         if (request.userName().isEmpty() || request.userEmail().isEmpty()) {
             output.displayError(EditUserEnum.INCOMPLETE_INFORMATION);
 
@@ -88,25 +143,63 @@ public class EditUserInteractor implements EditUserInput {
                 output.displayError(EditUserEnum.USER_NO_FOUND);
 
             } else if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_USER)) {
+                if (userFound.getIdAccess() != 0) {
+                    Credentials userFounfCredentials = credentialsGateway.getCredentialsById(userFound.getIdAccess());
 
-                if (userGateway.deleteUser(userFound)) {
-                    output.displayConfirmation(EditUserEnum.USER_DELETED);
+                    if (userGateway.deleteUser(userFound) && credentialsGateway.deleteCredentials(userFounfCredentials)) {
+                        output.displayConfirmation(EditUserEnum.USER_DELETED);
+                        output.resetFields();
 
+                    } else {
+                        output.displayError(EditUserEnum.USER_DELETION_ERROR);
+
+                    }
                 } else {
-                    output.displayError(EditUserEnum.USER_DELETION_ERROR);
+                    if (userGateway.deleteUser(userFound)) {
+                        output.displayConfirmation(EditUserEnum.USER_DELETED);
+                        output.resetFields();
 
+                    } else {
+                        output.displayError(EditUserEnum.USER_DELETION_ERROR);
+
+                    }
                 }
             }
         }
     }
 
     @Override
-    public void editUserCredentials(EditCredentialsRequest request) {
+    public int insertUserCredentials(RequestEditUser request) {
+        int id = 0;
+        if (!request.password().equals(request.confPassword())) {
+            output.displayError(EditUserEnum.PASSWORD_DO_NOT_MATCH);
+            return id;
 
+        } else {
+            Credentials newCredentials = new Credentials(request.loginName(), request.password());
+            return credentialsGateway.insertCredentials(newCredentials);
+
+        }
     }
 
     @Override
-    public void deleteCredentials(EditCredentialsRequest request) {
+    public boolean editUserCredentials(RequestEditUser request) {
+        if (!request.password().equals(request.confPassword())) {
+            output.displayError(EditUserEnum.PASSWORD_DO_NOT_MATCH);
+            return false;
+
+        } else {
+            Credentials newCredentials = credentialsGateway.getCredentialsById(userFound.getIdAccess());
+            newCredentials.setName(request.loginName());
+            newCredentials.setAccessKey(request.password());
+
+            return credentialsGateway.updateCredentials(newCredentials);
+
+        }
+    }
+
+    @Override
+    public void deleteCredentials(RequestDeleteCredentials request) {
         if (!request.loginName().isEmpty() && !request.password().isEmpty()) {
             Credentials credentials = new Credentials(request.loginName(), request.password());
 
@@ -116,6 +209,8 @@ public class EditUserInteractor implements EditUserInput {
             if (output.requestConfirmation(EditUserEnum.CONFIRM_DELETE_CREDENTIALS)) {
                 if (credentialsGateway.deleteCredentials(credentials)) {
                     output.displayConfirmation(EditUserEnum.CREDENTIALS_DELETED);
+                    output.resetFields();
+
                 } else {
                     output.displayError(EditUserEnum.CREDENTIALS_DELETION_ERROR);
                 }

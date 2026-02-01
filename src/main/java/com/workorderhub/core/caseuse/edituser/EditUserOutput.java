@@ -4,6 +4,7 @@ public interface EditUserOutput {
     boolean requestConfirmation(EditUserEnum editUserEnum);
     void displayConfirmation(EditUserEnum editUserEnum);
     void displayError(EditUserEnum editUserEnum);
-    void displayAllUserInformation(SearchUserResponse response);
-    void displayUserInformation(SearchUserResponse response);
+    void displayAllUserInformation(ResponseSearchUser response);
+    void displayUserInformation(ResponseSearchUser response);
+    void resetFields();
 }

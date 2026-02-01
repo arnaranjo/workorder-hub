@@ -224,7 +224,7 @@ public class DBUser implements UserGateway {
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setInt(1, user.getId());
+            statement.setInt(1, user.getUserId());
             statement.setString(2, user.getUserName());
 
             statement.executeUpdate();
@@ -261,7 +261,7 @@ public class DBUser implements UserGateway {
             } else {
                 statement.setInt(5, user.getIdAccess());
             }
-            statement.setInt(6, user.getId());
+            statement.setInt(6, user.getUserId());
 
             statement.executeUpdate();
             statement.close();

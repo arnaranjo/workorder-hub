@@ -1,8 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
-import com.workorderhub.core.caseuse.edituser.EditCredentialsRequest;
-import com.workorderhub.core.caseuse.edituser.EditUserInteractor;
-import com.workorderhub.core.caseuse.edituser.SearchUserRequest;
+import com.workorderhub.core.caseuse.edituser.*;
 import com.workorderhub.core.entity.UserRole;
 import com.workorderhub.provider.common.PropertiesLoader;
 import javafx.fxml.FXML;
@@ -13,7 +11,7 @@ import java.util.List;
 public class EditUserController implements EditUserView {
 
     private EditUserInteractor interactor;
-    List<UserRole> userRoleList;
+    private List<UserRole> userRoleList;
 
     @FXML
     private Label editUserLabel;
@@ -36,23 +34,14 @@ public class EditUserController implements EditUserView {
     @FXML
     private PasswordField confPasswordField;
     @FXML
-    private Button searchButton;
-    @FXML
     private CheckBox cBoxCredentials;
-    @FXML
-    private Button newSearchButton;
-    @FXML
-    private Button deleteCredentialButton;
-    @FXML
-    private Button deleteUserButton;
-    @FXML
-    private Button updateButton;
 
-    public EditUserController(EditUserInteractor interactor){
+
+    public EditUserController(EditUserInteractor interactor) {
         this.interactor = interactor;
     }
 
-    public void initialize(){
+    public void initialize() {
         editUserLabel.setText(PropertiesLoader.GetText("editUserView.default"));
         editUserLabel.setStyle(PropertiesLoader.GetText("editUserView.defaultStyle"));
 
@@ -62,7 +51,7 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void searchUser() {
-        SearchUserRequest request = new SearchUserRequest(
+        RequestSearchUser request = new RequestSearchUser(
                 nameField.getText(),
                 emailField.getText()
         );
@@ -90,7 +79,7 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void deleteCredential() {
-        EditCredentialsRequest request = new EditCredentialsRequest(
+        RequestDeleteCredentials request = new RequestDeleteCredentials(
                 loginNameField.getText(),
                 passwordField.getText()
         );
@@ -99,16 +88,25 @@ public class EditUserController implements EditUserView {
 
     @FXML
     private void deleteUser() {
-        SearchUserRequest request = new SearchUserRequest(
+        RequestSearchUser request = new RequestSearchUser(
                 nameField.getText(),
                 emailField.getText()
         );
         interactor.deleteUser(request);
-        searchUser();
     }
 
     @FXML
     private void updateUser() {
+        RequestEditUser request = new RequestEditUser(
+                newNameField.getText(),
+                newPhoneField.getText(),
+                newEmailField.getText(),
+                newRolBox.getSelectionModel().getSelectedItem(),
+                loginNameField.getText(),
+                passwordField.getText(),
+                confPasswordField.getText()
+        );
+        interactor.editUser(request);
     }
 
     @Override
@@ -133,6 +131,16 @@ public class EditUserController implements EditUserView {
     public void setTopDisplay(String message, String style) {
         editUserLabel.setText(message);
         editUserLabel.setStyle(style);
+    }
+
+    @Override
+    public void setNameText(String name) {
+        nameField.setText(name);
+    }
+
+    @Override
+    public void setEmail(String email) {
+        emailField.setText(email);
     }
 
     @Override
@@ -169,17 +177,21 @@ public class EditUserController implements EditUserView {
         passwordField.setText(password);
     }
 
+    @Override
+    public void setConfNewPassword(String password) {
+        confPasswordField.setText(password);
+    }
 
     @Override
     public void activateCredentials() {
-        if (!cBoxCredentials.isSelected()){
+        if (!cBoxCredentials.isSelected()) {
             cBoxCredentials.fire();
         }
     }
 
     @Override
     public void deactivateCredentials() {
-        if (cBoxCredentials.isSelected()){
+        if (cBoxCredentials.isSelected()) {
             cBoxCredentials.fire();
             loginNameField.setText("");
             passwordField.setText("");

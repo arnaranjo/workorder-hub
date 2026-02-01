@@ -2,7 +2,8 @@ package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.edituser.EditUserEnum;
 import com.workorderhub.core.caseuse.edituser.EditUserOutput;
-import com.workorderhub.core.caseuse.edituser.SearchUserResponse;
+import com.workorderhub.core.caseuse.edituser.EditUserView;
+import com.workorderhub.core.caseuse.edituser.ResponseSearchUser;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.Util;
 
@@ -129,29 +130,39 @@ public class EditUserPresenter implements EditUserOutput {
                 break;
 
             case CREDENTIALS_DELETION_ERROR:
-                String credentialErrTitle = "editUserView.deletedAccessError.title";
-                String credentialErrMessage = "editUserView.deletedAccessError.deletion";
+                String credentialDeleteErrTitle = "editUserView.deletedAccessError.title";
+                String credentialDeleteErrMessage = "editUserView.deletedAccessError.deletion";
 
                 Util.ShowMessage(
-                        credentialErrTitle,
-                        credentialErrMessage
+                        credentialDeleteErrTitle,
+                        credentialDeleteErrMessage
                 );
                 break;
 
             case USER_DELETION_ERROR:
-                String userErrTitle = "editUserView.deletedUserError.title";
-                String userErrMessage = "editUserView.deletedUserError.deletion";
+                String userDeleteErrTitle = "editUserView.deletedUserError.title";
+                String userDeleteErrMessage = "editUserView.deletedUserError.deletion";
 
                 Util.ShowMessage(
-                        userErrTitle,
-                        userErrMessage
+                        userDeleteErrTitle,
+                        userDeleteErrMessage
+                );
+                break;
+
+            case USER_UPDATE_ERROR:
+                String userUpdateErrTitle = "editUserView.updatedUserError.title";
+                String userUpdateErrMessage = "editUserView.updatedUserError.deletion";
+
+                Util.ShowMessage(
+                        userUpdateErrTitle,
+                        userUpdateErrMessage
                 );
                 break;
         }
     }
 
     @Override
-    public void displayAllUserInformation(SearchUserResponse response) {
+    public void displayAllUserInformation(ResponseSearchUser response) {
         view.setNewNameText(response.userName());
         view.setNewPhoneText(response.userPhone());
         view.setNewEmailText(response.userEmail());
@@ -159,14 +170,26 @@ public class EditUserPresenter implements EditUserOutput {
         view.activateCredentials();
         view.setNewLoginName(response.userLoginName());
         view.setNewPassword(response.userPassword());
+        view.setConfNewPassword(response.userPassword());
     }
 
     @Override
-    public void displayUserInformation(SearchUserResponse response) {
+    public void displayUserInformation(ResponseSearchUser response) {
         view.setNewNameText(response.userName());
         view.setNewPhoneText(response.userPhone());
         view.setNewEmailText(response.userEmail());
         view.setRoleName(response.roleId());
         view.deactivateCredentials();
+    }
+
+    @Override
+    public void resetFields() {
+        view.setDefaultView();
+
+        view.setNameText("");
+        view.setEmail("");
+        view.setNewNameText("");
+        view.setNewPhoneText("");
+        view.setNewEmailText("");
     }
 }

@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface EditUserInput {
     List<UserRole> getUserRoleList();
-    void searchUser(SearchUserRequest request);
-    void editUser(EditUserRequest request);
-    void deleteUser(SearchUserRequest request);
-    void editUserCredentials(EditCredentialsRequest request);
-    void deleteCredentials(EditCredentialsRequest request);
+    void searchUser(RequestSearchUser request);
+    void editUser(RequestEditUser request);
+    void deleteUser(RequestSearchUser request);
+    int insertUserCredentials(RequestEditUser request);
+    boolean editUserCredentials(RequestEditUser request);
+    void deleteCredentials(RequestDeleteCredentials request);
 }
