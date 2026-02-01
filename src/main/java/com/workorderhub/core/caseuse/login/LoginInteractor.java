@@ -11,7 +11,7 @@ public class LoginInteractor implements LoginInput {
     private UserGateway userGateway;
     private CredentialsGateway credentialsGateway;
     private LoginOutput output;
-    private LoginResponse response;
+    private ResponseLogin response;
 
     public LoginInteractor(
             UserGateway userGateway,
@@ -24,7 +24,7 @@ public class LoginInteractor implements LoginInput {
     }
 
     @Override
-    public void grantAccess(LoginRequest request) {
+    public void grantAccess(RequestLogin request) {
         Credentials credentials = new Credentials(request.userName, request.accessKey);
         int id = credentialsGateway.getCredentialsId(credentials);
 
@@ -33,7 +33,7 @@ public class LoginInteractor implements LoginInput {
 
         } else {
             User user = userGateway.getUserByCredentials(id);
-            response = new LoginResponse(user.getUserName());
+            response = new ResponseLogin(user.getUserName());
 
             switch (user.getIdRol()) {
                 case 1:

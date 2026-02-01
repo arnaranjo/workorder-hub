@@ -1,9 +1,9 @@
 package com.workorderhub.core.caseuse.login;
 
-public class LoginResponse {
+public class ResponseLogin {
     String userName;
 
-    public LoginResponse(String userName) {
+    public ResponseLogin(String userName) {
         this.userName = userName;
     }
 

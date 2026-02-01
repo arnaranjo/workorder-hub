@@ -1,10 +1,10 @@
 package com.workorderhub.core.caseuse.login;
 
-public class LoginRequest {
+public class RequestLogin {
     String userName;
     String accessKey;
 
-    public LoginRequest(String userName, String accessKey) {
+    public RequestLogin(String userName, String accessKey) {
         this.userName = userName;
         this.accessKey = accessKey;
     }

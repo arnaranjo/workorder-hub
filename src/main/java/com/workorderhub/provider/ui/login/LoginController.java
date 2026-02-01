@@ -1,7 +1,8 @@
 package com.workorderhub.provider.ui.login;
 
 import com.workorderhub.core.caseuse.login.LoginInteractor;
-import com.workorderhub.core.caseuse.login.LoginRequest;
+import com.workorderhub.core.caseuse.login.RequestLogin;
+import com.workorderhub.core.caseuse.login.LoginView;
 import com.workorderhub.provider.common.PropertiesLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -31,7 +32,7 @@ public class LoginController implements LoginView {
 
     @FXML
     private void grantAccess() {
-        LoginRequest request = new LoginRequest(
+        RequestLogin request = new RequestLogin(
                 userTextField.getText(),
                 passwordTextField.getText()
         );

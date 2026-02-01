@@ -1,7 +1,8 @@
 package com.workorderhub.provider.ui.login;
 
 import com.workorderhub.core.caseuse.login.LoginOutput;
-import com.workorderhub.core.caseuse.login.LoginResponse;
+import com.workorderhub.core.caseuse.login.ResponseLogin;
+import com.workorderhub.core.caseuse.login.LoginView;
 import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.provider.common.AppState;
 import com.workorderhub.provider.common.PropertiesLoader;
@@ -34,7 +35,7 @@ public class LoginPresenter implements LoginOutput {
     }
 
     @Override
-    public void loadView(LoginResponse response, UserRoleEnum userRole) {
+    public void loadView(ResponseLogin response, UserRoleEnum userRole) {
 
         ViewLoader viewLoader = new ViewLoader();
         AppState appState = AppState.getInstance();

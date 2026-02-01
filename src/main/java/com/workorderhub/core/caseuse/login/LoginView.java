@@ -1,4 +1,4 @@
-package com.workorderhub.provider.ui.login;
+package com.workorderhub.core.caseuse.login;
 
 public interface LoginView {
     void setTopDisplay(String message, String style);
