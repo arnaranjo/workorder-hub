@@ -30,7 +30,7 @@ public class NewUserInteractor implements NewUserInput{
 
     @Override
     public void createNewUser(RequestNewUser request) {
-        if (request.userLoginName() != null){
+        if (request.userLoginName() != null && request.userPassword() != null){
 
             Credentials newCredentials = new Credentials(
                     request.userLoginName(),

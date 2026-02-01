@@ -39,7 +39,7 @@ public class LoginPresenter implements LoginOutput {
 
         ViewLoader viewLoader = new ViewLoader();
         AppState appState = AppState.getInstance();
-        appState.setLoggedUser(response.getUserName());
+        appState.setLoggedUser(response.userName());
 
         switch (userRole) {
             case MANAGER:

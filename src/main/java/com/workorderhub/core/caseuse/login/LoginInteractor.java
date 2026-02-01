@@ -25,7 +25,7 @@ public class LoginInteractor implements LoginInput {
 
     @Override
     public void grantAccess(RequestLogin request) {
-        Credentials credentials = new Credentials(request.userName, request.accessKey);
+        Credentials credentials = new Credentials(request.userName(), request.accessKey());
         int id = credentialsGateway.getCredentialsId(credentials);
 
         if (id == -1) {

@@ -4,7 +4,7 @@ public record RequestNewUser(
     String userName,
     String userPhoneNumber,
     String userEmail,
-    Integer userRoleId,
+    int userRoleId,
     String userLoginName,
     String userPassword
     ){}

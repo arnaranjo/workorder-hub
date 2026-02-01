@@ -7,4 +7,5 @@ public record ResponseSearchUser(
         int roleId,
         String userLoginName,
         String userPassword
-) {}
+) {
+}
