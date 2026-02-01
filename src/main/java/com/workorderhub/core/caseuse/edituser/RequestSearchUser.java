@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.edituser;
 
-public record SearchUserRequest(
+public record RequestSearchUser(
         String userName,
         String userEmail
 ) {}

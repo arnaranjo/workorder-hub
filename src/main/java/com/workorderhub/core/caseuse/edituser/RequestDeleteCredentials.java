@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.edituser;
 
-public record EditCredentialsRequest(
+public record RequestDeleteCredentials(
         String loginName,
         String password
 ) {}

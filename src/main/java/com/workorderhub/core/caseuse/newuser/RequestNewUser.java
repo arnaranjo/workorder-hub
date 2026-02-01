@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.newuser;
 
-public record NewUserRequest(
+public record RequestNewUser(
     String userName,
     String userPhoneNumber,
     String userEmail,

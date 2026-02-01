@@ -1,4 +1,4 @@
-package com.workorderhub.provider.ui.admin;
+package com.workorderhub.core.caseuse.newuser;
 
 public interface NewUserView {
     void setDefaultView();
