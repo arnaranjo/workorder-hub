@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/22"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.workorderhub.provider.ui.admin.ProceduresController"
+>
+    <Label fx:id="mainLabel" alignment="CENTER" prefHeight="50.0" prefWidth="800.0">
+        <font>
+            <Font size="18.0"/>
+        </font>
+    </Label>
+    <TabPane>
+        <Tab closable="false" text="Work Procedures">
+            <BorderPane prefWidth="800.0">
+                <left>
+                    <VBox spacing="10.0" BorderPane.alignment="CENTER">
+                        <BorderPane.margin>
+                            <Insets/>
+                        </BorderPane.margin>
+                        <padding>
+                            <Insets left="20.0" right="20.0" top="20.0"/>
+                        </padding>
+                        <Label text="Document Code"/>
+                        <TextField fx:id="codeWorkPrField"/>
+                        <Label text="Procedure Name"/>
+                        <TextField fx:id="nameWorkPrField"/>
+                        <Button mnemonicParsing="false" onAction="#AddWorkProcedure" prefWidth="220.0"
+                                text="Add Procedure"/>
+                        <Separator prefWidth="200.0">
+                            <padding>
+                                <Insets bottom="10.0"/>
+                            </padding>
+                        </Separator>
+                        <Button mnemonicParsing="false" onAction="#DeleteWorkProcedureRow" prefWidth="220.0"
+                                text="Delete Procedure"/>
+                    </VBox>
+                </left>
+                <center>
+                    <TableView fx:id="tableWorkProcedures" editable="true" BorderPane.alignment="CENTER">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
+                </center>
+            </BorderPane>
+        </Tab>
+        <Tab closable="false" text="LOTO Procedures">
+            <BorderPane prefWidth="800.0">
+                <center>
+                    <TableView fx:id="tableLotoProcedures" editable="true" BorderPane.alignment="CENTER">
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        </columnResizePolicy>
+                    </TableView>
+                </center>
+                <left>
+                    <VBox spacing="10.0" BorderPane.alignment="CENTER">
+                        <padding>
+                            <Insets left="20.0" right="20.0" top="20.0"/>
+                        </padding>
+                        <BorderPane.margin>
+                            <Insets/>
+                        </BorderPane.margin>
+                        <Label text="Document LOTO Code"/>
+                        <TextField fx:id="codeLotoPrField"/>
+                        <Label text="LOTO Procedure Name"/>
+                        <TextField fx:id="nameLotoPrField"/>
+                        <Button mnemonicParsing="false" onAction="#AddLotoProcedure" prefWidth="220.0"
+                                text="Add Procedure"/>
+                        <Separator prefWidth="200.0">
+                            <padding>
+                                <Insets bottom="10.0"/>
+                            </padding>
+                        </Separator>
+                        <Button mnemonicParsing="false" onAction="#DeleteLotoProcedureRow" prefWidth="220.0"
+                                text="Delete Procedure"/>
+                    </VBox>
+                </left>
+            </BorderPane>
+        </Tab>
+    </TabPane>
+    <Pane prefHeight="30.0">
+        <Label fx:id="infoLabel" layoutX="14.0" layoutY="6.0"/>
+    </Pane>
+</VBox>

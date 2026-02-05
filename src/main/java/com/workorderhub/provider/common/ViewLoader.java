@@ -51,6 +51,7 @@ public class ViewLoader {
         try {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
+            stage.setResizable(false);
             stage.setTitle(title);
             stage.show();
 

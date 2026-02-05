@@ -1,0 +1,13 @@
+package com.workorderhub.core.caseuse.procedures;
+
+public enum LotoProcedureEnum {
+    PROCEDURE_ADDED,
+    PROCEDURE_ADDITION_ERROR,
+    PROCEDURE_UPDATED,
+    PROCEDURE_UPDATE_ERROR,
+    PROCEDURE_DELETED,
+    PROCEDURE_DELETED_ERROR,
+    INCOMPLETE_INFORMATION,
+    DOCUMENT_CODE_IN_USE,
+    PROCEDURE_NO_SELECTED
+}
