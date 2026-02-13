@@ -3,61 +3,57 @@ package com.workorderhub.provider.tablemodels;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- * A work procedure is a document that describes the step-by-step execution of a task.
- * These documents are usually identified internally within the company with a code and name.
- */
 public class WorkProcedureModel {
 
-    private SimpleIntegerProperty procedureId;
-    private SimpleStringProperty procedureCode;
-    private SimpleStringProperty procedureName;
+    private SimpleIntegerProperty workProcedureId;
+    private SimpleStringProperty workProcedureCode;
+    private SimpleStringProperty workProcedureName;
 
     public WorkProcedureModel() {
-        procedureId = new SimpleIntegerProperty();
-        procedureCode = new SimpleStringProperty();
-        procedureName = new SimpleStringProperty();
+        workProcedureId = new SimpleIntegerProperty();
+        workProcedureCode = new SimpleStringProperty();
+        workProcedureName = new SimpleStringProperty();
     }
 
     public WorkProcedureModel(int id, String code, String name) {
-        procedureId = new SimpleIntegerProperty(id);
-        procedureCode = new SimpleStringProperty(code);
-        procedureName = new SimpleStringProperty(name);
+        workProcedureId = new SimpleIntegerProperty(id);
+        workProcedureCode = new SimpleStringProperty(code);
+        workProcedureName = new SimpleStringProperty(name);
     }
 
-    public int getProcedureId() {
-        return procedureId.get();
+    public int getWorkProcedureId() {
+        return workProcedureId.get();
     }
 
-    public SimpleIntegerProperty procedureIdProperty() {
-        return procedureId;
+    public SimpleIntegerProperty workProcedureIdProperty() {
+        return workProcedureId;
     }
 
-    public void setProcedureId(int procedureId) {
-        this.procedureId.set(procedureId);
+    public void setWorkProcedureId(int workProcedureId) {
+        this.workProcedureId.set(workProcedureId);
     }
 
-    public String getProcedureCode() {
-        return procedureCode.get();
+    public String getWorkProcedureCode() {
+        return workProcedureCode.get();
     }
 
-    public SimpleStringProperty procedureCodeProperty() {
-        return procedureCode;
+    public SimpleStringProperty workProcedureCodeProperty() {
+        return workProcedureCode;
     }
 
-    public void setProcedureCode(String procedureCode) {
-        this.procedureCode.set(procedureCode);
+    public void setWorkProcedureCode(String workProcedureCode) {
+        this.workProcedureCode.set(workProcedureCode);
     }
 
-    public String getProcedureName() {
-        return procedureName.get();
+    public String getWorkProcedureName() {
+        return workProcedureName.get();
     }
 
-    public SimpleStringProperty procedureNameProperty() {
-        return procedureName;
+    public SimpleStringProperty workProcedureNameProperty() {
+        return workProcedureName;
     }
 
-    public void setProcedureName(String procedureName) {
-        this.procedureName.set(procedureName);
+    public void setWorkProcedureName(String workProcedureName) {
+        this.workProcedureName.set(workProcedureName);
     }
 }

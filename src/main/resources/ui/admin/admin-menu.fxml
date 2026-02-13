@@ -20,7 +20,7 @@
     <Button mnemonicParsing="false" onAction="#LoadNewUserView" prefWidth="110.0" text="Add User" />
     <Button mnemonicParsing="false" onAction="#LoadEditUserView" prefWidth="110.0" text="Edit User" />
     <Separator prefWidth="200.0" />
-    <Button mnemonicParsing="false" prefWidth="110.0" text="Procedures" />
+    <Button mnemonicParsing="false" onAction="#LoadProceduresView"  prefWidth="110.0" text="Procedures" />
     <Button mnemonicParsing="false" prefWidth="110.0" text="Plant Elements" />
     <Button mnemonicParsing="false" prefWidth="110.0" text="Spare Parts" />
 </VBox>

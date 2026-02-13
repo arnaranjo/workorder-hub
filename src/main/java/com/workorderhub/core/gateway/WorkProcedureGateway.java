@@ -20,10 +20,10 @@ public interface WorkProcedureGateway {
 
     /**
      * Deletes a work procedure.
-     * @param workProcedure work procedure to delete.
+     * @param documentId work procedure ID to delete.
      * @return True if is successfully deleted, false if not.
      */
-    boolean deleteProcedure(WorkProcedure workProcedure);
+    boolean deleteProcedure(int documentId);
 
     /**
      * Updates a work procedure.

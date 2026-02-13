@@ -10,7 +10,7 @@ public interface LotoProcedureGateway {
      * Gets the LOTO procedure list.
      * @return List of LOTO procedure objects.
      */
-    List<LotoProcedure> getWorkProcedures();
+    List<LotoProcedure> getLotoProceduresList();
 
     /**
      * Inserts a new LOTO procedure.
@@ -20,10 +20,10 @@ public interface LotoProcedureGateway {
 
     /**
      * Deletes a LOTO procedure.
-     * @param lotoProcedure LOTO procedure to delete.
+     * @param documentId LOTO procedure ID to delete.
      * @return True if is successfully deleted, false if not.
      */
-    boolean deleteProcedure(LotoProcedure lotoProcedure);
+    boolean deleteProcedure(int documentId);
 
     /**
      * Updates a LOTO procedure.

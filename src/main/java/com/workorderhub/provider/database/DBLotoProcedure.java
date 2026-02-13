@@ -15,7 +15,7 @@ public class DBLotoProcedure implements LotoProcedureGateway {
     private Connection sqlManager;
 
     @Override
-    public List<LotoProcedure> getWorkProcedures() {
+    public List<LotoProcedure> getLotoProceduresList() {
         List<LotoProcedure> proceduresList = new ArrayList<>();
 
         String sql = """
@@ -89,7 +89,7 @@ public class DBLotoProcedure implements LotoProcedureGateway {
     }
 
     @Override
-    public boolean deleteProcedure(LotoProcedure lotoProcedure) {
+    public boolean deleteProcedure(int documentId) {
         String sql = """
                 DELETE FROM loto_procedure
                 WHERE loto_procedure_id = ?;
@@ -98,7 +98,7 @@ public class DBLotoProcedure implements LotoProcedureGateway {
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setInt(1, lotoProcedure.getProcedureId());
+            statement.setInt(1, documentId);
 
             statement.executeUpdate();
             return true;

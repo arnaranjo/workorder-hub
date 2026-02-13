@@ -1,33 +1,49 @@
 package com.workorderhub.core.caseuse.procedures;
 
+import java.util.List;
+
 public interface ProcedureView {
+    /**
+     * Displays a message with information about actions performed with the procedures.
+     * E.g. Update a document code or detele a procedure.
+     * @param message
+     */
+    void setInfoDisplay(String message);
 
     /**
-     * Displays a message at the bottom label of the screen.
+     * Set the function that allows to the user to edit the document code and name,
+     * directly in the work procedure table view.
      */
-    void setButtonDisplay(String message);
+    void setWorkProcedureTableEdition();
 
     /**
-     * Displays a message at the top of the screen when an error occurs.
-     *
-     * @param message Message to display.
-     * @param style   Label style.
+     * Set the function that allows to the user to edit the document code and name,
+     * directly in the LOTO procedure table view.
      */
-    void setTopDisplay(String message, String style);
-
-    /**
-     * Set the function that allows to the user to edit the document code and name, directly in the table view.
-     */
-    void setTableEdition();
+    void setLotoProcedureTableEdition();
 
     /**
      * Populates the work procedure table.
      */
-    void PopulatesWorkProcedureTable();
+    void setWorkProcedureTableItems(List<RowWorkProcedure> workProcedureList);
 
     /**
      * Populates the loto procedure table.
      */
-    void PopulatesLotoProcedureTable();
+    void setLotoProcedureTableItems(List<RowLotoProcedure> lotoProcedureList);
+
+    /**
+     * Sets the columns title in the work procedure table.
+     * @param documentCode Document code column title.
+     * @param documentName Document name column title.
+     */
+    void setWorkProcedureTableTitles(String documentCode, String documentName);
+
+    /**
+     * Sets the columns title in the LOTO procedure table.
+     * @param documentCode Document code column title.
+     * @param documentName Document name column title.
+     */
+    void setLotoProcedureTableTitles(String documentCode, String documentName);
 }
 

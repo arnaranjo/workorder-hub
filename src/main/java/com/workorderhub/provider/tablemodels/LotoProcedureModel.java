@@ -3,62 +3,57 @@ package com.workorderhub.provider.tablemodels;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- * A LOTO (Lock out - Tag out) procedure is a document that describes the execution to lock and isolate a plant element,
- * such as equipment or valves.
- * These documents are usually identified internally within the company with a code and name.
- */
 public class LotoProcedureModel {
 
-    private SimpleIntegerProperty procedureId;
-    private SimpleStringProperty documentCode;
-    private SimpleStringProperty documentName;
+    private SimpleIntegerProperty lotoProcedureId;
+    private SimpleStringProperty lotoProcedureCode;
+    private SimpleStringProperty lotoProcedureName;
 
     public LotoProcedureModel() {
-        procedureId = new SimpleIntegerProperty();
-        documentCode = new SimpleStringProperty();
-        documentName = new SimpleStringProperty();
+        lotoProcedureId = new SimpleIntegerProperty();
+        lotoProcedureCode = new SimpleStringProperty();
+        lotoProcedureName = new SimpleStringProperty();
     }
 
     public LotoProcedureModel(int id, String code, String name) {
-        procedureId = new SimpleIntegerProperty(id);
-        documentCode = new SimpleStringProperty(code);
-        documentName = new SimpleStringProperty(name);
+        lotoProcedureId = new SimpleIntegerProperty(id);
+        lotoProcedureCode = new SimpleStringProperty(code);
+        lotoProcedureName = new SimpleStringProperty(name);
     }
 
-    public int getProcedureId() {
-        return procedureId.get();
+    public int getLotoProcedureId() {
+        return lotoProcedureId.get();
     }
 
-    public SimpleIntegerProperty procedureIdProperty() {
-        return procedureId;
+    public SimpleIntegerProperty lotoProcedureIdProperty() {
+        return lotoProcedureId;
     }
 
-    public void setProcedureId(int procedureId) {
-        this.procedureId.set(procedureId);
+    public void setLotoProcedureId(int lotoProcedureId) {
+        this.lotoProcedureId.set(lotoProcedureId);
     }
 
-    public String getDocumentCode() {
-        return documentCode.get();
+    public String getLotoProcedureCode() {
+        return lotoProcedureCode.get();
     }
 
-    public SimpleStringProperty documentCodeProperty() {
-        return documentCode;
+    public SimpleStringProperty lotoProcedureCodeProperty() {
+        return lotoProcedureCode;
     }
 
-    public void setDocumentCode(String documentCode) {
-        this.documentCode.set(documentCode);
+    public void setLotoProcedureCode(String lotoProcedureCode) {
+        this.lotoProcedureCode.set(lotoProcedureCode);
     }
 
-    public String getDocumentName() {
-        return documentName.get();
+    public String getLotoProcedureName() {
+        return lotoProcedureName.get();
     }
 
-    public SimpleStringProperty documentNameProperty() {
-        return documentName;
+    public SimpleStringProperty lotoProcedureNameProperty() {
+        return lotoProcedureName;
     }
 
-    public void setDocumentName(String documentName) {
-        this.documentName.set(documentName);
+    public void setLotoProcedureName(String lotoProcedureName) {
+        this.lotoProcedureName.set(lotoProcedureName);
     }
 }

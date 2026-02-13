@@ -87,7 +87,7 @@ public class DBWorkProcedure implements WorkProcedureGateway {
     }
 
     @Override
-    public boolean deleteProcedure(WorkProcedure workProcedure) {
+    public boolean deleteProcedure(int documentId) {
 
         String sql = """
                 DELETE FROM work_procedure
@@ -97,7 +97,7 @@ public class DBWorkProcedure implements WorkProcedureGateway {
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setInt(1, workProcedure.getProcedureId());
+            statement.setInt(1, documentId);
 
             statement.executeUpdate();
             return true;

@@ -26,9 +26,9 @@
                             <Insets left="20.0" right="20.0" top="20.0"/>
                         </padding>
                         <Label text="Document Code"/>
-                        <TextField fx:id="codeWorkPrField"/>
+                        <TextField fx:id="workPrCodeField"/>
                         <Label text="Procedure Name"/>
-                        <TextField fx:id="nameWorkPrField"/>
+                        <TextField fx:id="workPrNameField"/>
                         <Button mnemonicParsing="false" onAction="#AddWorkProcedure" prefWidth="220.0"
                                 text="Add Procedure"/>
                         <Separator prefWidth="200.0">
@@ -41,7 +41,7 @@
                     </VBox>
                 </left>
                 <center>
-                    <TableView fx:id="tableWorkProcedures" editable="true" BorderPane.alignment="CENTER">
+                    <TableView fx:id="workProcedureTable" editable="true" BorderPane.alignment="CENTER">
                         <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                         </columnResizePolicy>
@@ -52,7 +52,7 @@
         <Tab closable="false" text="LOTO Procedures">
             <BorderPane prefWidth="800.0">
                 <center>
-                    <TableView fx:id="tableLotoProcedures" editable="true" BorderPane.alignment="CENTER">
+                    <TableView fx:id="lotoProcedureTable" editable="true" BorderPane.alignment="CENTER">
                         <columnResizePolicy>
                             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                         </columnResizePolicy>
@@ -67,9 +67,9 @@
                             <Insets/>
                         </BorderPane.margin>
                         <Label text="Document LOTO Code"/>
-                        <TextField fx:id="codeLotoPrField"/>
+                        <TextField fx:id="lotoPrCodeField"/>
                         <Label text="LOTO Procedure Name"/>
-                        <TextField fx:id="nameLotoPrField"/>
+                        <TextField fx:id="lotoPrNameField"/>
                         <Button mnemonicParsing="false" onAction="#AddLotoProcedure" prefWidth="220.0"
                                 text="Add Procedure"/>
                         <Separator prefWidth="200.0">
