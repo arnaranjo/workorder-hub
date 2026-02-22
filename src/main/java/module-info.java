@@ -18,6 +18,7 @@ module com.workorderhub {
     exports com.workorderhub.core.caseuse.edituser;
     exports com.workorderhub.core.caseuse.newuser;
     exports com.workorderhub.core.caseuse.procedures;
+    exports com.workorderhub.core.caseuse.plantelement;
     exports com.workorderhub.core.caseuse.login;
     exports com.workorderhub.core.gateway;
     exports com.workorderhub.core.entity;

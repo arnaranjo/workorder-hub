@@ -2,11 +2,13 @@ package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.edituser.EditUserInteractor;
 import com.workorderhub.core.caseuse.newuser.NewUserInteractor;
+import com.workorderhub.core.caseuse.plantelement.PlantElementInteractor;
 import com.workorderhub.core.caseuse.procedures.LotoProcedureInteractor;
 import com.workorderhub.core.caseuse.procedures.WorkProcedureInteractor;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.ViewLoader;
 import com.workorderhub.provider.database.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.net.URL;
@@ -16,6 +18,7 @@ public class AdminMenuController {
     private URL newUserView = getClass().getResource("/ui/admin/new-user-view.fxml");
     private URL editUserView = getClass().getResource("/ui/admin/edit-user-view.fxml");
     private URL proceduresView = getClass().getResource("/ui/admin/procedures-view.fxml");
+    private URL plantElementView = getClass().getResource("/ui/admin/plant-element-view.fxml");
 
     @FXML
     private void LoadNewUserView(){
@@ -42,7 +45,8 @@ public class AdminMenuController {
 
     }
 
-    public void LoadEditUserView() {
+    @FXML
+    private void LoadEditUserView() {
         EditUserPresenter presenter = new EditUserPresenter();
         EditUserInteractor interactor = new EditUserInteractor(
                 presenter,
@@ -65,7 +69,8 @@ public class AdminMenuController {
         );
     }
 
-    public void LoadProceduresView() {
+    @FXML
+    private void LoadProceduresView() {
         ProceduresPresenter presenter = new ProceduresPresenter();
 
         WorkProcedureInteractor workProcedureInteractor = new WorkProcedureInteractor(
@@ -91,6 +96,34 @@ public class AdminMenuController {
         viewLoader.LoadView(
                 proceduresView,
                 PropertiesLoader.GetText("adminMenu.proceduresTittle")
+        );
+    }
+
+    @FXML
+    private void LoadPlantElementView() {
+        PlantElementPresenter presenter = new PlantElementPresenter();
+
+        PlantElementInteractor interactor = new PlantElementInteractor(
+                new DBPlantElement(),
+                presenter
+        );
+
+        ViewLoader viewLoader = new ViewLoader();
+        viewLoader.registerController(PlantElementController.class, ()-> {
+
+            PlantElementController controller = new PlantElementController(
+                    interactor
+            );
+
+            presenter.setView(controller);
+            return controller;
+        });
+
+        viewLoader.LoadView(
+                plantElementView,
+                PropertiesLoader.GetText("adminMenu.plantElementTittle"),
+                PropertiesLoader.GetDouble("adminMenu.plantElementWidth"),
+                PropertiesLoader.GetDouble("adminMenu.plantElementHeight")
         );
     }
 }
