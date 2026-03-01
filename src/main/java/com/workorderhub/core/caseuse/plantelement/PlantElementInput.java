@@ -8,22 +8,56 @@ public interface PlantElementInput {
 
     /**
      * Creates a new plant element in the database.
-     * @param request Record of a plant element.
-     * @return ID of the plant element, return 0 is an error arises.
+     *
+     * @param request Record of a plant element with all information to create a new plant element.
      */
-    int createPlantElement(RequestNewPlantElement request);
+    void createPlantElement(RequestNewPlantElement request);
 
     /**
-     * Updates a plant element in the database.
-     * @param request Record of a plant element.
-     * @return true if the update is successful or false if not.
+     * Updates the plant element tag in the database.
+     *
+     * @param request Record of a plant element. It contains the old and new name tag, element ID
+     *                and selected column row.
      */
-    boolean updatePlantElement(RequestUpdatePlantElement request);
+    void updateElementTag(RequestUpdateElementTag request);
+
+    /**
+     * Updates the plant element description in the database.
+     *
+     * @param request Record of a plant element. It contains the old and new description, element ID
+     *                and selected column row.
+     */
+    void updateElementDescription(RequestUpdateElementDescription request);
+
+    /**
+     * Updates the plant element location in the database.
+     *
+     * @param request Record of a plant element. It contains the old and new location, element ID
+     *                and selected column row.
+     */
+    void updateElementLocation(RequestUpdateElementLocation request);
+
+    /**
+     * Updates the plant element inspection date in the database.
+     *
+     * @param request Record of a plant element. It contains the old and new inspection date, element ID
+     *                and selected column row.
+     */
+    void updateElementInspectionDate(RequestUpdateElementInspectionDate request);
+
+    /**
+     * Updates the plant element monthly inspection frequency in the database.
+     *
+     * @param request Record of a plant element. It contains the old and new inspection frequency, element ID
+     *                and selected column row.
+     */
+    void updateElementInspectionFrequency(RequestUpdateElementInspectionFrequency request);
 
     /**
      * Deletes a plant element in the database.
-     * @param request Record of a plant element.
-     * @return true if the deletion is successful or false if not.
+     *
+     * @param request Record of a plant element. It contains the element ID, name tag and
+     *                its index of the retrieved plant element list.
      */
-    boolean deletePlantElement(RequestDeletePlantElement request);
+    void deletePlantElement(RequestDeletePlantElement request);
 }

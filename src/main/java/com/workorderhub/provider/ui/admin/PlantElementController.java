@@ -1,8 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
-import com.workorderhub.core.caseuse.plantelement.PlantElementInput;
-import com.workorderhub.core.caseuse.plantelement.PlantElementRow;
-import com.workorderhub.core.caseuse.plantelement.PlantElementView;
+import com.workorderhub.core.caseuse.plantelement.*;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.tablemodels.PlantElementModel;
 import javafx.collections.FXCollections;
@@ -11,15 +9,15 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlantElementController implements PlantElementView {
 
-    private PlantElementInput input;
+    private final PlantElementInput interactor;
     private ObservableList<PlantElementModel> plantElementsObsList;
     private FilteredList<PlantElementModel> plantElementFilList;
 
@@ -55,12 +53,12 @@ public class PlantElementController implements PlantElementView {
     private TableColumn<PlantElementModel, Integer> frequencyColumn;
 
     public PlantElementController(
-        PlantElementInput input
-    ){
-        this.input = input;
+            PlantElementInput interactor
+    ) {
+        this.interactor = interactor;
     }
 
-    public  void initialize(){
+    public void initialize() {
         mainLabel.setText(PropertiesLoader.GetText("plantElement.default"));
         mainLabel.setStyle(PropertiesLoader.GetText("plantElement.defaultStyle"));
 
@@ -83,23 +81,43 @@ public class PlantElementController implements PlantElementView {
 
         inspectionFrqSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 0));
 
-        ToggleSpinner();
+        ToggleInspectionItems();
         SetSearchFunction();
         SetDeleteLabelFunction();
+        setPlantElementTableEdition();
 
-        input.retrievePlantElements();
+        interactor.retrievePlantElements();
     }
 
     @FXML
     private void AddElement() {
+        RequestNewPlantElement newPlantElement = new RequestNewPlantElement(
+                tagField.getText(),
+                descriptionArea.getText(),
+                locationField.getText(),
+                inspectionDatePicker.getValue(),
+                inspectionFrqSpinner.getValue()
+        );
+        interactor.createPlantElement(newPlantElement);
+        ClearFields();
     }
 
     @FXML
     private void DeleteElement() {
+        if (!plantElementsTable.getSelectionModel().isEmpty()) {
+            RequestDeletePlantElement request = new RequestDeletePlantElement(
+                    plantElementsTable.getSelectionModel().getSelectedItem().getElementId(),
+                    plantElementsTable.getSelectionModel().getSelectedItem().getElementTag(),
+                    plantElementsTable.getSelectionModel().getFocusedIndex()
+            );
+            interactor.deletePlantElement(request);
+
+        }
     }
 
     @FXML
-    private void ToggleSpinner() {
+    private void ToggleInspectionItems() {
+        inspectionDatePicker.setDisable(!inspectionDatePicker.isDisable());
         inspectionFrqSpinner.setDisable(!inspectionFrqSpinner.isDisable());
     }
 
@@ -131,11 +149,11 @@ public class PlantElementController implements PlantElementView {
 
         searchCriteriaSelector.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, newValue) -> {
-            //Reset table and text field when new choice is selected.
-            if (newValue != null) {
-                tagSearchField.setText("");
-            }
-        });
+                    //Reset table and text field when new choice is selected.
+                    if (newValue != null) {
+                        tagSearchField.setText("");
+                    }
+                });
 
     }
 
@@ -145,10 +163,10 @@ public class PlantElementController implements PlantElementView {
     private void SetDeleteLabelFunction() {
         plantElementsTable.getSelectionModel().selectedItemProperty().addListener(
                 (_, _, newSelection) -> {
-            if (newSelection != null) {
-                elementSelectedLabel.setText("Selected: " + newSelection.getElementTag());
-            }
-        });
+                    if (newSelection != null) {
+                        elementSelectedLabel.setText("Selected: " + newSelection.getElementTag());
+                    }
+                });
     }
 
     /**
@@ -161,16 +179,77 @@ public class PlantElementController implements PlantElementView {
         inspectionDatePicker.setValue(null);
         inspectionFrqSpinner.getValueFactory().setValue(0);
         inspectionFrcSelector.setSelected(false);
-        ToggleSpinner();
+        ToggleInspectionItems();
     }
 
     @Override
     public void setInfoDisplay(String message) {
-
+        infoLabel.setText(message);
     }
 
     @Override
     public void setPlantElementTableEdition() {
+        plantElementsTable.setEditable(true);
+
+        tagColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        tagColumn.setOnEditCommit(cell -> {
+            RequestUpdateElementTag request = new RequestUpdateElementTag(
+                    cell.getRowValue().getElementId(),
+                    cell.getNewValue(),
+                    cell.getOldValue(),
+                    cell.getTablePosition().getRow()
+            );
+
+            interactor.updateElementTag(request);
+        });
+
+        descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        descriptionColumn.setOnEditCommit(cell -> {
+            RequestUpdateElementDescription request = new RequestUpdateElementDescription(
+                    cell.getRowValue().getElementId(),
+                    cell.getRowValue().getElementTag(),
+                    cell.getNewValue(),
+                    cell.getOldValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateElementDescription(request);
+        });
+
+        locationColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        locationColumn.setOnEditCommit(cell -> {
+            RequestUpdateElementLocation request = new RequestUpdateElementLocation(
+                    cell.getRowValue().getElementId(),
+                    cell.getRowValue().getElementTag(),
+                    cell.getNewValue(),
+                    cell.getOldValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateElementLocation(request);
+        });
+
+        inspectionColumn.setCellFactory(cell -> new CellDatePicker());
+        inspectionColumn.setOnEditCommit(cell -> {
+            RequestUpdateElementInspectionDate request = new RequestUpdateElementInspectionDate(
+                    cell.getRowValue().getElementId(),
+                    cell.getRowValue().getElementTag(),
+                    cell.getNewValue(),
+                    cell.getOldValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateElementInspectionDate(request);
+        });
+
+        frequencyColumn.setCellFactory(cell -> new CellSpinner());
+        frequencyColumn.setOnEditCommit(cell -> {
+            RequestUpdateElementInspectionFrequency request = new RequestUpdateElementInspectionFrequency(
+                    cell.getRowValue().getElementId(),
+                    cell.getRowValue().getElementTag(),
+                    cell.getNewValue(),
+                    cell.getOldValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateElementInspectionFrequency(request);
+        });
 
     }
 
@@ -191,6 +270,58 @@ public class PlantElementController implements PlantElementView {
         plantElementFilList = new FilteredList<>(plantElementsObsList);
 
         plantElementsTable.setItems(plantElementFilList);
+    }
+
+    @Override
+    public void addPlantElementItem(PlantElementRow plantElementRow) {
+        PlantElementModel model = new PlantElementModel(
+                plantElementRow.elementId(),
+                plantElementRow.elementDescription(),
+                plantElementRow.elementLocation(),
+                plantElementRow.elementLocation(),
+                plantElementRow.inspectionDate(),
+                plantElementRow.inspectionFrequency()
+        );
+        plantElementsObsList.add(model);
+    }
+
+    @Override
+    public void removePlantElementItem(int itemIndex) {
+        plantElementsObsList.remove(itemIndex);
+    }
+
+    @Override
+    public void setTableItemTag(String elementTag, int row) {
+        PlantElementModel model = plantElementsTable.getItems().get(row);
+        model.setElementTag(elementTag);
+    }
+
+    @Override
+    public void setTableItemDescription(String elementDescription, int row) {
+        PlantElementModel model = plantElementsTable.getItems().get(row);
+        model.setElementDescription(elementDescription);
+        plantElementsTable.refresh();
+    }
+
+    @Override
+    public void setTableItemLocation(String elementLocation, int row) {
+        PlantElementModel model = plantElementsTable.getItems().get(row);
+        model.setElementLocation(elementLocation);
+        plantElementsTable.refresh();
+    }
+
+    @Override
+    public void setTableItemInspectionDate(LocalDate date, int row) {
+        PlantElementModel model = plantElementsTable.getItems().get(row);
+        model.setInspectionDate(date);
+        plantElementsTable.refresh();
+    }
+
+    @Override
+    public void setTableItemInspectionFrequency(int frequency, int row) {
+        PlantElementModel model = plantElementsTable.getItems().get(row);
+        model.setInspectionFrequency(frequency);
+        plantElementsTable.refresh();
     }
 
     /**
@@ -254,7 +385,7 @@ public class PlantElementController implements PlantElementView {
         }
 
         private String GetDateFormatted() {
-            return getItem() == null ? null : getItem().format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+            return getItem() == null ? null : getItem().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         }
     }
 

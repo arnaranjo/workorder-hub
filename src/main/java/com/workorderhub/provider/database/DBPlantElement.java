@@ -4,6 +4,7 @@ import com.workorderhub.core.entity.PlantElement;
 import com.workorderhub.core.gateway.PlantElementGateway;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -171,30 +172,138 @@ public class DBPlantElement implements PlantElementGateway {
     }
 
     @Override
-    public boolean UpdatePlantElement(PlantElement plantElement) {
+    public boolean UpdateElementTag(int elementId, String tag) {
         String sql = """
                 UPDATE plant_element
-                SET element_tag = ?, element_description = ?, element_location = ?, inspection_date = ?, element_check_frequency = ?
+                SET element_tag = ?
                 WHERE element_id = ?;
                 """;
 
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setString(1, plantElement.getElementTag());
-            statement.setString(2, plantElement.getElementDescription());
-            statement.setString(3, plantElement.getElementLocation());
-            if (plantElement.getInspectionDate() == null) {
-                statement.setNull(4, Types.DATE);
+            statement.setString(1, tag);
+            statement.setInt(2, elementId);
+
+            statement.executeUpdate();
+            statement.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+    }
+
+    @Override
+    public boolean UpdateElementDescription(int elementId, String description) {
+        String sql = """
+                UPDATE plant_element
+                SET element_description = ?
+                WHERE element_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, description);
+            statement.setInt(2, elementId);
+
+            statement.executeUpdate();
+            statement.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+    }
+
+    @Override
+    public boolean UpdateElementLocation(int elementId, String location) {
+        String sql = """
+                UPDATE plant_element
+                SET element_location = ?
+                WHERE element_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, location);
+            statement.setInt(2, elementId);
+
+            statement.executeUpdate();
+            statement.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+    }
+
+    @Override
+    public boolean UpdateElementInspectionDate(int elementId, LocalDate inspectionDate) {
+        String sql = """
+                UPDATE plant_element
+                SET inspection_date = ?
+                WHERE element_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            if (inspectionDate == null) {
+                statement.setNull(1, Types.DATE);
             } else {
-                statement.setDate(4, Date.valueOf(plantElement.getInspectionDate()));
+                statement.setDate(1, Date.valueOf(inspectionDate));
             }
-            if (plantElement.getInspectionFrequency() == 0) {
-                statement.setNull(5, Types.INTEGER);
+            statement.setInt(2, elementId);
+
+            statement.executeUpdate();
+            statement.close();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+    }
+
+    @Override
+    public boolean UpdateElementInspectionFrequency(int elementId, int inspectionFrequency) {
+        String sql = """
+                UPDATE plant_element
+                SET element_check_frequency = ?
+                WHERE element_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            if (inspectionFrequency == 0) {
+                statement.setNull(1, Types.INTEGER);
             } else {
-                statement.setInt(5, plantElement.getInspectionFrequency());
+                statement.setInt(1, inspectionFrequency);
             }
-            statement.setInt(6, plantElement.getElementId());
+            statement.setInt(2, elementId);
 
             statement.executeUpdate();
             statement.close();
