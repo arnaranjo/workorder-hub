@@ -16,7 +16,7 @@ public class PlantElement {
     private LocalDate inspectionDate;
     private int inspectionFrequency;
 
-    public PlantElement(Builder builder) {
+    private PlantElement(Builder builder) {
         this.elementId = builder.elementId;
         this.elementTag = builder.elementTag;
         this.elementDescription = builder.elementDescription;

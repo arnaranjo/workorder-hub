@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ProceduresPresenter implements ProcedureOutput {
 
-    private ProceduresController view;
+    private ProcedureView view;
 
     public ProceduresPresenter() {
     }
 
-    public void setView(ProceduresController view) {
+    public void setView(ProcedureView view) {
         this.view = view;
     }
 

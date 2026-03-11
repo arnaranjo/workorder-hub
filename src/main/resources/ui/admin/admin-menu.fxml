@@ -22,5 +22,5 @@
     <Separator prefWidth="200.0" />
     <Button mnemonicParsing="false" onAction="#LoadProceduresView"  prefWidth="110.0" text="Procedures" />
     <Button mnemonicParsing="false" onAction="#LoadPlantElementView" prefWidth="110.0" text="Plant Elements" />
-    <Button mnemonicParsing="false" prefWidth="110.0" text="Spare Parts" />
+    <Button mnemonicParsing="false" onAction="#LoadSparePartsView" prefWidth="110.0" text="Spare Parts" />
 </VBox>
