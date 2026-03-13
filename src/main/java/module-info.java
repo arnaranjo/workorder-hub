@@ -12,8 +12,8 @@ module com.workorderhub {
     opens com.workorderhub.provider.ui.login to javafx.fxml;
     exports com.workorderhub.provider.ui.admin;
     opens com.workorderhub.provider.ui.admin to javafx.fxml;
-    exports com.workorderhub.provider.tablemodels;
-    opens com.workorderhub.provider.tablemodels to javafx.fxml;
+    exports com.workorderhub.provider.models;
+    opens com.workorderhub.provider.models to javafx.fxml;
 
     exports com.workorderhub.core.caseuse.edituser;
     exports com.workorderhub.core.caseuse.newuser;

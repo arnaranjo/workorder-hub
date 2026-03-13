@@ -6,4 +6,9 @@ public interface SparePartInput {
      */
     void retrieveSpareParts();
 
+    /**
+     * Gets the complete spare categories list.
+     */
+    void retrieveSpareCategories();
+
 }

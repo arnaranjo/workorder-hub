@@ -2,7 +2,7 @@ package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.plantelement.*;
 import com.workorderhub.provider.common.PropertiesLoader;
-import com.workorderhub.provider.tablemodels.PlantElementModel;
+import com.workorderhub.provider.models.PlantElementModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

@@ -27,8 +27,8 @@ public class SparePartInteractor implements SparePartInput {
 
         List<SpareCategory> spareCategoryList = spareCategoryGateway.GetAllCategories();
 
-        List<RowSparePart> rowSparePartList = sparePartGateway.getSparePartList().stream()
-                .map(sparePart -> new RowSparePart(
+        List<SparePartRow> sparePartRowList = sparePartGateway.getSparePartList().stream()
+                .map(sparePart -> new SparePartRow(
                         sparePart.getSpareId(),
                         sparePart.getSpareName(),
                         sparePart.getSpareNumber(),
@@ -37,7 +37,20 @@ public class SparePartInteractor implements SparePartInput {
                         getCategoryNameById(sparePart.getSpareCategory(), spareCategoryList)
                 )).toList();
 
-        output.populatesSparePartsTable(rowSparePartList);
+        output.populatesSparePartTable(sparePartRowList);
+    }
+
+    @Override
+    public void retrieveSpareCategories() {
+        List<SpareCategory> spareCategoryList = spareCategoryGateway.GetAllCategories();
+
+        List<ResponseSparePartCategories> categoryList = spareCategoryList.stream()
+                .map(category -> new ResponseSparePartCategories(
+                        category.getCategoryID(),
+                        category.getCategoryName()
+                )).toList();
+
+        output.provideSparePartCategories(categoryList);
     }
 
     private String getCategoryNameById(int categoryId, List<SpareCategory> spareCategoryList) {

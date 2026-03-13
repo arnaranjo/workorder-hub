@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.spareparts;
 
-public record RowSparePart(
+public record SparePartRow(
         int spareId,
         String spareName,
         String spareNumber,

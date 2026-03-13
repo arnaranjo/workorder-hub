@@ -1,4 +1,4 @@
-package com.workorderhub.provider.tablemodels;
+package com.workorderhub.provider.models;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
