@@ -1,8 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
-import com.workorderhub.core.caseuse.spareparts.SparePartInput;
-import com.workorderhub.core.caseuse.spareparts.SparePartRow;
-import com.workorderhub.core.caseuse.spareparts.SparePartsView;
+import com.workorderhub.core.caseuse.spareparts.*;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.models.SparePartCategoryModel;
 import com.workorderhub.provider.models.SparePartModel;
@@ -105,7 +103,7 @@ public class SparePartsController implements SparePartsView {
     }
 
     /**
-     * Sets the function to filter the table according to the criteria selected: id, name or spare part number.
+     * Sets the function to filter the table according to the criteria selected: sparePartId, sparePartName or spare part number.
      */
     private void setSearchFunction() {
         String[] list = PropertiesLoader.GetStringArray("spareParts.searchList");
@@ -229,25 +227,75 @@ public class SparePartsController implements SparePartsView {
     }
 
     @FXML
-    private void increaseStock(ActionEvent actionEvent) {
+    private void increaseStock() {
+        if (!sparePartTable.getSelectionModel().isEmpty()) {
+            RequestUpdateSpareStock request = new RequestUpdateSpareStock(
+                    sparePartTable.getSelectionModel().getSelectedItem().getSparePartId(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareName(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareNumber(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareStock(),
+                    newStockSelector.getValue(),
+                    sparePartTable.getSelectionModel().getFocusedIndex()
+            );
+            interactor.increaseSpareStock(request);
+        }
     }
 
     @FXML
-    private void decreaseStock(ActionEvent actionEvent) {
+    private void decreaseStock() {
+        if (!sparePartTable.getSelectionModel().isEmpty()) {
+            RequestUpdateSpareStock request = new RequestUpdateSpareStock(
+                    sparePartTable.getSelectionModel().getSelectedItem().getSparePartId(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareName(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareNumber(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareStock(),
+                    newStockSelector.getValue(),
+                    sparePartTable.getSelectionModel().getFocusedIndex()
+            );
+            interactor.decreaseSpareStock(request);
+        }
+    }
+
+
+    @FXML
+    private void addSparePart() {
+        RequestNewSparePart newSparePart = new RequestNewSparePart(
+                spareNameField.getText(),
+                spareNumberField.getText(),
+                spareDescriptionArea.getText(),
+                spareCategorySelector.getValue(),
+                spareStockSelector.getValue()
+        );
+        interactor.createSparePart(newSparePart);
+        clearFields();
     }
 
     @FXML
-    private void addSparePart(ActionEvent actionEvent) {
-    }
+    private void deleteSparePart() {
+        if (!sparePartTable.getSelectionModel().isEmpty()) {
+            RequestDeleteSparePart request = new RequestDeleteSparePart(
+                    sparePartTable.getSelectionModel().getSelectedItem().getSparePartId(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareName(),
+                    sparePartTable.getSelectionModel().getSelectedItem().getSpareNumber(),
+                    sparePartTable.getSelectionModel().getFocusedIndex()
+            );
+            interactor.deleteSparePart(request);
 
-    @FXML
-    private void deleteSparePart(ActionEvent actionEvent) {
+        }
     }
 
 
     @Override
     public void setInfoDisplay(String message) {
         infoLabel.setText(message);
+    }
+
+    @Override
+    public void clearFields() {
+        spareNameField.clear();
+        spareNumberField.clear();
+        spareDescriptionArea.clear();
+        spareStockSelector.getValueFactory().setValue(1);
     }
 
     @Override
@@ -267,29 +315,54 @@ public class SparePartsController implements SparePartsView {
 
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nameColumn.setOnEditCommit(cell -> {
-
-            //TODO: Update
-
+            RequestUpdateSpareName request = new RequestUpdateSpareName(
+                    cell.getRowValue().getSparePartId(),
+                    cell.getOldValue(),
+                    cell.getNewValue(),
+                    cell.getRowValue().getSpareNumber(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateSpareName(request);
         });
 
         partNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         partNumberColumn.setOnEditCommit(cell -> {
-
-            //TODO: Update
+            RequestUpdateSpareNumber request = new RequestUpdateSpareNumber(
+                    cell.getRowValue().getSparePartId(),
+                    cell.getRowValue().getSpareName(),
+                    cell.getOldValue(),
+                    cell.getNewValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateSpareNumber(request);
 
         });
 
         descriptionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         descriptionColumn.setOnEditCommit(cell -> {
-
-            //TODO: Update
+            RequestUpdateSpareDescription request = new RequestUpdateSpareDescription(
+                    cell.getRowValue().getSparePartId(),
+                    cell.getRowValue().getSpareName(),
+                    cell.getRowValue().getSpareNumber(),
+                    cell.getOldValue(),
+                    cell.getNewValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateSpareDescription(request);
 
         });
 
-        categoryColumn.setCellFactory(col -> new CellCategorySelector());
+        categoryColumn.setCellFactory(_ -> new CellCategorySelector());
         categoryColumn.setOnEditCommit(cell -> {
-
-            //TODO: Update
+            RequestUpdateSpareCategory request = new RequestUpdateSpareCategory(
+                    cell.getRowValue().getSparePartId(),
+                    cell.getRowValue().getSpareName(),
+                    cell.getRowValue().getSpareNumber(),
+                    cell.getOldValue(),
+                    cell.getNewValue(),
+                    cell.getTablePosition().getRow()
+            );
+            interactor.updateSpareCategory(request);
 
         });
     }
@@ -306,7 +379,7 @@ public class SparePartsController implements SparePartsView {
                         rowSparePart.spareCategory()
                 )).toList();
 
-        sparePartsObsList = FXCollections.observableList(sparePartModelList);
+        sparePartsObsList = FXCollections.observableArrayList(sparePartModelList);
         sparePartFilList = new FilteredList<>(sparePartsObsList);
 
         sparePartTable.setItems(sparePartFilList);
@@ -355,13 +428,13 @@ public class SparePartsController implements SparePartsView {
     public void setTableItemStock(int sparePartStock, int row) {
         SparePartModel model = sparePartTable.getItems().get(row);
         model.setSpareStock(sparePartStock);
-        sparePartTable.refresh();
     }
 
     @Override
     public void setTableItemCategory(String sparePartCategory, int row) {
         SparePartModel model = sparePartTable.getItems().get(row);
         model.setSpareCategory(sparePartCategory);
+        sparePartTable.refresh();
     }
 
 

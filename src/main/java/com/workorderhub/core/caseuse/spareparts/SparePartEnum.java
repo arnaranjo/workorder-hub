@@ -1,0 +1,13 @@
+package com.workorderhub.core.caseuse.spareparts;
+
+public enum SparePartEnum {
+    SPARE_PART_ADDED,
+    SPARE_PART_ADDITION_ERROR,
+    INCOMPLETE_INFORMATION,
+    CONFIRM_DELETE_SPARE_PARTS,
+    SPARE_PART_DELETED,
+    SPARE_PART_DELETION_ERROR,
+    SPARE_PART_UPDATED,
+    SPARE_PART_UPDATE_ERROR,
+    OUT_OF_STOCK,
+}

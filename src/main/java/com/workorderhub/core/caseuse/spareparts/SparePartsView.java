@@ -14,9 +14,14 @@ public interface SparePartsView {
     void setInfoDisplay(String message);
 
     /**
+     * Clears the input fields in the spare parts view.
+     */
+    void clearFields();
+
+    /**
      * Sets the list of categories to be displayed in the category selector.
      *
-     * @param categoryList A list of category names to be displayed in the category selection component.
+     * @param categoryList A list of SparePartCategoryModel to be displayed in the category selection component.
      */
     void setCategoryList(List<SparePartCategoryModel> categoryList);
 
@@ -49,9 +54,9 @@ public interface SparePartsView {
     void removeSparePartItem(int itemIndex);
 
     /**
-     * Sets the name of the spare part in the specified row of the table.
+     * Sets the sparePartName of the spare part in the specified row of the table.
      *
-     * @param sparePartName The name of the spare part to be set in the table.
+     * @param sparePartName The sparePartName of the spare part to be set in the table.
      * @param row           The index of the row in the table.
      */
     void setTableItemName(String sparePartName, int row);

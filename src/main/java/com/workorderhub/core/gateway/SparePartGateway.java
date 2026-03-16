@@ -37,10 +37,10 @@ public interface SparePartGateway {
     boolean deleteSparePart(int sparePartId);
 
     /**
-     * Updates the name of a spare part.
+     * Updates the sparePartName of a spare part.
      *
      * @param sparePartId   spare part identifier.
-     * @param sparePartName new spare part name.
+     * @param sparePartName new spare part sparePartName.
      * @return true if the update was successful; otherwise, false.
      */
     boolean updateSparePartName(int sparePartId, String sparePartName);
