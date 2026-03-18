@@ -2,7 +2,7 @@ package com.workorderhub.core.caseuse.plantelement;
 
 import java.time.LocalDate;
 
-public record PlantElementRow(
+public record RowPlantElement(
         int elementId,
         String elementTag,
         String elementDescription,

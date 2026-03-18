@@ -79,8 +79,8 @@ public class PlantElementPresenter implements PlantElementOutput {
     }
 
     @Override
-    public void addNewTableRow(PlantElementRow plantElementRow) {
-        view.addPlantElementItem(plantElementRow);
+    public void addNewTableRow(RowPlantElement rowPlantElement) {
+        view.addPlantElementItem(rowPlantElement);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PlantElementPresenter implements PlantElementOutput {
     }
 
     @Override
-    public void populatePlantElementTable(List<PlantElementRow> plantElementRowList) {
-        view.setPlantElementTableItems(plantElementRowList);
+    public void populatePlantElementTable(List<RowPlantElement> rowPlantElementList) {
+        view.setPlantElementTableItems(rowPlantElementList);
     }
 }

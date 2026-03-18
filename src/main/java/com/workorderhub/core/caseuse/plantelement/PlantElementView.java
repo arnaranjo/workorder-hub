@@ -22,14 +22,14 @@ public interface PlantElementView {
      *
      * @param PlantElementList list of plant elements.
      */
-    void setPlantElementTableItems(List<PlantElementRow> PlantElementList);
+    void setPlantElementTableItems(List<RowPlantElement> PlantElementList);
 
     /**
      * Adds a new item to the plant element table.
      *
-     * @param plantElementRow Record of a plant element.
+     * @param rowPlantElement Record of a plant element.
      */
-    void addPlantElementItem(PlantElementRow plantElementRow);
+    void addPlantElementItem(RowPlantElement rowPlantElement);
 
     /**
      * Remove an item from the plant element list.

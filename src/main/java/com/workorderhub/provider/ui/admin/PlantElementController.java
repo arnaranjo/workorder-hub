@@ -254,7 +254,7 @@ public class PlantElementController implements PlantElementView {
     }
 
     @Override
-    public void setPlantElementTableItems(List<PlantElementRow> PlantElementList) {
+    public void setPlantElementTableItems(List<RowPlantElement> PlantElementList) {
         List<PlantElementModel> models = PlantElementList.stream().map(row ->
                 new PlantElementModel(
                         row.elementId(),
@@ -273,14 +273,14 @@ public class PlantElementController implements PlantElementView {
     }
 
     @Override
-    public void addPlantElementItem(PlantElementRow plantElementRow) {
+    public void addPlantElementItem(RowPlantElement rowPlantElement) {
         PlantElementModel model = new PlantElementModel(
-                plantElementRow.elementId(),
-                plantElementRow.elementDescription(),
-                plantElementRow.elementLocation(),
-                plantElementRow.elementLocation(),
-                plantElementRow.inspectionDate(),
-                plantElementRow.inspectionFrequency()
+                rowPlantElement.elementId(),
+                rowPlantElement.elementDescription(),
+                rowPlantElement.elementLocation(),
+                rowPlantElement.elementLocation(),
+                rowPlantElement.inspectionDate(),
+                rowPlantElement.inspectionFrequency()
         );
         plantElementsObsList.add(model);
     }

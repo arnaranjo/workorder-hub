@@ -22,8 +22,8 @@ public class PlantElementInteractor implements PlantElementInput {
     public void retrievePlantElements() {
         List<PlantElement> plantElementsList = plantElementGateway.GetPlantElementsList();
 
-        List<PlantElementRow> plantElementRowList = plantElementsList.stream().map(row ->
-                new PlantElementRow(
+        List<RowPlantElement> rowPlantElementList = plantElementsList.stream().map(row ->
+                new RowPlantElement(
                         row.getElementId(),
                         row.getElementTag(),
                         row.getElementDescription(),
@@ -33,7 +33,7 @@ public class PlantElementInteractor implements PlantElementInput {
                 )
         ).toList();
 
-        presenter.populatePlantElementTable(plantElementRowList);
+        presenter.populatePlantElementTable(rowPlantElementList);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PlantElementInteractor implements PlantElementInput {
             int elementId = plantElementGateway.InsertPlantElement(newPlantElement);
 
             if (elementId != 0) {
-                PlantElementRow newRow = new PlantElementRow(
+                RowPlantElement newRow = new RowPlantElement(
                         elementId,
                         request.elementTag(),
                         request.elementDescription(),

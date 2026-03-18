@@ -57,9 +57,9 @@ public interface PlantElementOutput {
     /**
      * Adds a new row in the plant element table.
      *
-     * @param plantElementRow It contains all the information of a new plant element.
+     * @param rowPlantElement It contains all the information of a new plant element.
      */
-    void addNewTableRow(PlantElementRow plantElementRow);
+    void addNewTableRow(RowPlantElement rowPlantElement);
 
 
     void removePlantElementItem(ResponseDeletePlantElement response);
@@ -74,7 +74,7 @@ public interface PlantElementOutput {
     /**
      * Populates the plan element table.
      *
-     * @param plantElementRowList List of plant element records.
+     * @param rowPlantElementList List of plant element records.
      */
-    void populatePlantElementTable(List<PlantElementRow> plantElementRowList);
+    void populatePlantElementTable(List<RowPlantElement> rowPlantElementList);
 }
