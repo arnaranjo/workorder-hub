@@ -6,6 +6,7 @@ import com.workorderhub.core.caseuse.plantelement.PlantElementInteractor;
 import com.workorderhub.core.caseuse.procedures.LotoProcedureInteractor;
 import com.workorderhub.core.caseuse.procedures.WorkProcedureInteractor;
 import com.workorderhub.core.caseuse.spareparts.SparePartInteractor;
+import com.workorderhub.core.caseuse.workorder.WorkOrderInteractor;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.ViewLoader;
 import com.workorderhub.provider.database.*;
@@ -20,6 +21,8 @@ public class AdminMenuController {
     private final URL proceduresView = getClass().getResource("/ui/admin/procedures-view.fxml");
     private final URL plantElementView = getClass().getResource("/ui/admin/plant-element-view.fxml");
     private final URL sparePartsView = getClass().getResource("/ui/admin/spare-parts-view.fxml");
+    private final URL workOrderView = getClass().getResource("/ui/admin/workorder-main-view.fxml");
+
 
     @FXML
     private void LoadNewUserView() {
@@ -149,6 +152,62 @@ public class AdminMenuController {
                 PropertiesLoader.GetText("adminMenu.sparePartsTittle"),
                 PropertiesLoader.GetDouble("adminMenu.sparePartsWidth"),
                 PropertiesLoader.GetDouble("adminMenu.sparePartsHeight")
+        );
+    }
+
+    public void LoadNewWorkOrderView() {
+        WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
+        WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();
+        WorkOrderPeriodPresenter periodPresenter = new WorkOrderPeriodPresenter();
+        WorkOrderProcedurePresenter procedurePresenter = new WorkOrderProcedurePresenter();
+        WorkOrderPermitPresenter permitPresenter = new WorkOrderPermitPresenter();
+
+        WorkOrderInteractor interactor = new WorkOrderInteractor.Builder()
+                .withMainOutput(mainPresenter)
+                .withDataOutput(dataPresenter)
+                .withPeriodOutput(periodPresenter)
+                .withProcedureOutput(procedurePresenter)
+                .withPermitOutput(permitPresenter)
+                .withWorkOrderGateway(new DBWorkOrder())
+                .build();
+
+        ViewLoader viewLoader = new ViewLoader();
+
+        viewLoader.registerController(WorkOrderMainController.class, () -> {
+            WorkOrderMainController mainController = new WorkOrderMainController(interactor);
+            mainPresenter.setView(mainController);
+            return mainController;
+        });
+
+        viewLoader.registerController(WorkOrderDataController.class, () -> {
+            WorkOrderDataController dataController = new WorkOrderDataController(interactor);
+            dataPresenter.setView(dataController);
+            return dataController;
+        });
+
+        viewLoader.registerController(WorkOrderPeriodController.class, () -> {
+            WorkOrderPeriodController periodController = new WorkOrderPeriodController(interactor);
+            periodPresenter.setView(periodController);
+            return periodController;
+        });
+
+        viewLoader.registerController(WorkOrderProcedureController.class, () -> {
+            WorkOrderProcedureController procedureController = new WorkOrderProcedureController(interactor);
+            procedurePresenter.setView(procedureController);
+            return procedureController;
+        });
+
+        viewLoader.registerController(WorkOrderPermitController.class, () -> {
+            WorkOrderPermitController permitController = new WorkOrderPermitController(interactor);
+            permitPresenter.setView(permitController);
+            return permitController;
+        });
+
+        viewLoader.LoadView(
+                workOrderView,
+                PropertiesLoader.GetText("adminMenu.newWorkOrderTitle"),
+                PropertiesLoader.GetDouble("adminMenu.workOrderWidth"),
+                PropertiesLoader.GetDouble("adminMenu.workOrderHeight")
         );
     }
 }

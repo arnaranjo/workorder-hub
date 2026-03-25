@@ -13,7 +13,7 @@
     <padding>
         <Insets bottom="10.0" top="10.0" />
     </padding>
-    <Button mnemonicParsing="false" prefWidth="110.0" text="New Order" />
+    <Button mnemonicParsing="false" onAction="#LoadNewWorkOrderView" prefWidth="110.0" text="New Order" />
     <Button mnemonicParsing="false" prefWidth="110.0" text="Edit Order" />
     <Button mnemonicParsing="false" prefWidth="110.0" text="Delete Order" />
     <Separator prefWidth="200.0" />
