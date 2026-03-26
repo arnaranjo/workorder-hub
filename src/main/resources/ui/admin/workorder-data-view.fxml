@@ -100,7 +100,7 @@
             <TextField fx:id="plantElementField" promptText="Inst / Equipment / Element Tag..."
                        GridPane.rowIndex="6"/>
             <Button alignment="CENTER" maxWidth="300.0" minWidth="220.0" mnemonicParsing="false"
-                    onAction="#SearchPlantElement" prefWidth="220.0" text="Search" GridPane.rowIndex="7"/>
+                    onAction="#searchPlantElement" prefWidth="220.0" text="Search" GridPane.rowIndex="7"/>
             <Label layoutX="10.0" layoutY="26.0" text="Task Description" GridPane.rowIndex="9">
                 <font>
                     <Font size="18.0"/>
@@ -120,10 +120,10 @@
             <Button alignment="CENTER" layoutX="10.0" layoutY="116.0" maxWidth="300.0" minWidth="220.0"
                     mnemonicParsing="false" onAction="#AddWorkOrderCategory" prefWidth="220.0" text="Select"
                     GridPane.columnIndex="2" GridPane.rowIndex="7"/>
-            <Label fx:id="pElementTag" text="TAG: " GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-            <Label fx:id="pElementLocation" text="LOCATION: " GridPane.columnIndex="1"
+            <Label fx:id="tagLabel" text="TAG: " GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <Label fx:id="locationLabel" text="LOCATION: " GridPane.columnIndex="1"
                    GridPane.rowIndex="7"/>
-            <Label fx:id="pElementDescription" text="DESCRIPTION: " GridPane.columnIndex="1"
+            <Label fx:id="descriptionLabel" text="DESCRIPTION: " GridPane.columnIndex="1"
                    GridPane.rowIndex="8"/>
             <ListView fx:id="workOrderCategoryView" maxWidth="300.0" minWidth="220.0" prefHeight="110.0"
                       prefWidth="220.0" GridPane.columnIndex="3" GridPane.rowIndex="6" GridPane.rowSpan="3"
@@ -171,7 +171,7 @@
                 </font>
             </Label>
             <Label text="Number of spare parts to be used:" GridPane.rowIndex="21"/>
-            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#AddSparePart"
+            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#addSparePart"
                     prefWidth="220.0" text="Add" GridPane.rowIndex="23"/>
             <TextField fx:id="sparePartField" GridPane.rowIndex="20"/>
             <Spinner fx:id="numSelected" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"

@@ -33,4 +33,10 @@ public interface WorkOrderInput {
      * Retrieves the User list allowed to be Holders.
      */
     void retrieveHoldersList();
+
+    /**
+     * Retrieves the Plant element information based on the provided element tag.
+     * @param plantElement Request containing the element tag.
+     */
+    void getPlantElement(RequestPlantElement plantElement);
 }

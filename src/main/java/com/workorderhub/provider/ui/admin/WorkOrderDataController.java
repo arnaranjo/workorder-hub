@@ -1,5 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
+import com.workorderhub.core.caseuse.workorder.RequestPlantElement;
 import com.workorderhub.core.caseuse.workorder.WorkOrderDataView;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.provider.common.PropertiesLoader;
@@ -39,11 +40,13 @@ public class WorkOrderDataController implements WorkOrderDataView {
     @FXML
     protected TextField plantElementField;
     @FXML
-    protected Label pElementTag;
+    protected Label tagLabel;
     @FXML
-    protected Label pElementLocation;
+    protected Label locationLabel;
     @FXML
-    protected Label pElementDescription;
+    protected Label descriptionLabel;
+
+    private boolean isPElementSelected;
 
     //"Work Order" tab content - Category selection
     @FXML
@@ -163,7 +166,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @FXML
-    protected void AddSparePart(ActionEvent actionEvent) {
+    protected void addSparePart() {
     }
 
     @FXML
@@ -175,7 +178,11 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @FXML
-    protected void SearchPlantElement(ActionEvent actionEvent) {
+    protected void searchPlantElement(ActionEvent actionEvent) {
+        RequestPlantElement requestPlantElement = new RequestPlantElement(
+                plantElementField.getText()
+        );
+        interactor.getPlantElement(requestPlantElement);
     }
 
     @FXML
@@ -191,5 +198,17 @@ public class WorkOrderDataController implements WorkOrderDataView {
             workOrderCategorySelector.getItems().add(category.getName());
         }
         workOrderCategorySelector.getSelectionModel().selectFirst();
+    }
+
+    @Override
+    public void displayPlantElementInfo(String elementTag, String elementDescription, String elementLocation) {
+        tagLabel.setText(elementTag);
+        descriptionLabel.setText(elementDescription);
+        locationLabel.setText(elementLocation);
+    }
+
+    @Override
+    public void confirmPlantElement() {
+        isPElementSelected = true;
     }
 }

@@ -1,7 +1,9 @@
 package com.workorderhub.core.caseuse.workorder;
 
 import com.workorderhub.core.entity.Category;
+import com.workorderhub.core.entity.PlantElement;
 import com.workorderhub.core.gateway.CategoryGateway;
+import com.workorderhub.core.gateway.PlantElementGateway;
 import com.workorderhub.core.gateway.UserGateway;
 import com.workorderhub.core.gateway.WorkOrderGateway;
 
@@ -18,6 +20,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
     private final WorkOrderGateway workOrderGateway;
     private final CategoryGateway categoryGateway;
     private final UserGateway userGateway;
+    private final PlantElementGateway plantElementGateway;
 
     private WorkOrderInteractor(Builder builder) {
         this.mainOutput = builder.mainOutput;
@@ -28,6 +31,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         this.periodOutput = builder.periodOutput;
         this.categoryGateway = builder.categoryGateway;
         this.userGateway = builder.userGateway;
+        this.plantElementGateway = builder.plantElementGateway;
     }
 
     @Override
@@ -67,6 +71,30 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
     }
 
+    @Override
+    public void getPlantElement(RequestPlantElement request) {
+        PlantElement plantElement = plantElementGateway.GetPlantElementByTag(
+                request.elementTag()
+        );
+
+        if (plantElement != null) {
+            ResponsePlantElement response =
+                    new ResponsePlantElement(
+                            plantElement.getElementTag(),
+                            plantElement.getElementDescription(),
+                            plantElement.getElementLocation(),
+                            plantElement.getInspectionDate(),
+                            plantElement.getInspectionFrequency()
+                    );
+
+            dataOutput.displayPlantElementInfo(response);
+
+        } else{
+            //Error
+
+        }
+    }
+
     //Methods
 
 
@@ -82,6 +110,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         private WorkOrderGateway workOrderGateway;
         private CategoryGateway categoryGateway;
         private UserGateway userGateway;
+        private PlantElementGateway plantElementGateway;
 
         public Builder() {
         }
@@ -123,6 +152,11 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
         public Builder withUserGateway(UserGateway userGateway) {
             this.userGateway = userGateway;
+            return this;
+        }
+
+        public Builder withPlantElementGateway(PlantElementGateway plantElementGateway) {
+            this.plantElementGateway = plantElementGateway;
             return this;
         }
 

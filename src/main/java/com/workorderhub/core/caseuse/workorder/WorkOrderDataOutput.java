@@ -11,4 +11,10 @@ public interface WorkOrderDataOutput {
      * @param categoryList A list of Category objects representing the work order categories.
      */
     void setCategoryList(List<Category> categoryList);
+
+    /**
+     * Displays the information of the retrieved plant element
+     * @param response Response with the plant element information to be displayed in the view.
+     */
+    void displayPlantElementInfo(ResponsePlantElement response);
 }
