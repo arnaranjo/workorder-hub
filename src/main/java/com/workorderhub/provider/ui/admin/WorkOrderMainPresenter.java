@@ -13,4 +13,25 @@ public class WorkOrderMainPresenter implements WorkOrderMainOutput {
     public void setView(WorkOrderMainView view) {
         this.view = view;
     }
+
+    @Override
+    public void toggleValidPeriodSelection() {
+        if (view != null) {
+            view.toggleValidPeriodContent();
+        }
+    }
+
+    @Override
+    public void toggleProcedureSelection() {
+        if (view != null) {
+            view.toggleWorkProcedureContent();
+        }
+    }
+
+    @Override
+    public void togglePermitSelection() {
+        if (view != null) {
+            view.toggleWorkPermitContent();
+        }
+    }
 }

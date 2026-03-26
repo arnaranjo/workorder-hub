@@ -3,11 +3,8 @@ package com.workorderhub.provider.ui.admin;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderMainView;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPeriodView;
-import com.workorderhub.core.caseuse.workorder.WorkOrderPermitView;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.StackPane;
 
 /**
  * Controller associated with the creation of a new work order form.
@@ -46,6 +43,12 @@ public class WorkOrderMainController implements WorkOrderMainView {
     protected Tab workPermitTab;
 
     public void initialize() {
+
+        // Disable the "Valid period", "Work procedure" and "Work permit" tabs by default, as they are optional.
+        validPeriodTab.setDisable(true);
+        workProcedureTab.setDisable(true);
+        workPermitTab.setDisable(true);
+
     }
 
     public WorkOrderMainController(WorkOrderInput interactor) {
@@ -55,5 +58,20 @@ public class WorkOrderMainController implements WorkOrderMainView {
     //General
     @FXML
     protected void CreateNewWorkOrder() {
+    }
+
+    @Override
+    public void toggleValidPeriodContent() {
+        validPeriodTab.setDisable(!DataViewController.cBoxSchedule.isSelected());
+    }
+
+    @Override
+    public void toggleWorkProcedureContent() {
+        workProcedureTab.setDisable(!DataViewController.cBoxWorkProcedure.isSelected());
+    }
+
+    @Override
+    public void toggleWorkPermitContent() {
+        workPermitTab.setDisable(!DataViewController.cBoxWorkPermit.isSelected());
     }
 }

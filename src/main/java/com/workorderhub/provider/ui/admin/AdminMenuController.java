@@ -169,6 +169,8 @@ public class AdminMenuController {
                 .withProcedureOutput(procedurePresenter)
                 .withPermitOutput(permitPresenter)
                 .withWorkOrderGateway(new DBWorkOrder())
+                .withCategoryGateway(new DBCategory())
+                .withUserGateway(new DBUser())
                 .build();
 
         ViewLoader viewLoader = new ViewLoader();

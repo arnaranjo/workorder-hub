@@ -3,7 +3,10 @@ package com.workorderhub.provider.ui.admin;
 import com.workorderhub.core.caseuse.workorder.WorkOrderDataView;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.provider.common.PropertiesLoader;
-import com.workorderhub.provider.models.*;
+import com.workorderhub.provider.models.CategoryModel;
+import com.workorderhub.provider.models.ParticipantModel;
+import com.workorderhub.provider.models.SparePartModel;
+import com.workorderhub.provider.models.UserModel;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -48,13 +51,16 @@ public class WorkOrderDataController implements WorkOrderDataView {
     @FXML
     protected ListView<String> workOrderCategoryView = new ListView<>();
 
+    private List<CategoryModel> categoryList;
+
     //"Work Order" tab content - Task description
     @FXML
     protected TextArea workOrderDescriptionArea;
 
     //"Work Order" tab content - Holder selection
     @FXML
-    protected ChoiceBox<String> holderSelector  = new ChoiceBox<>();;
+    protected ChoiceBox<String> holderSelector = new ChoiceBox<>();
+    ;
     @FXML
     protected Label holderName;
     @FXML
@@ -65,7 +71,8 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     //"Work Order" tab content - Participant selection
     @FXML
-    protected ChoiceBox<String> technicianSelector = new ChoiceBox<>();;
+    protected ChoiceBox<String> technicianSelector = new ChoiceBox<>();
+    ;
     @FXML
     protected ListView<String> participantView;
 
@@ -74,7 +81,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     //"Work Order" tab content - Spare parts selection
     @FXML
-    protected ChoiceBox<String> sparePartSearch  = new ChoiceBox<>();
+    protected ChoiceBox<String> sparePartSearch = new ChoiceBox<>();
     @FXML
     protected TextField sparePartField;
     @FXML
@@ -93,6 +100,10 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
 
     public void initialize() {
+
+        interactor.retrieveWorkOrderCategories();
+        interactor.retrieveHoldersList();
+        interactor.retrieveTechnicianList();
 
         //isPElementSelected = false;
         //assignedCategoryList = new ArrayList<>();
@@ -129,15 +140,18 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @FXML
-    protected void ToggleWorkPermitTab(ActionEvent actionEvent) {
+    protected void toggleWorkPermitTab() {
+        interactor.togglePermitSelectionDisable();
     }
 
     @FXML
-    protected void ToggleWorkProcedureTab(ActionEvent actionEvent) {
+    protected void toggleWorkProcedureTab() {
+        interactor.toggleProcedureSelectionDisable();
     }
 
     @FXML
-    protected void ToggleValidPeriodTab(ActionEvent actionEvent) {
+    protected void toggleValidPeriodTab() {
+        interactor.toggleValidPeriodDisable();
     }
 
     @FXML
@@ -166,5 +180,16 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     @FXML
     protected void SelectHolder(ActionEvent actionEvent) {
+    }
+
+    @Override
+    public void setCategoryList(List<CategoryModel> categoryList) {
+
+        this.categoryList = categoryList;
+
+        for (CategoryModel category : categoryList) {
+            workOrderCategorySelector.getItems().add(category.getName());
+        }
+        workOrderCategorySelector.getSelectionModel().selectFirst();
     }
 }
