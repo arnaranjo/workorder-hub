@@ -1,5 +1,6 @@
 package com.workorderhub.core.caseuse.workorder;
 
+import com.workorderhub.core.caseuse.spareparts.SparePartRow;
 import com.workorderhub.core.entity.Category;
 import com.workorderhub.core.entity.User;
 
@@ -31,6 +32,8 @@ public interface WorkOrderDataOutput {
      * @param userRole A string representing the role of the user supervisor.
      */
     void displayHolderList(List<User> holderList, String userRole);
+
+    void displaySparePartsList(List<SparePartRow> sparePartRowList);
 
     /**
      * Displays an error message in the view based on the provided WorkOrderEnum value.

@@ -1,13 +1,8 @@
 package com.workorderhub.core.caseuse.workorder;
 
-import com.workorderhub.core.entity.Category;
-import com.workorderhub.core.entity.PlantElement;
-import com.workorderhub.core.entity.User;
-import com.workorderhub.core.entity.UserRoleEnum;
-import com.workorderhub.core.gateway.CategoryGateway;
-import com.workorderhub.core.gateway.PlantElementGateway;
-import com.workorderhub.core.gateway.UserGateway;
-import com.workorderhub.core.gateway.WorkOrderGateway;
+import com.workorderhub.core.caseuse.spareparts.SparePartRow;
+import com.workorderhub.core.entity.*;
+import com.workorderhub.core.gateway.*;
 
 import java.util.List;
 
@@ -23,6 +18,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
     private final CategoryGateway categoryGateway;
     private final UserGateway userGateway;
     private final PlantElementGateway plantElementGateway;
+    private final SparePartGateway sparePartGateway;
 
     private WorkOrderInteractor(Builder builder) {
         this.mainOutput = builder.mainOutput;
@@ -34,6 +30,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         this.categoryGateway = builder.categoryGateway;
         this.userGateway = builder.userGateway;
         this.plantElementGateway = builder.plantElementGateway;
+        this.sparePartGateway = builder.sparePartGateway;
     }
 
     @Override
@@ -86,6 +83,21 @@ public class WorkOrderInteractor implements WorkOrderInput {
     }
 
     @Override
+    public void retrieveSparePartsList() {
+        List<SparePartRow> sparePartRowList = sparePartGateway.getSparePartList().stream()
+                .map(sparePart -> new SparePartRow(
+                        sparePart.getSpareId(),
+                        sparePart.getSpareName(),
+                        sparePart.getSpareNumber(),
+                        sparePart.getSpareDescription(),
+                        sparePart.getSpareStock(),
+                        ""
+                )).toList();
+
+        dataOutput.displaySparePartsList(sparePartRowList);
+    }
+
+    @Override
     public void getPlantElement(RequestPlantElement request) {
         PlantElement plantElement = plantElementGateway.GetPlantElementByTag(
                 request.elementTag()
@@ -94,6 +106,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         if (plantElement != null) {
             ResponsePlantElement response =
                     new ResponsePlantElement(
+                            plantElement.getElementId(),
                             plantElement.getElementTag(),
                             plantElement.getElementDescription(),
                             plantElement.getElementLocation(),
@@ -122,6 +135,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         private CategoryGateway categoryGateway;
         private UserGateway userGateway;
         private PlantElementGateway plantElementGateway;
+        private SparePartGateway sparePartGateway;
 
         public Builder() {
         }
@@ -168,6 +182,11 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
         public Builder withPlantElementGateway(PlantElementGateway plantElementGateway) {
             this.plantElementGateway = plantElementGateway;
+            return this;
+        }
+
+        public Builder withSparePartGateway(SparePartGateway sparePartGateway) {
+            this.sparePartGateway = sparePartGateway;
             return this;
         }
 

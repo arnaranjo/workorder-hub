@@ -1,5 +1,6 @@
 package com.workorderhub.provider.ui.admin;
 
+import com.workorderhub.core.caseuse.spareparts.SparePartRow;
 import com.workorderhub.core.caseuse.workorder.ResponsePlantElement;
 import com.workorderhub.core.caseuse.workorder.WorkOrderDataOutput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderDataView;
@@ -9,6 +10,7 @@ import com.workorderhub.core.entity.User;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.models.CategoryModel;
 import com.workorderhub.provider.models.ParticipantModel;
+import com.workorderhub.provider.models.SparePartModel;
 
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                 response.elementDescription(),
                 response.elementLocation()
         );
-        viewController.confirmPlantElement();
+        viewController.confirmPlantElement(response.elementId());
     }
 
     @Override
@@ -72,6 +74,20 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
     }
 
     @Override
+    public void displaySparePartsList(List<SparePartRow> sparePartRowList) {
+        List<SparePartModel> sparePartModels = sparePartRowList.stream()
+                .map(sparePartRow -> new SparePartModel(
+                        sparePartRow.spareId(),
+                        sparePartRow.spareName(),
+                        sparePartRow.spareNumber(),
+                        sparePartRow.spareDescription(),
+                        sparePartRow.spareStock(),
+                        ""
+                )).toList();
+        viewController.setSparePartTableItems(sparePartModels);
+    }
+
+    @Override
     public void displayError(WorkOrderEnum workOrderEnum) {
         switch (workOrderEnum) {
             case NO_PLANT_ELEMENT:
@@ -82,7 +98,6 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                 );
                 break;
 
-                //TODO: Implement
             case NO_TECHNICIANS:
                 viewController.displayHolderInfo(
                     PropertiesLoader.GetText("workOrder.assignment.holderNotFound"),

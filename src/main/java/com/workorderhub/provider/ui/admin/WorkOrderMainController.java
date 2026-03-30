@@ -18,7 +18,7 @@ public class WorkOrderMainController implements WorkOrderMainView {
     private WorkOrderInput interactor;
 
     @FXML
-    protected WorkOrderDataController DataViewController;
+    protected WorkOrderDataController dataViewController;
     @FXML
     protected WorkOrderPeriodView validPeriodViewController;
     @FXML
@@ -58,20 +58,29 @@ public class WorkOrderMainController implements WorkOrderMainView {
     //General
     @FXML
     protected void CreateNewWorkOrder() {
+        if (this.dataViewController.isPlantElementConfirmed()){
+            System.out.println(this.dataViewController.getPlantElementId());
+        } else if (this.dataViewController.isHolderConfirmed()) {
+            System.out.println(this.dataViewController.getHolderId());
+        }
+        System.out.println(this.dataViewController.getAssignedCategories());
+        System.out.println(this.dataViewController.getParticipantsList());
+        System.out.println(this.dataViewController.getSparePartsList());
+
     }
 
     @Override
     public void toggleValidPeriodContent() {
-        validPeriodTab.setDisable(!DataViewController.cBoxSchedule.isSelected());
+        validPeriodTab.setDisable(!dataViewController.cBoxSchedule.isSelected());
     }
 
     @Override
     public void toggleWorkProcedureContent() {
-        workProcedureTab.setDisable(!DataViewController.cBoxWorkProcedure.isSelected());
+        workProcedureTab.setDisable(!dataViewController.cBoxWorkProcedure.isSelected());
     }
 
     @Override
     public void toggleWorkPermitContent() {
-        workPermitTab.setDisable(!DataViewController.cBoxWorkPermit.isSelected());
+        workPermitTab.setDisable(!dataViewController.cBoxWorkPermit.isSelected());
     }
 }

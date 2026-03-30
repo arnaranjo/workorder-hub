@@ -28,7 +28,7 @@
                  tabMinWidth="150.0" BorderPane.alignment="CENTER">
             <Tab closable="false" text="Work Order Data">
                 <StackPane>
-                    <fx:include fx:id="DataView" source="workorder-data-view.fxml"/>
+                    <fx:include fx:id="dataView" source="workorder-data-view.fxml"/>
                 </StackPane>
             </Tab>
             <Tab fx:id="validPeriodTab" closable="false" text="Work Order Data">

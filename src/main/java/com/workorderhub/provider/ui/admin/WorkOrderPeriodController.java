@@ -17,9 +17,7 @@ import java.util.List;
 /**
  * Controller associated with the creation of a new work order form.
  * CODE REFERENCES
- * 1 - <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum">Allows only digits.<a/>
- * 2 - <a href="https://stackoverflow.com/questions/62513192/javafx-datepicker-disable-future-dates">Disables date picker days.<a/>
- * 3 - <a href="https://stackoverflow.com/questions/77576921/java-fx-tableview-access-cell-contents-for-searching">Searches field for a TableView.<a/>
+ * 1 - <a href="https://stackoverflow.com/questions/62513192/javafx-datepicker-disable-future-dates">Disables date picker days.<a/>
  */
 public class WorkOrderPeriodController implements WorkOrderPeriodView {
 

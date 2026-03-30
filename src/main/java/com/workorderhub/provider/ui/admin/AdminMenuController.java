@@ -172,6 +172,7 @@ public class AdminMenuController {
                 .withCategoryGateway(new DBCategory())
                 .withUserGateway(new DBUser())
                 .withPlantElementGateway(new DBPlantElement())
+                .withSparePartGateway(new DBSparePart())
                 .build();
 
         ViewLoader viewLoader = new ViewLoader();

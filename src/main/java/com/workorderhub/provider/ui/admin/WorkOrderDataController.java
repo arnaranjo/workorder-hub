@@ -8,6 +8,9 @@ import com.workorderhub.provider.common.Util;
 import com.workorderhub.provider.models.CategoryModel;
 import com.workorderhub.provider.models.ParticipantModel;
 import com.workorderhub.provider.models.SparePartModel;
+import com.workorderhub.provider.models.UsedSparePartModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,9 +23,8 @@ import java.util.List;
 /**
  * Controller associated with the creation of a new work order form.
  * CODE REFERENCES
- * 1 - <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum">Allows only digits.<a/>
+ * 1 - <a href="https://stackoverflow.com/questions/77576921/java-fx-tableview-access-cell-contents-for-searching">Searches field for a TableView.<a/>
  * 2 - <a href="https://stackoverflow.com/questions/62513192/javafx-datepicker-disable-future-dates">Disables date picker days.<a/>
- * 3 - <a href="https://stackoverflow.com/questions/77576921/java-fx-tableview-access-cell-contents-for-searching">Searches field for a TableView.<a/>
  */
 public class WorkOrderDataController implements WorkOrderDataView {
 
@@ -47,6 +49,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     @FXML
     protected Label descriptionLabel;
 
+    private int plantElementId;
     private boolean isPElementSelected;
 
     //"Work Order" tab content - Category selection
@@ -98,9 +101,10 @@ public class WorkOrderDataController implements WorkOrderDataView {
     private TableColumn<SparePartModel, String> nameColumn;
     private TableColumn<SparePartModel, String> partNumberColumn;
     private TableColumn<SparePartModel, String> descriptionColumn;
+    private TableColumn<SparePartModel, Integer> stockColumn;
 
     private FilteredList<SparePartModel> sparePartFilList;
-    private List<SparePartModel> usedSparePartList;
+    private List<UsedSparePartModel> usedSparePartList;
 
 
     public void initialize() {
@@ -108,8 +112,20 @@ public class WorkOrderDataController implements WorkOrderDataView {
         this.interactor.retrieveWorkOrderCategories();
         this.interactor.retrieveHoldersList();
         this.interactor.retrieveTechnicianList();
+        this.interactor.retrieveSparePartsList();
 
+        this.isPElementSelected = false;
+        this.isHolderSelected = false;
+        this.holderId = 0;
+
+        /**
+         * Initialises the lists that will contain the information of the categories, participants
+         * and spare parts selected to be associated with the work order. Those lists can be optional when the
+         * work order is created.
+         */
         this.assignedCategoryList = new ArrayList<>();
+        this.participantList = new ArrayList<>();
+        this.usedSparePartList = new ArrayList<>();
 
         // "Spare Part" content
         this.nameColumn = new TableColumn<>(PropertiesLoader.GetText("spareParts.itemName"));
@@ -118,11 +134,13 @@ public class WorkOrderDataController implements WorkOrderDataView {
         this.partNumberColumn.setCellValueFactory(new PropertyValueFactory<>("spareNumber"));
         this.descriptionColumn = new TableColumn<>(PropertiesLoader.GetText("spareParts.itemDescription"));
         this.descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("spareDescription"));
+        this.stockColumn = new TableColumn<>(PropertiesLoader.GetText("spareParts.itemStock"));
+        this.stockColumn.setCellValueFactory(new PropertyValueFactory<>("spareStock"));
         this.sparePartTable.getColumns().add(nameColumn);
         this.sparePartTable.getColumns().add(partNumberColumn);
         this.sparePartTable.getColumns().add(descriptionColumn);
+        this.sparePartTable.getColumns().add(stockColumn);
 
-        //PopulateSparePartTable();
         setSparePartSearchFunction();
         setSparePartSelector();
     }
@@ -144,7 +162,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
                 for (CategoryModel category : categoryList) {
                     if (category.getName().equals(this.workOrderCategorySelector.getValue())) {
 
-                        //Add to the AssignedList
+                        //Add to the AssignedList, the list of categories that will be assigned to the work order
                         assignedCategoryList.add(category.getId());
 
                     }
@@ -214,7 +232,51 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     @FXML
     protected void addSparePart() {
+        int empty = 0;
 
+        if (sparePartTable.getSelectionModel().isEmpty()) {
+            Util.ShowMessage("workOrder.defaultNew", "workOrder.sparePart.noSelected");
+
+        } else {
+            SparePartModel selectedSparePart = sparePartTable.getSelectionModel().getSelectedItem();
+
+            if (selectedSparePart.getSpareStock() != empty) {
+                int numberSelected;
+
+                //Check if the selected number of spare parts is available in stock, if not, select the remaining stock
+                if ((selectedSparePart.getSpareStock() - numSelected.getValue()) > empty) {
+                    numberSelected = numSelected.getValue();
+                    selectedSparePart.setSpareStock(selectedSparePart.getSpareStock() - numSelected.getValue());
+                } else {
+                    numberSelected = selectedSparePart.getSpareStock();
+                    selectedSparePart.setSpareStock(empty);
+                }
+
+                UsedSparePartModel usedSparePart = new UsedSparePartModel();
+                usedSparePart.setSparePartId(selectedSparePart.getSparePartId());
+                usedSparePart.setSelectedNumber(numberSelected);
+
+                if (selectedSparePart.getSpareStock() == 0) {
+                    sparePartSelectedView.getItems().add(
+                            selectedSparePart.getSpareName() + " (" +
+                                    selectedSparePart.getSpareNumber() + ") Selected number: " + numberSelected +
+                                    " (Last items in stock)"
+                    );
+                } else {
+                    sparePartSelectedView.getItems().add(
+                            selectedSparePart.getSpareName() + " (" +
+                                    selectedSparePart.getSpareNumber() + ") Selected number: " + numberSelected
+                    );
+                }
+
+                usedSparePartList.add(usedSparePart);
+                updateFilter();
+
+            } else {
+                Util.ShowMessage("workOrder.defaultNew", "workOrder.sparePart.outOfStock");
+
+            }
+        }
     }
 
     @FXML
@@ -223,6 +285,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
         this.sparePartFilList.setPredicate(_ -> true);
         this.sparePartSelectedView.getItems().clear();
         this.sparePartSelectedView.refresh();
+        this.interactor.retrieveSparePartsList();
     }
 
     @FXML
@@ -311,8 +374,57 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
-    public void confirmPlantElement() {
+    public void confirmPlantElement(int elementId) {
         this.isPElementSelected = true;
+        this.plantElementId = elementId;
+    }
+
+    @Override
+    public void setSparePartTableItems(List<SparePartModel> sparePartList) {
+        ObservableList<SparePartModel> sparePartObsList = FXCollections.observableList(sparePartList);
+        this.sparePartFilList = new FilteredList<>(sparePartObsList);
+        this.sparePartTable.setItems(sparePartFilList);
+    }
+
+    @Override
+    public boolean isPlantElementConfirmed() {
+        return this.isPElementSelected;
+    }
+
+    @Override
+    public int getPlantElementId() {
+        if (isPElementSelected) {
+            return this.plantElementId;
+        }
+        return -1;
+    }
+
+    @Override
+    public List<Integer> getAssignedCategories() {
+        return this.assignedCategoryList;
+    }
+
+    @Override
+    public boolean isHolderConfirmed() {
+        return this.isHolderSelected;
+    }
+
+    @Override
+    public int getHolderId() {
+        if (isHolderSelected) {
+            return this.holderId;
+        }
+        return -1;
+    }
+
+    @Override
+    public List<Integer> getParticipantsList() {
+        return this.participantList;
+    }
+
+    @Override
+    public List<UsedSparePartModel> getSparePartsList() {
+        return this.usedSparePartList;
     }
 
 
@@ -320,7 +432,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     /**
      * Sets the function to filter the spare part table according to the selected criteria, name or spare part number.
-     * Ref. [3]
+     * Ref. [1]
      */
     private void setSparePartSearchFunction() {
         String[] list = PropertiesLoader.GetStringArray("workOrder.sparePart.searchList");
@@ -345,7 +457,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     /**
      * Initialises and restricts the input format of the selector.
-     * Ref. [1]
+     * Ref. [2]
      */
     private void setSparePartSelector() {
         numSelected.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 500, 1));
@@ -359,5 +471,14 @@ public class WorkOrderDataController implements WorkOrderDataView {
             return null;
         });
         numSelected.getEditor().setTextFormatter(newStockFormatter);
+    }
+
+    /**
+     * Updates the filter of the spare part table to not show the spare parts that have already been selected.
+     */
+    private void updateFilter() {
+        sparePartFilList.setPredicate(sparePart -> usedSparePartList.stream().noneMatch(
+                usedSparePart -> usedSparePart.getSparePartId() == sparePart.getSparePartId()
+        ));
     }
 }

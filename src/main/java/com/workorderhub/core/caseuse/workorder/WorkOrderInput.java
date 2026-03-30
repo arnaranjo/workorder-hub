@@ -35,6 +35,11 @@ public interface WorkOrderInput {
     void retrieveHoldersList();
 
     /**
+     * Retrieves the list of spare parts available.
+     */
+    void retrieveSparePartsList();
+
+    /**
      * Retrieves the Plant element information based on the provided element tag.
      * @param plantElement Request containing the element tag.
      */

@@ -10,6 +10,7 @@ public class CategoryModel {
     private String description;
 
     public CategoryModel(int id, String name, String description) {
+        this.id = id;
         this.name = name;
         this.description = description;
     }

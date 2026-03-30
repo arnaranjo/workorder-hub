@@ -31,6 +31,7 @@ public interface SparePartsView {
      */
     void setSparePartTableEdition();
 
+    //TODO: replace row to sparepartmodel
     /**
      * Populates the spare part table.
      *

@@ -24,6 +24,19 @@ public class ViewLoader {
     public ViewLoader() {
     }
 
+    private javafx.util.Callback<Class<?>, Object> buildControllerFactory() {
+        return type -> {
+            if (controllerCreators.containsKey(type)) {
+                return controllerCreators.get(type).get();
+            }
+            try {
+                return type.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Error al crear controlador: " + type, e);
+            }
+        };
+    }
+
     /**
      * Loads the window into a fixed view.
      *
@@ -36,17 +49,7 @@ public class ViewLoader {
     ) {
         FXMLLoader loader = new FXMLLoader(viewPath);
 
-        loader.setControllerFactory(type -> {
-            if (controllerCreators.containsKey(type)) {
-                return controllerCreators.get(type).get();
-            }
-
-            try {
-                return type.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Error al crear controlador: " + type, e);
-            }
-        });
+        loader.setControllerFactory(buildControllerFactory());
 
         try {
             Stage stage = new Stage();
@@ -77,17 +80,7 @@ public class ViewLoader {
     ) {
         FXMLLoader loader = new FXMLLoader(viewPath);
 
-        loader.setControllerFactory(type -> {
-            if (controllerCreators.containsKey(type)) {
-                return controllerCreators.get(type).get();
-            }
-
-            try {
-                return type.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Error al crear controlador: " + type, e);
-            }
-        });
+        loader.setControllerFactory(buildControllerFactory());
 
         try {
             Stage stage = new Stage();
