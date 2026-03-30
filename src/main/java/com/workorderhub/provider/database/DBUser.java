@@ -64,7 +64,7 @@ public class DBUser implements UserGateway {
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setString(1, userRole.GetRoleName());
+            statement.setString(1, userRole.getRoleName());
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

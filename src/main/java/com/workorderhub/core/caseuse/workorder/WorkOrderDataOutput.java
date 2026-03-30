@@ -1,6 +1,7 @@
 package com.workorderhub.core.caseuse.workorder;
 
 import com.workorderhub.core.entity.Category;
+import com.workorderhub.core.entity.User;
 
 import java.util.List;
 
@@ -17,4 +18,23 @@ public interface WorkOrderDataOutput {
      * @param response Response with the plant element information to be displayed in the view.
      */
     void displayPlantElementInfo(ResponsePlantElement response);
+
+    /**
+     * Displays the list of technicians in the view.
+     * @param technicianList A list of strings representing the names of the user as technicians.
+     */
+    void displayTechnicianList(List<User> technicianList);
+
+    /**
+     * Displays the list of holders in the view.
+     * @param holderList A list of strings representing the names of the user as holders.
+     * @param userRole A string representing the role of the user supervisor.
+     */
+    void displayHolderList(List<User> holderList, String userRole);
+
+    /**
+     * Displays an error message in the view based on the provided WorkOrderEnum value.
+     * @param workOrderEnum An enum value representing the specific error to be displayed in the view.
+     * */
+    void displayError(WorkOrderEnum workOrderEnum);
 }

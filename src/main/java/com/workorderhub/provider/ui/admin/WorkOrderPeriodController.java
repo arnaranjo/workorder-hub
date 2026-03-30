@@ -45,7 +45,7 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     public void initialize() {
 
         // "Valid Period" tab content
-        workOrderIdColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.wOrderId"));
+        workOrderIdColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.workOrderId"));
         workOrderIdColumn.setCellValueFactory(new PropertyValueFactory<>("workOrderId"));
         workOrderStartDateColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.startDate"));
         workOrderStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));

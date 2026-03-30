@@ -5,12 +5,24 @@ package com.workorderhub.provider.models;
  */
 public class CategoryModel {
 
+    private int id;
     private String name;
     private String description;
 
-    public CategoryModel(String name, String description) {
+    public CategoryModel(int id, String name, String description) {
         this.name = name;
         this.description = description;
+    }
+
+    public CategoryModel() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

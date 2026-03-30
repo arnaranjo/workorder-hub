@@ -2,6 +2,8 @@ package com.workorderhub.core.caseuse.workorder;
 
 import com.workorderhub.core.entity.Category;
 import com.workorderhub.core.entity.PlantElement;
+import com.workorderhub.core.entity.User;
+import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.core.gateway.CategoryGateway;
 import com.workorderhub.core.gateway.PlantElementGateway;
 import com.workorderhub.core.gateway.UserGateway;
@@ -63,12 +65,24 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
     @Override
     public void retrieveTechnicianList() {
+        List<User> technicianList = userGateway.getUsersByRole(UserRoleEnum.TECHNICIAN);
+        if (technicianList.isEmpty()) {
+            dataOutput.displayError(WorkOrderEnum.NO_TECHNICIANS);
 
+        } else {
+            dataOutput.displayTechnicianList(technicianList);
+        }
     }
 
     @Override
     public void retrieveHoldersList() {
+        List<User> holderList = userGateway.getUsersByRole(UserRoleEnum.SUPERVISOR);
+        if (holderList.isEmpty()) {
+            dataOutput.displayError(WorkOrderEnum.NO_SUPERVISORS);
 
+        } else {
+            dataOutput.displayHolderList(holderList, UserRoleEnum.SUPERVISOR.getRoleName());
+        }
     }
 
     @Override
@@ -86,16 +100,13 @@ public class WorkOrderInteractor implements WorkOrderInput {
                             plantElement.getInspectionDate(),
                             plantElement.getInspectionFrequency()
                     );
-
             dataOutput.displayPlantElementInfo(response);
 
         } else{
-            //Error
+            dataOutput.displayError(WorkOrderEnum.NO_PLANT_ELEMENT);
 
         }
     }
-
-    //Methods
 
 
     /**
@@ -166,4 +177,3 @@ public class WorkOrderInteractor implements WorkOrderInput {
         }
     }
 }
-

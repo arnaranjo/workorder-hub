@@ -11,7 +11,7 @@ public enum UserRoleEnum {
         this.userRole = userRole;
     }
 
-    public String GetRoleName(){
+    public String getRoleName(){
         return this.userRole;
     }
 }

@@ -1,5 +1,7 @@
 package com.workorderhub.core.caseuse.workorder;
 
 public enum WorkOrderEnum {
-    NO_PLANT_ELEMENT
+    NO_PLANT_ELEMENT,
+    NO_TECHNICIANS,
+    NO_SUPERVISORS,
 }

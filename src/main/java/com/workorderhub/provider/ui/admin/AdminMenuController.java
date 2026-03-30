@@ -184,7 +184,7 @@ public class AdminMenuController {
 
         viewLoader.registerController(WorkOrderDataController.class, () -> {
             WorkOrderDataController dataController = new WorkOrderDataController(interactor);
-            dataPresenter.setView(dataController);
+            dataPresenter.setViewController(dataController);
             return dataController;
         });
 

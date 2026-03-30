@@ -118,7 +118,7 @@
             <ChoiceBox fx:id="workOrderCategorySelector" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
                        GridPane.columnIndex="2" GridPane.rowIndex="6"/>
             <Button alignment="CENTER" layoutX="10.0" layoutY="116.0" maxWidth="300.0" minWidth="220.0"
-                    mnemonicParsing="false" onAction="#AddWorkOrderCategory" prefWidth="220.0" text="Select"
+                    mnemonicParsing="false" onAction="#addWorkOrderCategory" prefWidth="220.0" text="Select"
                     GridPane.columnIndex="2" GridPane.rowIndex="7"/>
             <Label fx:id="tagLabel" text="TAG: " GridPane.columnIndex="1" GridPane.rowIndex="6"/>
             <Label fx:id="locationLabel" text="LOCATION: " GridPane.columnIndex="1"
@@ -147,7 +147,7 @@
             </Label>
             <ChoiceBox fx:id="holderSelector" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
                        GridPane.rowIndex="14"/>
-            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#SelectHolder"
+            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#selectHolder"
                     prefWidth="220.0" text="Select" GridPane.rowIndex="15"/>
             <Label fx:id="holderName" text="NAME:" GridPane.columnIndex="1" GridPane.rowIndex="14"/>
             <Label fx:id="holderContact" text="CONTACT: " GridPane.columnIndex="1" GridPane.rowIndex="15"/>
@@ -158,10 +158,10 @@
             </Label>
             <ChoiceBox fx:id="technicianSelector" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
                        GridPane.columnIndex="2" GridPane.rowIndex="14"/>
-            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#AddTechnician"
+            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#addTechnician"
                     prefWidth="220.0" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="15"/>
             <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false"
-                    onAction="#ClearTechnicianList" prefWidth="220.0" text="Clean list"
+                    onAction="#clearTechnicianList" prefWidth="220.0" text="Clean list"
                     GridPane.columnIndex="2" GridPane.rowIndex="16"/>
             <ListView fx:id="participantView" prefHeight="110.0" GridPane.columnIndex="3"
                       GridPane.rowIndex="14" GridPane.rowSpan="3"/>
@@ -178,7 +178,7 @@
                      GridPane.rowIndex="22"/>
             <ChoiceBox fx:id="sparePartSearch" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
                        GridPane.rowIndex="19"/>
-            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#CleanSparePartList"
+            <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#cleanSparePartList"
                     prefWidth="220.0" text="Clean list" GridPane.rowIndex="24"/>
             <Separator layoutX="30.0" layoutY="254.0" prefWidth="200.0" GridPane.columnSpan="4"
                        GridPane.rowIndex="17"/>
@@ -191,7 +191,7 @@
             <ListView fx:id="sparePartSelectedView" GridPane.columnSpan="4" GridPane.rowIndex="25"
                       GridPane.rowSpan="5" GridPane.vgrow="ALWAYS"/>
             <Button layoutX="626.0" layoutY="654.0" maxWidth="300.0" minWidth="220.0"
-                    mnemonicParsing="false" onAction="#ClearCategoryList" prefWidth="220.0"
+                    mnemonicParsing="false" onAction="#clearCategoryList" prefWidth="220.0"
                     text="Clean list" GridPane.columnIndex="2" GridPane.rowIndex="8"/>
         </GridPane>
     </ScrollPane>

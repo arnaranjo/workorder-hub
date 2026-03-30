@@ -3,20 +3,34 @@ package com.workorderhub.provider.models;
 public class ParticipantModel {
 
     private long workOrderId;
-    private int employeeId;
-    private String employeeName;
-    private String employeeEmail;
-    private String employeePhoneNumber;
+    private int userId;
+    private String userName;
+    private String userEmail;
+    private String userPhoneNumber;
 
     public ParticipantModel() {
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public ParticipantModel(
+            long workOrderId,
+            int userId,
+            String userName,
+            String userEmail,
+            String userPhoneNumber
+    ) {
+        this.workOrderId = workOrderId;
+        this.userId = userId;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPhoneNumber = userPhoneNumber;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public long getWorkOrderId() {
@@ -27,27 +41,27 @@ public class ParticipantModel {
         this.workOrderId = workOrderId;
     }
 
-    public String getEmployeeName() {
-        return employeeName;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getEmployeeEmail() {
-        return employeeEmail;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setEmployeeEmail(String employeeEmail) {
-        this.employeeEmail = employeeEmail;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
     }
 
-    public String getEmployeePhoneNumber() {
-        return employeePhoneNumber;
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 
-    public void setEmployeePhoneNumber(String employeePhoneNumber) {
-        this.employeePhoneNumber = employeePhoneNumber;
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
     }
 }
