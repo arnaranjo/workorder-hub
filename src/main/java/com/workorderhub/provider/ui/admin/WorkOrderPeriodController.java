@@ -3,10 +3,10 @@ package com.workorderhub.provider.ui.admin;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPeriodView;
 import com.workorderhub.provider.common.PropertiesLoader;
-import com.workorderhub.provider.models.*;
+import com.workorderhub.provider.common.Util;
+import com.workorderhub.provider.models.WorkFrontModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,8 +24,9 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     private WorkOrderInput interactor;
 
     //"Valid period" tab content
+
     @FXML
-    protected TableView<WorkOrderModel> workFrontTable;
+    protected TableView<WorkFrontModel> workFrontTable;
     @FXML
     protected DatePicker startDatePicker;
     @FXML
@@ -33,11 +34,10 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     @FXML
     protected Label confirmationLabel;
 
-    private TableColumn<WorkOrderModel, Long> workOrderIdColumn;
-    private TableColumn<WorkOrderModel, LocalDate> workOrderStartDateColumn;
-    private TableColumn<WorkOrderModel, LocalDate> workOrderEndDateColumn;
-    private TableColumn<WorkOrderModel, String> workOrderDescriptionColumn;
-    private ObservableList<WorkOrderModel> workOrderInfoObsList;
+    private TableColumn<WorkFrontModel, Long> workOrderIdColumn;
+    private TableColumn<WorkFrontModel, LocalDate> workOrderStartDateColumn;
+    private TableColumn<WorkFrontModel, LocalDate> workOrderEndDateColumn;
+    private TableColumn<WorkFrontModel, String> workOrderPlantElementColumn;
     private boolean isPeriodSelected;
 
     public void initialize() {
@@ -49,29 +49,88 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
         workOrderStartDateColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         workOrderEndDateColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.endDate"));
         workOrderEndDateColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        workOrderDescriptionColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.description"));
-        workOrderDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        workOrderPlantElementColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.validPeriod.plantElementTag"));
+        workOrderPlantElementColumn.setCellValueFactory(new PropertyValueFactory<>("plantElementTag"));
         workFrontTable.setPlaceholder(new Label(PropertiesLoader.GetText("workOrder.validPeriod.placeHolder")));
         workFrontTable.getColumns().add(workOrderIdColumn);
         workFrontTable.getColumns().add(workOrderStartDateColumn);
         workFrontTable.getColumns().add(workOrderEndDateColumn);
-        workFrontTable.getColumns().add(workOrderDescriptionColumn);
+        workFrontTable.getColumns().add(workOrderPlantElementColumn);
 
         startDatePicker.setValue(LocalDate.now());
         endDatePicker.setValue(LocalDate.now());
-        //PopulateWorkOrderTable();
-        //SetDatesRestrictions();
+
+        interactor.retrieveWorkFrontList();
+        setDatesRestrictions();
 
     }
 
-    public WorkOrderPeriodController (WorkOrderInput interactor) {
+    public WorkOrderPeriodController(WorkOrderInput interactor) {
         this.interactor = interactor;
     }
 
     //Valid period tab method
 
     @FXML
-    private void ConfirmDates(ActionEvent actionEvent) {
+    private void confirmDates() {
+        if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
+
+            String confTitle = "workOrder.validPeriod.ConfPeriodTitle";
+            String confMessage = "workOrder.validPeriod.ConfPeriodMessage";
+
+            this.isPeriodSelected = Util.RequestConfirmation(confTitle, confMessage);
+
+            if (isPeriodSelected) {
+                this.confirmationLabel.setText(PropertiesLoader.GetText("workOrder.validPeriod.ConfDates"));
+            }
+        }
     }
 
+    @Override
+    public void setWorkFrontList(List<WorkFrontModel> workFrontModelList) {
+        ObservableList<WorkFrontModel> workOrderInfoObsList = FXCollections.observableList(workFrontModelList);
+        workFrontTable.setItems(workOrderInfoObsList);
+    }
+
+    /**
+     * Controls the date inputs to avoid select passed dates and no logic end dates.
+     * Ref. [1]
+     */
+    private void setDatesRestrictions() {
+        startDatePicker.setEditable(false);
+        endDatePicker.setEditable(false);
+
+        startDatePicker.setDayCellFactory(_ -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(LocalDate.now()));
+            }
+
+        });
+
+        endDatePicker.setDayCellFactory(_ -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.isBefore(startDatePicker.getValue()));
+            }
+
+        });
+
+        startDatePicker.valueProperty().addListener((_, _, newValue) -> {
+            if (newValue.isAfter(endDatePicker.getValue())) {
+                endDatePicker.setValue(startDatePicker.getValue());
+            }
+        });
+    }
+
+    /**
+     * Checks if the user has selected and confirmed a valid period for the work order.
+     *
+     * @return true if the user has selected and confirmed a valid period, false otherwise.
+     */
+    public boolean isPeriodSelected() {
+        return isPeriodSelected;
+    }
 }

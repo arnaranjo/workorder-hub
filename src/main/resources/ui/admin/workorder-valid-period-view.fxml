@@ -56,7 +56,7 @@
                     GridPane.columnIndex="1" GridPane.rowIndex="1"/>
         <Label fx:id="confirmationLabel" text="CONFIRMATION: " GridPane.rowIndex="2"/>
         <Label text="Current work front:" GridPane.rowIndex="3"/>
-        <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#ConfirmDates"
+        <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#confirmDates"
                 prefWidth="220.0" text="Confirm" GridPane.columnIndex="2" GridPane.halignment="LEFT"
                 GridPane.rowIndex="1"/>
     </GridPane>

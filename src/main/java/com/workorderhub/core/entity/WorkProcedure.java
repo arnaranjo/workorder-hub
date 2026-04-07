@@ -11,6 +11,9 @@ public class WorkProcedure {
     private String documentCode;
     private String documentName;
 
+    public WorkProcedure() {
+    }
+
     public WorkProcedure(int procedureId, String documentCode, String documentName) {
         this.procedureId = procedureId;
         this.documentCode = documentCode;

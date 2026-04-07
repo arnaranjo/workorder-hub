@@ -191,7 +191,7 @@ public class AdminMenuController {
 
         viewLoader.registerController(WorkOrderPeriodController.class, () -> {
             WorkOrderPeriodController periodController = new WorkOrderPeriodController(interactor);
-            periodPresenter.setView(periodController);
+            periodPresenter.setViewController(periodController);
             return periodController;
         });
 

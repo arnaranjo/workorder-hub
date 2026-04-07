@@ -121,6 +121,25 @@ public class WorkOrderInteractor implements WorkOrderInput {
         }
     }
 
+    @Override
+    public void retrieveWorkFrontList() {
+        List<WorkFrontRow> workFrontRowList = workOrderGateway.getWorkFrontList().stream()
+                .map(workOrderElement -> new WorkFrontRow(
+                        workOrderElement.getWorkOrder().getWorkOrderId(),
+                        workOrderElement.getWorkOrder().getDescription(),
+                        workOrderElement.getWorkOrder().getStartDate(),
+                        workOrderElement.getWorkOrder().getEndDate(),
+                        workOrderElement.getPlantElement().getElementTag(),
+                        workOrderElement.getWorkProcedure().getDocumentCode(),
+                        workOrderElement.getWorkPermit().getLockoutDeviceId(),
+                        workOrderElement.getLotoProcedure().getDocumentCode(),
+                        workOrderElement.getUser().getUserName(),
+                        workOrderElement.getCurrentStatus().getOrderStatus()
+                )).toList();
+
+        periodOutput.displayWorkFrontList(workFrontRowList);
+    }
+
 
     /**
      * Builder class to create a WorkOrderInteractor instance with the necessary output interfaces and gateways.

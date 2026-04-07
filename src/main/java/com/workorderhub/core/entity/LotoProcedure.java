@@ -11,6 +11,8 @@ public class LotoProcedure {
     private String documentCode;
     private String documentName;
 
+    public LotoProcedure(){}
+
     public LotoProcedure(int procedureId, String documentCode, String documentName) {
         this.procedureId = procedureId;
         this.documentCode = documentCode;

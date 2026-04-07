@@ -44,4 +44,9 @@ public interface WorkOrderInput {
      * @param plantElement Request containing the element tag.
      */
     void getPlantElement(RequestPlantElement plantElement);
+
+    /**
+     * Retrieves the list of work orders that are active (Open and In progress) and their information.
+     */
+    void retrieveWorkFrontList();
 }
