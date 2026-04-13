@@ -49,4 +49,9 @@ public interface WorkOrderInput {
      * Retrieves the list of work orders that are active (Open and In progress) and their information.
      */
     void retrieveWorkFrontList();
+
+    /**
+     * Retrieves the list of work procedures available and their information.
+     */
+    void retrieveWorkProcedureList();
 }

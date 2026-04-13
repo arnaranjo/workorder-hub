@@ -173,6 +173,7 @@ public class AdminMenuController {
                 .withUserGateway(new DBUser())
                 .withPlantElementGateway(new DBPlantElement())
                 .withSparePartGateway(new DBSparePart())
+                .withWorkProcedureGateway(new DBWorkProcedure())
                 .build();
 
         ViewLoader viewLoader = new ViewLoader();

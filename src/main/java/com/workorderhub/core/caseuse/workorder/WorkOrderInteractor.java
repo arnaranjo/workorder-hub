@@ -19,6 +19,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
     private final UserGateway userGateway;
     private final PlantElementGateway plantElementGateway;
     private final SparePartGateway sparePartGateway;
+    private final WorkProcedureGateway workProcedureGateway;
 
     private WorkOrderInteractor(Builder builder) {
         this.mainOutput = builder.mainOutput;
@@ -31,6 +32,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         this.userGateway = builder.userGateway;
         this.plantElementGateway = builder.plantElementGateway;
         this.sparePartGateway = builder.sparePartGateway;
+        this.workProcedureGateway = builder.workProcedureGateway;
     }
 
     @Override
@@ -140,6 +142,18 @@ public class WorkOrderInteractor implements WorkOrderInput {
         periodOutput.displayWorkFrontList(workFrontRowList);
     }
 
+    @Override
+    public void retrieveWorkProcedureList() {
+        List<WorkProcedureRow> workProcedureRowList = workProcedureGateway.getWorkProcedureList().stream()
+                .map(workProcedure -> new WorkProcedureRow(
+                        workProcedure.getProcedureId(),
+                        workProcedure.getDocumentCode(),
+                        workProcedure.getDocumentName()
+                )).toList();
+
+        procedureOutput.retrieveWorkProcedureList(workProcedureRowList);
+    }
+
 
     /**
      * Builder class to create a WorkOrderInteractor instance with the necessary output interfaces and gateways.
@@ -155,6 +169,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         private UserGateway userGateway;
         private PlantElementGateway plantElementGateway;
         private SparePartGateway sparePartGateway;
+        private WorkProcedureGateway workProcedureGateway;
 
         public Builder() {
         }
@@ -206,6 +221,11 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
         public Builder withSparePartGateway(SparePartGateway sparePartGateway) {
             this.sparePartGateway = sparePartGateway;
+            return this;
+        }
+
+        public Builder withWorkProcedureGateway(WorkProcedureGateway workProcedureGateway) {
+            this.workProcedureGateway = workProcedureGateway;
             return this;
         }
 

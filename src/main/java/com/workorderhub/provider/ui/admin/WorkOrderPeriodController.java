@@ -75,13 +75,13 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     private void confirmDates() {
         if (startDatePicker.getValue() != null && endDatePicker.getValue() != null) {
 
-            String confTitle = "workOrder.validPeriod.ConfPeriodTitle";
-            String confMessage = "workOrder.validPeriod.ConfPeriodMessage";
+            String confTitle = "workOrder.validPeriod.confPeriodTitle";
+            String confMessage = "workOrder.validPeriod.confPeriodMessage";
 
             this.isPeriodSelected = Util.RequestConfirmation(confTitle, confMessage);
 
             if (isPeriodSelected) {
-                this.confirmationLabel.setText(PropertiesLoader.GetText("workOrder.validPeriod.ConfDates"));
+                this.confirmationLabel.setText(PropertiesLoader.GetText("workOrder.validPeriod.confDates"));
             }
         }
     }

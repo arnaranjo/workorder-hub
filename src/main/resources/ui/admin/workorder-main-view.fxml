@@ -31,7 +31,7 @@
                     <fx:include fx:id="dataView" source="workorder-data-view.fxml"/>
                 </StackPane>
             </Tab>
-            <Tab fx:id="validPeriodTab" closable="false" text="Work Order Data">
+            <Tab fx:id="validPeriodTab" closable="false" text="Valid Period">
                 <StackPane>
                     <fx:include fx:id="validPeriodView" source="workorder-valid-period-view.fxml"/>
                 </StackPane>
