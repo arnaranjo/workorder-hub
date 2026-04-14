@@ -20,6 +20,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
     private final PlantElementGateway plantElementGateway;
     private final SparePartGateway sparePartGateway;
     private final WorkProcedureGateway workProcedureGateway;
+    private final LotoProcedureGateway lotoProcedureGateway;
 
     private WorkOrderInteractor(Builder builder) {
         this.mainOutput = builder.mainOutput;
@@ -33,6 +34,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         this.plantElementGateway = builder.plantElementGateway;
         this.sparePartGateway = builder.sparePartGateway;
         this.workProcedureGateway = builder.workProcedureGateway;
+        this.lotoProcedureGateway = builder.lotoProcedureGateway;
     }
 
     @Override
@@ -154,6 +156,17 @@ public class WorkOrderInteractor implements WorkOrderInput {
         procedureOutput.retrieveWorkProcedureList(workProcedureRowList);
     }
 
+    @Override
+    public void retrieveLotoProcedureList() {
+        List<LotoProcedureRow> lotoProcedureRowList = lotoProcedureGateway.getLotoProceduresList().stream()
+                .map(lotoProcedure -> new LotoProcedureRow(
+                        lotoProcedure.getProcedureId(),
+                        lotoProcedure.getDocumentCode(),
+                        lotoProcedure.getDocumentName()
+                )).toList();
+        permitOutput.displayLotoProcedureList(lotoProcedureRowList);
+    }
+
 
     /**
      * Builder class to create a WorkOrderInteractor instance with the necessary output interfaces and gateways.
@@ -170,6 +183,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         private PlantElementGateway plantElementGateway;
         private SparePartGateway sparePartGateway;
         private WorkProcedureGateway workProcedureGateway;
+        private LotoProcedureGateway lotoProcedureGateway;
 
         public Builder() {
         }
@@ -226,6 +240,11 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
         public Builder withWorkProcedureGateway(WorkProcedureGateway workProcedureGateway) {
             this.workProcedureGateway = workProcedureGateway;
+            return this;
+        }
+
+        public Builder withLotoProcedureGateway(LotoProcedureGateway lotoProcedureGateway) {
+            this.lotoProcedureGateway = lotoProcedureGateway;
             return this;
         }
 

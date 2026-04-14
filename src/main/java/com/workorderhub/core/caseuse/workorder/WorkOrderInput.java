@@ -54,4 +54,9 @@ public interface WorkOrderInput {
      * Retrieves the list of work procedures available and their information.
      */
     void retrieveWorkProcedureList();
+
+    /**
+     * Retrieves the list of LOTO procedures available and their information.
+     */
+    void retrieveLotoProcedureList();
 }

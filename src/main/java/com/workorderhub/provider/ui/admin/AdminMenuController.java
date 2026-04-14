@@ -174,6 +174,7 @@ public class AdminMenuController {
                 .withPlantElementGateway(new DBPlantElement())
                 .withSparePartGateway(new DBSparePart())
                 .withWorkProcedureGateway(new DBWorkProcedure())
+                .withLotoProcedureGateway(new DBLotoProcedure())
                 .build();
 
         ViewLoader viewLoader = new ViewLoader();
@@ -204,7 +205,7 @@ public class AdminMenuController {
 
         viewLoader.registerController(WorkOrderPermitController.class, () -> {
             WorkOrderPermitController permitController = new WorkOrderPermitController(interactor);
-            permitPresenter.setView(permitController);
+            permitPresenter.setViewController(permitController);
             return permitController;
         });
 

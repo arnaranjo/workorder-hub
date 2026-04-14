@@ -4,7 +4,7 @@ import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderProcedureView;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.Util;
-import com.workorderhub.provider.models.*;
+import com.workorderhub.provider.models.WorkProcedureModel;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -40,13 +40,17 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
     private TableColumn<WorkProcedureModel, String> workProcedureCodeColumn;
     private TableColumn<WorkProcedureModel, String> workProcedureNameColumn;
     private FilteredList<WorkProcedureModel> workProcedureFilList;
-    private int workProcedureId;
+
     private boolean isWorkProcedureSelected;
     private WorkProcedureModel selectedWorkProcedure;
 
     public void initialize() {
 
         // "Work Procedures" tab content
+
+        this.isWorkProcedureSelected = false;
+        this.selectedWorkProcedure = null;
+
         workProcedureIdColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.workProcedure.workProcedureId"));
         workProcedureIdColumn.setCellValueFactory(new PropertyValueFactory<>("workProcedureId"));
         workProcedureCodeColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.workProcedure.code"));
@@ -81,11 +85,9 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
                 String ConfMessage = "workOrder.workProcedure.confWorkProcedureMessage";
 
                 if (Util.RequestConfirmation(ConfTitle, ConfMessage)) {
-                    selectedWorkProcedure = workProcedureTable.getSelectionModel().getSelectedItem();
 
                     this.isWorkProcedureSelected = true;
-
-                    this.workProcedureId = selectedWorkProcedure.getWorkProcedureId();
+                    this.selectedWorkProcedure = workProcedureTable.getSelectionModel().getSelectedItem();
 
                     workProcedureLabel.setText(
                             PropertiesLoader.GetText("workOrder.workProcedure.codeDefault") + " " +
@@ -151,13 +153,19 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
 
     /**
      * Check if a work procedure is selected.
+     *
      * @return true if a work procedure is selected, false otherwise.
      */
     public boolean isWorkProcedureSelected() {
         return this.isWorkProcedureSelected;
     }
 
-    public int getWorkProcedureId() {
-        return this.workProcedureId;
+    /**
+     * Gets the selected work procedure.
+     *
+     * @return the selected work procedure, null if no work procedure is selected.
+     */
+    public WorkProcedureModel getSelectedWorkProcedure() {
+        return this.selectedWorkProcedure;
     }
 }

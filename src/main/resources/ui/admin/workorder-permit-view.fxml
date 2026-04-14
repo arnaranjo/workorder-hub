@@ -65,7 +65,7 @@
                   promptText="Risks and preventive measures..." GridPane.columnSpan="3"
                   GridPane.rowIndex="1"/>
         <Button fx:id="selectLotoButton" maxWidth="300.0" minWidth="220.0" mnemonicParsing="false"
-                onAction="#SelectLotoProcedure" prefWidth="220.0" text="Select" GridPane.rowIndex="8">
+                onAction="#selectLotoProcedure" prefWidth="220.0" text="Select" GridPane.rowIndex="8">
             <GridPane.margin>
                 <Insets/>
             </GridPane.margin>
@@ -83,7 +83,7 @@
                 <Font size="18.0"/>
             </font>
         </Label>
-        <CheckBox fx:id="cBoxLoto" mnemonicParsing="false" onAction="#ToggleLoto"
+        <CheckBox fx:id="cBoxLoto" mnemonicParsing="false" onAction="#toggleLoto"
                   text="Does an element need to be locked?" GridPane.rowIndex="4"/>
         <TextField fx:id="lotoProcedureField" maxWidth="Infinity" minWidth="220.0"
                    prefWidth="220.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
