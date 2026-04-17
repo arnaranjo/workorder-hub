@@ -1,10 +1,16 @@
 package com.workorderhub.provider.ui.admin;
 
-import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
-import com.workorderhub.core.caseuse.workorder.WorkOrderMainView;
-import com.workorderhub.core.caseuse.workorder.WorkOrderPeriodView;
+import com.workorderhub.core.caseuse.workorder.*;
+import com.workorderhub.provider.models.CategoryModel;
+import com.workorderhub.provider.models.ParticipantModel;
+import com.workorderhub.provider.models.UsedSparePartModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller associated with the creation of a new work order form.
@@ -18,27 +24,31 @@ public class WorkOrderMainController implements WorkOrderMainView {
     private WorkOrderInput interactor;
 
     @FXML
-    protected WorkOrderDataController dataViewController;
+    protected WorkOrderDataView dataViewController;
     @FXML
     protected WorkOrderPeriodView validPeriodViewController;
     @FXML
-    protected WorkOrderProcedureController workProcedureViewController;
+    protected WorkOrderProcedureView workProcedureViewController;
     @FXML
-    protected WorkOrderPermitController workPermitViewController;
+    protected WorkOrderPermitView workPermitViewController;
 
     //General
+
     @FXML
     protected Label mainLabel;
 
     //"Valid period" tab content
+
     @FXML
     protected Tab validPeriodTab;
 
     //"Work procedure" tab content
+
     @FXML
     protected Tab workProcedureTab;
 
     //"Work permit" tab content
+
     @FXML
     protected Tab workPermitTab;
 
@@ -55,32 +65,84 @@ public class WorkOrderMainController implements WorkOrderMainView {
         this.interactor = interactor;
     }
 
-    //General
-    @FXML
-    protected void CreateNewWorkOrder() {
-        if (this.dataViewController.isPlantElementConfirmed()){
-            System.out.println(this.dataViewController.getPlantElementId());
-        } else if (this.dataViewController.isHolderConfirmed()) {
-            System.out.println(this.dataViewController.getHolderId());
-        }
-        System.out.println(this.dataViewController.getAssignedCategories());
-        System.out.println(this.dataViewController.getParticipantsList());
-        System.out.println(this.dataViewController.getSparePartsList());
+    // General methods
 
+    @FXML
+    protected void createNewWorkOrder() {
+
+        boolean hasValidPeriod = !validPeriodTab.isDisabled() && validPeriodViewController.isPeriodSelected();
+        LocalDate startDate = hasValidPeriod ? validPeriodViewController.getStartDate() : null;
+        LocalDate endDate = hasValidPeriod ? validPeriodViewController.getEndDate() : null;
+
+        Integer workProcedureId = !workProcedureTab.isDisabled()
+                ? workProcedureViewController.getSelectedWorkProcedure()
+                : null;
+
+        boolean hasWorkPermit = !workPermitTab.isDisabled();
+        String permitDescription = hasWorkPermit ? workPermitViewController.getPermitDescription() : null;
+        String lockDevices = hasWorkPermit ? workPermitViewController.getLockDevices() : null;
+        Integer lotoProcedureId = hasWorkPermit ? workPermitViewController.getSelectedLotoProcedureId() : null;
+
+        RequestNewWorkOrder request = new RequestNewWorkOrder.Builder()
+                .withDescription(dataViewController.getWorkOrderDescription())
+                .withPlantElementId(dataViewController.getPlantElementId())
+                .withHolderId(dataViewController.getHolderId())
+                .withValidPeriod(startDate, endDate)
+                .withSelectedProcedure(workProcedureId)
+                .withWorkPermit(permitDescription, lockDevices, lotoProcedureId)
+                .build(
+        );
+
+        List<RequestAssignCategory> requestAssignCategories = new ArrayList<>();
+        for (CategoryModel category : dataViewController.getAssignedCategories()) {
+            requestAssignCategories.add(new RequestAssignCategory(
+                    category.getId(),
+                    category.getName(),
+                    category.getDescription()
+            ));
+        }
+
+        List<RequestParticipants> requestParticipants = new ArrayList<>();
+        for (ParticipantModel participant : dataViewController.getParticipantsList()) {
+            requestParticipants.add(new RequestParticipants(
+                    participant.getUserId(),
+                    participant.getUserName(),
+                    participant.getUserEmail(),
+                    participant.getUserPhoneNumber()
+            ));
+        }
+
+        List<RequestUseSpareParts> requestSpareParts = new ArrayList<>();
+        for (UsedSparePartModel sparePart : dataViewController.getSparePartsList()) {
+            requestSpareParts.add(new RequestUseSpareParts(
+                    sparePart.getSparePartId(),
+                    sparePart.getSelectedNumber(),
+                    sparePart.getSpareName(),
+                    sparePart.getSpareNumber()
+            ));
+        }
+        interactor.createWorkOrder(
+                request,
+                requestAssignCategories,
+                requestParticipants,
+                requestSpareParts
+        );
     }
+
+    // Interface methods
 
     @Override
     public void toggleValidPeriodContent() {
-        validPeriodTab.setDisable(!dataViewController.cBoxSchedule.isSelected());
+        validPeriodTab.setDisable(!dataViewController.isValidPeriodRequired());
     }
 
     @Override
     public void toggleWorkProcedureContent() {
-        workProcedureTab.setDisable(!dataViewController.cBoxWorkProcedure.isSelected());
+        workProcedureTab.setDisable(!dataViewController.isWorkProcedureRequired());
     }
 
     @Override
     public void toggleWorkPermitContent() {
-        workPermitTab.setDisable(!dataViewController.cBoxWorkPermit.isSelected());
+        workPermitTab.setDisable(!dataViewController.isWorkPermitRequired());
     }
 }

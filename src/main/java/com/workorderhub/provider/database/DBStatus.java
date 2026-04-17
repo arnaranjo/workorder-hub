@@ -14,7 +14,7 @@ public class DBStatus implements com.workorderhub.core.gateway.StatusGateway {
     private Connection sqlManager;
 
     @Override
-    public List<Status> GetStatusList() {
+    public List<Status> getStatusList() {
         List<Status> statusList = new ArrayList<>();
         String sql = """
                 SELECT *
@@ -50,7 +50,7 @@ public class DBStatus implements com.workorderhub.core.gateway.StatusGateway {
     }
 
     @Override
-    public int InsertStatus(Status status) {
+    public int insertStatus(Status status) {
         int id = 0;
         String sql = """
                 INSERT INTO status
@@ -81,7 +81,7 @@ public class DBStatus implements com.workorderhub.core.gateway.StatusGateway {
     }
 
     @Override
-    public boolean DeleteStatus(Status status) {
+    public boolean deleteStatus(Status status) {
         String sql = """
                 DELETE FROM status
                 WHERE status_id = ?;
@@ -107,7 +107,7 @@ public class DBStatus implements com.workorderhub.core.gateway.StatusGateway {
     }
 
     @Override
-    public boolean UpdateStatus(Status status) {
+    public boolean updateStatus(Status status) {
         String sql = """
                 UPDATE status
                 SET order_status = ?

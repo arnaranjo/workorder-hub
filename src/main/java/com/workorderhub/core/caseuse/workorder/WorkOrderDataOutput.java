@@ -33,6 +33,10 @@ public interface WorkOrderDataOutput {
      */
     void displayHolderList(List<User> holderList, String userRole);
 
+    /**
+     * Displays the list of spare parts in the view.
+     * @param sparePartRowList A list of SparePartRow objects representing the spare parts to be displayed in the view.
+     */
     void displaySparePartsList(List<SparePartRow> sparePartRowList);
 
     /**

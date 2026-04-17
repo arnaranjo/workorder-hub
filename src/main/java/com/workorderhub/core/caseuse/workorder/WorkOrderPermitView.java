@@ -11,4 +11,26 @@ public interface WorkOrderPermitView {
      * @param lotoProcedureList List of LOTO procedures to be displayed.
      */
     void setLotoProcedureList(List<LotoProcedureModel> lotoProcedureList);
+
+    /**
+     * Retrieves the LOTO procedure selected for the work permit.
+     *
+     * @return the LOTO procedure selected for the work permit, null if no LOTO procedure has been selected.
+     */
+    String getPermitDescription();
+
+    /**
+     * Gets the lock devices specified for the LOTO procedure of the work permit.
+     *
+     * @return the lock devices specified for the LOTO procedure of the work permit,
+     * null if no lock devices have been specified.
+     */
+    String getLockDevices();
+
+    /**
+     * Gets the selected LOTO procedure for the work permit.
+     *
+     * @return the selected LOTO procedure ID for the work permit, null if no LOTO procedure has been selected.
+     */
+    Integer getSelectedLotoProcedureId();
 }

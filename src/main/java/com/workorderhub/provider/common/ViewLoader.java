@@ -15,19 +15,34 @@ import java.util.function.Supplier;
  */
 public class ViewLoader {
 
-    private final Map<Class<?>, Supplier<?>> controllerCreators = new HashMap<>();
+    private final Map<Class<?>, Supplier<?>> controllersMap = new HashMap<>();
 
+    /**
+     * Registers a controller supplier for a specific controller class.
+     * @param clazz the controller class to register
+     * @param creator a supplier that creates instances of the controller class
+     * @param <T> the type of the controller class
+     */
     public <T> void registerController(Class<T> clazz, Supplier<T> creator) {
-        controllerCreators.put(clazz, creator);
+        controllersMap.put(clazz, creator);
     }
 
     public ViewLoader() {
     }
 
+    /**
+     * Creates a controller factory for `FXMLLoader`.
+     *  <p>
+     *  The factory first checks whether a controller supplier was registered for the requested controller class.
+     *  If found, it uses that supplier. Otherwise, it creates a new controller instance using the class * no-argument constructor.
+     *  </p>
+     *  @return a callback that provides controller instances for FXML loading
+     *  @throws RuntimeException if a controller cannot be instantiated
+     */
     private javafx.util.Callback<Class<?>, Object> buildControllerFactory() {
         return type -> {
-            if (controllerCreators.containsKey(type)) {
-                return controllerCreators.get(type).get();
+            if (controllersMap.containsKey(type)) {
+                return controllersMap.get(type).get();
             }
             try {
                 return type.getDeclaredConstructor().newInstance();

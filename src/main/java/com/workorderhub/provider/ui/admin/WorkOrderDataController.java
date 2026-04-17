@@ -28,12 +28,12 @@ import java.util.List;
  */
 public class WorkOrderDataController implements WorkOrderDataView {
 
-    private WorkOrderInput interactor;
+    private final WorkOrderInput interactor;
 
 
     //"Work Order" tab content - Options
     @FXML
-    protected CheckBox cBoxSchedule;
+    protected CheckBox cBoxValidPeriod;
     @FXML
     protected CheckBox cBoxWorkProcedure;
     @FXML
@@ -59,7 +59,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     protected ListView<String> workOrderCategoryView = new ListView<>();
 
     private List<CategoryModel> categoryList;
-    private List<Integer> assignedCategoryList;
+    private List<CategoryModel> assignedCategoryList;
 
     //"Work Order" tab content - Task description
     @FXML
@@ -84,7 +84,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     protected ListView<String> participantView;
 
     private List<ParticipantModel> technicianList;
-    private List<Integer> participantList;
+    private List<ParticipantModel> participantList;
 
     //"Work Order" tab content - Spare parts selection
     @FXML
@@ -163,7 +163,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
                     if (category.getName().equals(this.workOrderCategorySelector.getValue())) {
 
                         //Add to the AssignedList, the list of categories that will be assigned to the work order
-                        assignedCategoryList.add(category.getId());
+                        assignedCategoryList.add(category);
 
                     }
                 }
@@ -199,8 +199,8 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
                 //Check if the technician is already added as a participant
                 int selectedId = technician.getUserId();
-                for (Integer userId : participantList) {
-                    if (selectedId == userId) {
+                for (ParticipantModel pt : participantList) {
+                    if (selectedId == pt.getUserId()) {
                         isParticipant = true;
 
                         String title = "workOrder.assignment.errorTitle";
@@ -213,7 +213,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
                 //Add the technician as a participant if not already added
                 if (!isParticipant) {
-                    this.participantList.add(selectedId);
+                    this.participantList.add(technician);
                     displayTechnicianInfo(
                             technician.getUserName(),
                             technician.getUserPhoneNumber(),
@@ -255,6 +255,8 @@ public class WorkOrderDataController implements WorkOrderDataView {
                 UsedSparePartModel usedSparePart = new UsedSparePartModel();
                 usedSparePart.setSparePartId(selectedSparePart.getSparePartId());
                 usedSparePart.setSelectedNumber(numberSelected);
+                usedSparePart.setSpareName(selectedSparePart.getSpareName());
+                usedSparePart.setSpareNumber(selectedSparePart.getSpareNumber());
 
                 if (selectedSparePart.getSpareStock() == 0) {
                     sparePartSelectedView.getItems().add(
@@ -295,7 +297,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @FXML
-    protected void searchPlantElement(ActionEvent actionEvent) {
+    protected void searchPlantElement() {
         RequestPlantElement requestPlantElement = new RequestPlantElement(
                 this.plantElementField.getText()
         );
@@ -324,7 +326,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
 
-    // Interface methods for "Work Order" tab content
+    // Interface methods
 
     @Override
     public void setCategoryList(List<CategoryModel> categoryList) {
@@ -374,6 +376,26 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
+    public boolean isValidPeriodRequired() {
+        return this.cBoxValidPeriod.isSelected();
+    }
+
+    @Override
+    public boolean isWorkProcedureRequired() {
+        return this.cBoxWorkProcedure.isSelected();
+    }
+
+    @Override
+    public boolean isWorkPermitRequired() {
+        return this.cBoxWorkPermit.isSelected();
+    }
+
+    @Override
+    public String getWorkOrderDescription() {
+        return this.workOrderDescriptionArea.getText();
+    }
+
+    @Override
     public void confirmPlantElement(int elementId) {
         this.isPElementSelected = true;
         this.plantElementId = elementId;
@@ -392,15 +414,15 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
-    public int getPlantElementId() {
-        if (isPElementSelected) {
-            return this.plantElementId;
+    public Integer getPlantElementId() {
+        if (!isPElementSelected) {
+            return null;
         }
-        return -1;
+        return this.plantElementId;
     }
 
     @Override
-    public List<Integer> getAssignedCategories() {
+    public List<CategoryModel> getAssignedCategories() {
         return this.assignedCategoryList;
     }
 
@@ -410,15 +432,15 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
-    public int getHolderId() {
-        if (isHolderSelected) {
-            return this.holderId;
+    public Integer getHolderId() {
+        if (!isHolderSelected) {
+            return null;
         }
-        return -1;
+        return this.holderId;
     }
 
     @Override
-    public List<Integer> getParticipantsList() {
+    public List<ParticipantModel> getParticipantsList() {
         return this.participantList;
     }
 
@@ -427,8 +449,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
         return this.usedSparePartList;
     }
 
-
-    // Controller methods for "Work Order" tab content
+    // Auxiliary methods
 
     /**
      * Sets the function to filter the spare part table according to the selected criteria, name or spare part number.

@@ -19,5 +19,4 @@ public interface WorkOrderMainView {
      * It is allowed to create a work order without a specific work permit.
      */
     void toggleWorkPermitContent();
-
 }

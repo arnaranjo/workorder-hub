@@ -38,7 +38,10 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     private TableColumn<WorkFrontModel, LocalDate> workOrderStartDateColumn;
     private TableColumn<WorkFrontModel, LocalDate> workOrderEndDateColumn;
     private TableColumn<WorkFrontModel, String> workOrderPlantElementColumn;
+
     private boolean isPeriodSelected;
+    private LocalDate selectedStartDate;
+    private LocalDate selectedEndDate;
 
     public void initialize() {
 
@@ -82,6 +85,11 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
 
             if (isPeriodSelected) {
                 this.confirmationLabel.setText(PropertiesLoader.GetText("workOrder.validPeriod.confDates"));
+                this.selectedStartDate = startDatePicker.getValue();
+                this.selectedEndDate = endDatePicker.getValue();
+
+            } else {
+                this.selectedStartDate = this.selectedEndDate = null;
             }
         }
     }
@@ -132,5 +140,15 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
      */
     public boolean isPeriodSelected() {
         return isPeriodSelected;
+    }
+
+    @Override
+    public LocalDate getStartDate() {
+        return this.selectedStartDate;
+    }
+
+    @Override
+    public LocalDate getEndDate() {
+        return this.selectedEndDate;
     }
 }

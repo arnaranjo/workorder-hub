@@ -111,12 +111,29 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
         }
     }
 
+    // Interface methods
+
     @Override
     public void setWorkProcedureList(List<WorkProcedureModel> workProcedureList) {
         List<WorkProcedureModel> list = FXCollections.observableList(workProcedureList);
         workProcedureFilList = new FilteredList<>(FXCollections.observableList(list));
         workProcedureTable.setItems(workProcedureFilList);
     }
+
+    @Override
+    public boolean isWorkProcedureSelected() {
+        return this.isWorkProcedureSelected;
+    }
+
+    @Override
+    public int getSelectedWorkProcedure() {
+        if (this.selectedWorkProcedure == null) {
+            return -1;
+        }
+        return this.selectedWorkProcedure.getWorkProcedureId();
+    }
+
+    // Auxiliary methods
 
     /**
      * Sets the function to filter the work procedure table according to the selected criteria, ID, document code or name.
@@ -149,23 +166,5 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
                             p.getWorkProcedureName().toLowerCase().contains(newValue.toLowerCase().trim()));
             }
         });
-    }
-
-    /**
-     * Check if a work procedure is selected.
-     *
-     * @return true if a work procedure is selected, false otherwise.
-     */
-    public boolean isWorkProcedureSelected() {
-        return this.isWorkProcedureSelected;
-    }
-
-    /**
-     * Gets the selected work procedure.
-     *
-     * @return the selected work procedure, null if no work procedure is selected.
-     */
-    public WorkProcedureModel getSelectedWorkProcedure() {
-        return this.selectedWorkProcedure;
     }
 }

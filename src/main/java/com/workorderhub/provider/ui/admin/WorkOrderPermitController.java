@@ -47,7 +47,6 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
     private TableColumn<LotoProcedureModel, String> lotoProcedureCodeColumn;
     private TableColumn<LotoProcedureModel, String> lotoProcedureNameColumn;
     private FilteredList<LotoProcedureModel> lotoProcedureFilList;
-    private boolean isLotoProcedureSelected;
     private LotoProcedureModel selectedLotoProcedure;
     private WorkPermitModel newWorkPermit;
 
@@ -57,7 +56,6 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
 
         toggleLoto();
 
-        this.isLotoProcedureSelected = false;
         this.selectedLotoProcedure = null;
 
         this.lotoProcedureIdColumn = new TableColumn<>(PropertiesLoader.GetText("workOrder.lotoProcedure.wProcedureId"));
@@ -80,13 +78,6 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
 
     //Work permit tab method
 
-    @Override
-    public void setLotoProcedureList(List<LotoProcedureModel> lotoProcedureList) {
-        List<LotoProcedureModel> list = FXCollections.observableList(lotoProcedureList);
-        this.lotoProcedureFilList = new FilteredList<>(FXCollections.observableList(list));
-        this.lotoProcedureTable.setItems(this.lotoProcedureFilList);
-    }
-
     @FXML
     private void selectLotoProcedure() {
         if (!lotoProcedureTable.getSelectionModel().isEmpty()) {
@@ -99,7 +90,6 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
 
                 if (Util.RequestConfirmation(ConfTitle, ConfMessage)) {
 
-                    this.isLotoProcedureSelected = true;
                     this.selectedLotoProcedure = lotoProcedureTable.getSelectionModel().getSelectedItem();
 
                     this.lotoProcedureCode.setText(
@@ -132,10 +122,42 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
         this.lotoProcedureField.setDisable(!cBoxLoto.isSelected());
     }
 
+    // Interface methods
+
+    @Override
+    public void setLotoProcedureList(List<LotoProcedureModel> lotoProcedureList) {
+        List<LotoProcedureModel> list = FXCollections.observableList(lotoProcedureList);
+        this.lotoProcedureFilList = new FilteredList<>(FXCollections.observableList(list));
+        this.lotoProcedureTable.setItems(this.lotoProcedureFilList);
+    }
+
+    @Override
+    public String getPermitDescription() {
+        return this.workPermitDescriptionArea.getText();
+    }
+
+    @Override
+    public String getLockDevices() {
+        if (!cBoxLoto.isSelected()) {
+            return null;
+        }
+        return this.lockDevicesField.getText();
+    }
+
+    @Override
+    public Integer getSelectedLotoProcedureId() {
+        if (!cBoxLoto.isSelected() || selectedLotoProcedure == null) {
+            return null;
+        }
+        return this.selectedLotoProcedure.getLotoProcedureId();
+    }
+
+    // Auxiliary methods
+
     /**
      * Sets the function to filter the LOTO procedure table according to the selected criteria, ID, document code or name.
      */
-    private void setLotoProcedureSearchFunction() {
+    public void setLotoProcedureSearchFunction() {
         String[] list = PropertiesLoader.GetStringArray("workOrder.lotoProcedure.searchList");
         this.lotoProcedureSearch.getItems().addAll(list);
         this.lotoProcedureSearch.setValue(list[0]);
@@ -162,54 +184,5 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
                             p.getLotoProcedureName().toLowerCase().contains(newValue.toLowerCase().trim()));
             }
         });
-    }
-
-    /**
-     * Indicates whether the work permit includes a LOTO procedure.
-     *
-     * @return true if the work permit includes a LOTO procedure, false otherwise.
-     */
-    public boolean isLoto() {
-        return this.cBoxLoto.isSelected();
-    }
-
-    /**
-     * Retrieves the LOTO procedure selected for the work permit.
-     *
-     * @return the LOTO procedure selected for the work permit, null if no LOTO procedure has been selected.
-     */
-    public String getPermitDescription() {
-        return this.workPermitDescriptionArea.getText();
-    }
-
-    /**
-     * Gets the lock devices specified for the LOTO procedure of the work permit.
-     *
-     * @return the lock devices specified for the LOTO procedure of the work permit,
-     * null if no lock devices have been specified.
-     */
-    public String getLockDevices() {
-        if (!isLoto()) {
-            return null;
-        }
-        return this.lockDevicesField.getText();
-    }
-
-    /**
-     * Indicates whether a LOTO procedure has been selected for the work permit.
-     *
-     * @return true if a LOTO procedure has been selected, false otherwise.
-     */
-    public boolean isLotoProcedureSelected() {
-        return this.isLotoProcedureSelected;
-    }
-
-    /**
-     * Gets the selected LOTO procedure for the work permit.
-     *
-     * @return the selected LOTO procedure for the work permit, null if no LOTO procedure has been selected.
-     */
-    public LotoProcedureModel getSelectedLotoProcedure() {
-        return this.selectedLotoProcedure;
     }
 }

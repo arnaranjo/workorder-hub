@@ -1,5 +1,7 @@
 package com.workorderhub.core.caseuse.workorder;
 
+import java.util.List;
+
 public interface WorkOrderInput {
     /**
      * Toggle the "Valid period" selector and its content.
@@ -41,6 +43,7 @@ public interface WorkOrderInput {
 
     /**
      * Retrieves the Plant element information based on the provided element tag.
+     *
      * @param plantElement Request containing the element tag.
      */
     void getPlantElement(RequestPlantElement plantElement);
@@ -59,4 +62,17 @@ public interface WorkOrderInput {
      * Retrieves the list of LOTO procedures available and their information.
      */
     void retrieveLotoProcedureList();
+
+    /**
+     * Creates a new work order with the provided data.
+     *
+     * @param request the data required to create a new work order,including optional fields such as valid period,
+     *                work procedure and work permit.
+     */
+    void createWorkOrder(
+            RequestNewWorkOrder request,
+            List<RequestAssignCategory> categoryList,
+            List<RequestParticipants> participantsList,
+            List<RequestUseSpareParts> usedSparePartList
+    );
 }

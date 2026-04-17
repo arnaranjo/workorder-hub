@@ -14,6 +14,18 @@ public class WorkPermit {
 
     public WorkPermit(){}
 
+    public WorkPermit(
+            int workPermitId,
+            String workPermitDescription,
+            String workPermitLockDevices,
+            int workPermitLotoProcedureId
+    ) {
+        this.workPermitId = workPermitId;
+        this.description = workPermitDescription;
+        this.lockoutDeviceId = workPermitLockDevices;
+        this.lotoProcedureId = workPermitLotoProcedureId;
+    }
+
     public int getWorkPermitId() {
         return workPermitId;
     }

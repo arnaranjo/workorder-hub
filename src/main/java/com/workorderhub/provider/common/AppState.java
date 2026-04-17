@@ -1,6 +1,10 @@
 package com.workorderhub.provider.common;
 
 
+import com.workorderhub.provider.models.StatusModel;
+
+import java.util.List;
+
 /**
  * AppState loads fixed lists, object references or catalogs to make them available in the app.
  * CODE REFERENCE
@@ -10,9 +14,8 @@ public final class AppState {
 
     private static volatile AppState instance;
     private String loggedUser;
-    //private List<Status> workOrderStatusList;
-    //private List<Category> categoryList;
-    //private long workOrderId;
+    private List<StatusModel> workOrderStatusList;
+    private long workOrderId;
 
     /**
      * REF. [1]
@@ -36,4 +39,19 @@ public final class AppState {
         return loggedUser;
     }
 
+    public List<StatusModel> getWorkOrderStatusList() {
+        return workOrderStatusList;
+    }
+
+    public void setWorkOrderStatusList(List<StatusModel> workOrderStatusList) {
+        this.workOrderStatusList = workOrderStatusList;
+    }
+
+    public long getWorkOrderId() {
+        return workOrderId;
+    }
+
+    public void setWorkOrderId(long workOrderId) {
+        this.workOrderId = workOrderId;
+    }
 }

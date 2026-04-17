@@ -175,6 +175,11 @@ public class AdminMenuController {
                 .withSparePartGateway(new DBSparePart())
                 .withWorkProcedureGateway(new DBWorkProcedure())
                 .withLotoProcedureGateway(new DBLotoProcedure())
+                .withWorkPermitGateway(new DBWorkPermit())
+                .withStatusGateway(new DBStatus())
+                .withAssignedCategoryGateway(new DBAssignedCategory())
+                .withParticipantGateway(new DBParticipant())
+                .withUsedSparePartGateway(new DBUsedSparePart())
                 .build();
 
         ViewLoader viewLoader = new ViewLoader();

@@ -37,7 +37,7 @@ public class DBParticipant implements com.workorderhub.core.gateway.ParticipantG
                 Participant participant = new Participant();
 
                 participant.setWorkOrderId(resultSet.getLong("woe.work_order_id"));
-                participant.setEmployeeId(resultSet.getInt("woe.employee_id"));
+                participant.setUserId(resultSet.getInt("woe.employee_id"));
                 participant.setEmployeeName(resultSet.getString("em.employee_name"));
                 participant.setEmployeeEmail(resultSet.getString("em.company_email"));
                 participant.setEmployeePhoneNumber(resultSet.getString("em.phone_number"));
@@ -70,7 +70,7 @@ public class DBParticipant implements com.workorderhub.core.gateway.ParticipantG
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
             statement.setLong(1, participant.getWorkOrderId());
-            statement.setInt(2, participant.getEmployeeId());
+            statement.setInt(2, participant.getUserId());
 
             statement.executeUpdate();
             statement.close();
@@ -101,7 +101,7 @@ public class DBParticipant implements com.workorderhub.core.gateway.ParticipantG
 
             for (Participant participant : participantList) {
                 statement.setLong(1, participant.getWorkOrderId());
-                statement.setInt(2, participant.getEmployeeId());
+                statement.setInt(2, participant.getUserId());
 
                 statement.addBatch();
             }
@@ -134,7 +134,7 @@ public class DBParticipant implements com.workorderhub.core.gateway.ParticipantG
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
             statement.setLong(1, participant.getWorkOrderId());
-            statement.setInt(2, participant.getEmployeeId());
+            statement.setInt(2, participant.getUserId());
 
             statement.executeUpdate();
             statement.close();
@@ -163,7 +163,7 @@ public class DBParticipant implements com.workorderhub.core.gateway.ParticipantG
             PreparedStatement statement = sqlManager.prepareStatement(sql);
             statement.setInt(1, newParticipantId);
             statement.setLong(2, participant.getWorkOrderId());
-            statement.setInt(3, participant.getEmployeeId());
+            statement.setInt(3, participant.getUserId());
 
             statement.executeUpdate();
             statement.close();

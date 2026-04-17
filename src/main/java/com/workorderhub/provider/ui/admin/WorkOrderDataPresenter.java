@@ -82,7 +82,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                         sparePartRow.spareNumber(),
                         sparePartRow.spareDescription(),
                         sparePartRow.spareStock(),
-                        ""
+                        sparePartRow.spareCategory()
                 )).toList();
         viewController.setSparePartTableItems(sparePartModels);
     }

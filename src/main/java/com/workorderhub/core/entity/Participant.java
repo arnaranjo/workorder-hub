@@ -6,7 +6,7 @@ package com.workorderhub.core.entity;
 public class Participant {
 
     private long workOrderId;
-    private int employeeId;
+    private int userId;
     private String employeeName;
     private String employeeEmail;
     private String employeePhoneNumber;
@@ -14,12 +14,26 @@ public class Participant {
     public Participant() {
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public Participant(
+            long workOrderId,
+            int userId,
+            String employeeName,
+            String employeeEmail,
+            String employeePhoneNumber
+    ) {
+        this.workOrderId = workOrderId;
+        this.userId = userId;
+        this.employeeName = employeeName;
+        this.employeeEmail = employeeEmail;
+        this.employeePhoneNumber = employeePhoneNumber;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public long getWorkOrderId() {
