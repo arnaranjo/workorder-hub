@@ -1,12 +1,10 @@
 package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.spareparts.SparePartRow;
-import com.workorderhub.core.caseuse.workorder.ResponsePlantElement;
-import com.workorderhub.core.caseuse.workorder.WorkOrderDataOutput;
-import com.workorderhub.core.caseuse.workorder.WorkOrderDataView;
-import com.workorderhub.core.caseuse.workorder.WorkOrderEnum;
+import com.workorderhub.core.caseuse.workorder.*;
 import com.workorderhub.core.entity.Category;
 import com.workorderhub.core.entity.User;
+import com.workorderhub.provider.common.AppState;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.Util;
 import com.workorderhub.provider.models.CategoryModel;
@@ -166,12 +164,15 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
     }
 
     @Override
-    public void displaySuccess(WorkOrderEnum workOrderEnum) {
+    public void confirmNewWorkOrder(WorkOrderEnum workOrderEnum, ResponseNewWorkOrder response) {
         if (Objects.requireNonNull(workOrderEnum) == WorkOrderEnum.WORK_ORDER_CREATED) {
             String title = "workOrder.newWorkOrder.newWOrderTitle";
             String message = "workOrder.newWorkOrder.newWOrderMessage";
 
             Util.ShowMessage(title, message);
+
+            // Store the created work order ID in the application state
+            AppState.getInstance().setWorkOrderId(response.workOrderId());
         }
     }
 }

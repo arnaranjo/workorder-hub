@@ -241,7 +241,9 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderGateway.insertWorkOrder(newWorkOrder) &&
                         associateDataToWorkOrder(workOrderId, categoryList,participantsList, usedSparePartList)
                 ) {
-                    dataOutput.displaySuccess(WorkOrderEnum.WORK_ORDER_CREATED);
+
+                    ResponseNewWorkOrder response = new ResponseNewWorkOrder(workOrderId);
+                    dataOutput.confirmNewWorkOrder(WorkOrderEnum.WORK_ORDER_CREATED, response);
 
                 } else {
                     dataOutput.displayError(WorkOrderEnum.WORK_ORDER_CREATION_ERROR);
@@ -249,6 +251,17 @@ public class WorkOrderInteractor implements WorkOrderInput {
                 }
             }
         }
+    }
+
+    @Override
+    public void updateWorkOrder(
+            RequestUpdateWorkOrder request,
+            List<RequestAssignCategory> categoryList,
+            List<RequestParticipants> participantsList,
+            List<RequestUseSpareParts> usedSparePartList
+    ) {
+
+
     }
 
     // Internal method

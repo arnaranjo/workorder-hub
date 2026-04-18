@@ -1,6 +1,7 @@
 package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.workorder.*;
+import com.workorderhub.provider.common.AppState;
 import com.workorderhub.provider.models.CategoryModel;
 import com.workorderhub.provider.models.ParticipantModel;
 import com.workorderhub.provider.models.UsedSparePartModel;
@@ -21,7 +22,11 @@ import java.util.List;
  */
 public class WorkOrderMainController implements WorkOrderMainView {
 
-    private WorkOrderInput interactor;
+    private final WorkOrderInput interactor;
+
+    private List<RequestAssignCategory> requestAssignCategories;
+    private List<RequestParticipants> requestParticipants;
+    private List<RequestUseSpareParts> requestSpareParts;
 
     @FXML
     protected WorkOrderDataView dataViewController;
@@ -59,6 +64,9 @@ public class WorkOrderMainController implements WorkOrderMainView {
         workProcedureTab.setDisable(true);
         workPermitTab.setDisable(true);
 
+        this.requestAssignCategories = new ArrayList<>();
+        this.requestParticipants = new ArrayList<>();
+        this.requestSpareParts = new ArrayList<>();
     }
 
     public WorkOrderMainController(WorkOrderInput interactor) {
@@ -91,42 +99,42 @@ public class WorkOrderMainController implements WorkOrderMainView {
                 .withSelectedProcedure(workProcedureId)
                 .withWorkPermit(permitDescription, lockDevices, lotoProcedureId)
                 .build(
-        );
+                );
 
-        List<RequestAssignCategory> requestAssignCategories = new ArrayList<>();
-        for (CategoryModel category : dataViewController.getAssignedCategories()) {
-            requestAssignCategories.add(new RequestAssignCategory(
-                    category.getId(),
-                    category.getName(),
-                    category.getDescription()
-            ));
-        }
+        getAssociatedData();
+        interactor.createWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts );
+    }
 
-        List<RequestParticipants> requestParticipants = new ArrayList<>();
-        for (ParticipantModel participant : dataViewController.getParticipantsList()) {
-            requestParticipants.add(new RequestParticipants(
-                    participant.getUserId(),
-                    participant.getUserName(),
-                    participant.getUserEmail(),
-                    participant.getUserPhoneNumber()
-            ));
-        }
+    @FXML
+    protected void UpdateWorkOrder() {
+        if (AppState.getInstance().getWorkOrderId() != 0) {
 
-        List<RequestUseSpareParts> requestSpareParts = new ArrayList<>();
-        for (UsedSparePartModel sparePart : dataViewController.getSparePartsList()) {
-            requestSpareParts.add(new RequestUseSpareParts(
-                    sparePart.getSparePartId(),
-                    sparePart.getSelectedNumber(),
-                    sparePart.getSpareName(),
-                    sparePart.getSpareNumber()
-            ));
+            boolean hasValidPeriod = !validPeriodTab.isDisabled() && validPeriodViewController.isPeriodSelected();
+            LocalDate startDate = hasValidPeriod ? validPeriodViewController.getStartDate() : null;
+            LocalDate endDate = hasValidPeriod ? validPeriodViewController.getEndDate() : null;
+
+            Integer workProcedureId = !workProcedureTab.isDisabled()
+                    ? workProcedureViewController.getSelectedWorkProcedure()
+                    : null;
+
+            boolean hasWorkPermit = !workPermitTab.isDisabled();
+            String permitDescription = hasWorkPermit ? workPermitViewController.getPermitDescription() : null;
+            String lockDevices = hasWorkPermit ? workPermitViewController.getLockDevices() : null;
+            Integer lotoProcedureId = hasWorkPermit ? workPermitViewController.getSelectedLotoProcedureId() : null;
+
+            RequestUpdateWorkOrder request = new RequestUpdateWorkOrder.Builder()
+                    .withDescription(dataViewController.getWorkOrderDescription())
+                    .withPlantElementId(dataViewController.getPlantElementId())
+                    .withHolderId(dataViewController.getHolderId())
+                    .withValidPeriod(startDate, endDate)
+                    .withSelectedProcedure(workProcedureId)
+                    .withWorkPermit(permitDescription, lockDevices, lotoProcedureId)
+                    .build(
+                    );
+
+            getAssociatedData();
+            interactor.updateWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts );
         }
-        interactor.createWorkOrder(
-                request,
-                requestAssignCategories,
-                requestParticipants,
-                requestSpareParts
-        );
     }
 
     // Interface methods
@@ -144,5 +152,54 @@ public class WorkOrderMainController implements WorkOrderMainView {
     @Override
     public void toggleWorkPermitContent() {
         workPermitTab.setDisable(!dataViewController.isWorkPermitRequired());
+    }
+
+    // Internal methods
+
+    /**
+     * Retrieves the associated data from the data view and prepares the lists of request objects for categories,
+     * participants, and spare parts to be sent to the interactor.
+     */
+    private void getAssociatedData() {
+        if (requestAssignCategories == null) {
+            requestAssignCategories = new ArrayList<>();
+        } else {
+            requestAssignCategories.clear();
+        }
+        for (CategoryModel category : dataViewController.getAssignedCategories()) {
+            requestAssignCategories.add(new RequestAssignCategory(
+                    category.getId(),
+                    category.getName(),
+                    category.getDescription()
+            ));
+        }
+
+        if (requestParticipants == null) {
+            requestParticipants = new ArrayList<>();
+        } else {
+            requestParticipants.clear();
+        }
+        for (ParticipantModel participant : dataViewController.getParticipantsList()) {
+            requestParticipants.add(new RequestParticipants(
+                    participant.getUserId(),
+                    participant.getUserName(),
+                    participant.getUserEmail(),
+                    participant.getUserPhoneNumber()
+            ));
+        }
+
+        if (requestSpareParts == null) {
+            requestSpareParts = new ArrayList<>();
+        } else {
+            requestSpareParts.clear();
+        }
+        for (UsedSparePartModel sparePart : dataViewController.getSparePartsList()) {
+            requestSpareParts.add(new RequestUseSpareParts(
+                    sparePart.getSparePartId(),
+                    sparePart.getSelectedNumber(),
+                    sparePart.getSpareName(),
+                    sparePart.getSpareNumber()
+            ));
+        }
     }
 }

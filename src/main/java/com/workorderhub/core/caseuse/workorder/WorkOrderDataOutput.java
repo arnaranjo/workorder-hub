@@ -65,5 +65,5 @@ public interface WorkOrderDataOutput {
      *
      * @param workOrderEnum An enum value representing the specific success message to be displayed in the view.
      */
-    void displaySuccess(WorkOrderEnum workOrderEnum);
+    void confirmNewWorkOrder(WorkOrderEnum workOrderEnum, ResponseNewWorkOrder response);
 }

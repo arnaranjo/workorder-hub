@@ -7,6 +7,7 @@ import com.workorderhub.core.caseuse.procedures.LotoProcedureInteractor;
 import com.workorderhub.core.caseuse.procedures.WorkProcedureInteractor;
 import com.workorderhub.core.caseuse.spareparts.SparePartInteractor;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInteractor;
+import com.workorderhub.provider.common.AppState;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.ViewLoader;
 import com.workorderhub.provider.database.*;
@@ -156,6 +157,10 @@ public class AdminMenuController {
     }
 
     public void LoadNewWorkOrderView() {
+
+        // Reset the AppState to ensure there is no data from previous work order creation processes.
+        AppState.getInstance().resetWorkOrder();
+
         WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
         WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();
         WorkOrderPeriodPresenter periodPresenter = new WorkOrderPeriodPresenter();

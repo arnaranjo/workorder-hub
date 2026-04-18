@@ -68,9 +68,26 @@ public interface WorkOrderInput {
      *
      * @param request the data required to create a new work order,including optional fields such as valid period,
      *                work procedure and work permit.
+     * @param categoryList the list of categories to be assigned to the work order.
+     * @param participantsList the list of participants to be assigned to the work order.
+     * @param usedSparePartList the list of spare parts to be used in the
      */
     void createWorkOrder(
             RequestNewWorkOrder request,
+            List<RequestAssignCategory> categoryList,
+            List<RequestParticipants> participantsList,
+            List<RequestUseSpareParts> usedSparePartList
+    );
+
+    /**
+     * Updates an existing work order with the provided data.
+     * @param request the data required to update the work order, including optional fields such as valid period,
+     * @param categoryList the list of categories to be assigned to the work order.
+     * @param participantsList the list of participants to be assigned to the work order.
+     * @param usedSparePartList the list of spare parts to be used in the work order.
+     */
+    void updateWorkOrder(
+            RequestUpdateWorkOrder request,
             List<RequestAssignCategory> categoryList,
             List<RequestParticipants> participantsList,
             List<RequestUseSpareParts> usedSparePartList

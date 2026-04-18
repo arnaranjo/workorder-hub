@@ -15,7 +15,7 @@ public final class AppState {
     private static volatile AppState instance;
     private String loggedUser;
     private List<StatusModel> workOrderStatusList;
-    private long workOrderId;
+    private long workOrderId = 0;
 
     /**
      * REF. [1]
@@ -47,11 +47,26 @@ public final class AppState {
         this.workOrderStatusList = workOrderStatusList;
     }
 
+    /**
+     * Gets the work order ID from the app state.
+     * @return the work order ID, or 0 if no work order ID is set
+     */
     public long getWorkOrderId() {
         return workOrderId;
     }
 
+    /**
+     * Sets the work order ID in the app state.
+     * @param workOrderId the work order ID to set
+     */
     public void setWorkOrderId(long workOrderId) {
         this.workOrderId = workOrderId;
+    }
+
+    /**
+     * Resets the work order ID in the app state.
+     */
+    public void resetWorkOrder(){
+        this.workOrderId = 0;
     }
 }
