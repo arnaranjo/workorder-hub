@@ -8,11 +8,13 @@ import com.workorderhub.core.caseuse.workorder.WorkOrderEnum;
 import com.workorderhub.core.entity.Category;
 import com.workorderhub.core.entity.User;
 import com.workorderhub.provider.common.PropertiesLoader;
+import com.workorderhub.provider.common.Util;
 import com.workorderhub.provider.models.CategoryModel;
 import com.workorderhub.provider.models.ParticipantModel;
 import com.workorderhub.provider.models.SparePartModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class WorkOrderDataPresenter implements WorkOrderDataOutput {
 
@@ -113,6 +115,63 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                         ""
                 );
                 break;
+
+            case WORK_ORDER_DESCRIPTION_ERROR:
+                String titleNoDescription = "workOrder.newWorkOrder.errorTitle";
+                String messageNoDescription = "workOrder.newWorkOrder.descriptionError";
+                Util.ShowMessage(titleNoDescription, messageNoDescription);
+                break;
+
+            case WORK_ORDER_HOLDER_ERROR:
+                String titleNoHolder = "workOrder.newWorkOrder.errorTitle";
+                String messageNoHolder = "workOrder.newWorkOrder.holderError";
+                Util.ShowMessage(titleNoHolder, messageNoHolder);
+                break;
+
+            case WORK_ORDER_PLANT_ELEMENT_ERROR:
+                String titleNoPlantElement = "workOrder.newWorkOrder.errorTitle";
+                String messageNoPlantElement = "workOrder.newWorkOrder.plantElementError";
+                Util.ShowMessage(titleNoPlantElement, messageNoPlantElement);
+                break;
+
+            case WORK_ORDER_CATEGORY_ERROR:
+                String titleNoCategory = "workOrder.newWorkOrder.errorTitle";
+                String messageNoCategory = "workOrder.newWorkOrder.categoryError";
+                Util.ShowMessage(titleNoCategory, messageNoCategory);
+                break;
+
+            case WORK_ORDER_CREATION_ERROR:
+                String titleCreationError = "workOrder.newWorkOrder.errorTitle";
+                String messageCreationError = "workOrder.newWorkOrder.newWOrderError";
+                Util.ShowMessage(titleCreationError, messageCreationError);
+                break;
+
+            case WORK_PERMIT_DESCRIPTION_ERROR:
+                String titleNoWorkPermitDescription = "workOrder.newWorkOrder.errorTitle";
+                String messageNoWorkPermitDescription = "workOrder.newWorkPermit.newWPermitError";
+                Util.ShowMessage(titleNoWorkPermitDescription, messageNoWorkPermitDescription);
+                break;
+        }
+    }
+
+    @Override
+    public boolean requestConfirmation(WorkOrderEnum workOrderEnum) {
+        if (Objects.requireNonNull(workOrderEnum) == WorkOrderEnum.REQUEST_WORK_ORDER_CREATION) {
+            String title = "workOrder.newWorkOrder.confirmationTitle";
+            String message = "workOrder.newWorkOrder.confirmationMessage";
+
+            return Util.RequestConfirmation(title, message);
+        }
+        return false;
+    }
+
+    @Override
+    public void displaySuccess(WorkOrderEnum workOrderEnum) {
+        if (Objects.requireNonNull(workOrderEnum) == WorkOrderEnum.WORK_ORDER_CREATED) {
+            String title = "workOrder.newWorkOrder.newWOrderTitle";
+            String message = "workOrder.newWorkOrder.newWOrderMessage";
+
+            Util.ShowMessage(title, message);
         }
     }
 }

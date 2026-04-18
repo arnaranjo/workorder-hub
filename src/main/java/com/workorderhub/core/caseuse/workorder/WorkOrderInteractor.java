@@ -53,7 +53,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         this.usedSparePartGateway = builder.usedSparePartGateway;
     }
 
-    // Input methods
+    // Interface methods
 
     @Override
     public void toggleValidPeriodDisable() {
@@ -192,8 +192,10 @@ public class WorkOrderInteractor implements WorkOrderInput {
             List<RequestParticipants> participantsList,
             List<RequestUseSpareParts> usedSparePartList
     ) {
+        if (request.plantElementId() == null){
+            dataOutput.displayError(WorkOrderEnum.WORK_ORDER_PLANT_ELEMENT_ERROR);
 
-        if (request.description().isBlank()) {
+        } else if (request.description().isBlank()) {
             dataOutput.displayError(WorkOrderEnum.WORK_ORDER_DESCRIPTION_ERROR);
 
         } else if (categoryList == null || categoryList.isEmpty()) {
@@ -202,22 +204,23 @@ public class WorkOrderInteractor implements WorkOrderInput {
         } else if (request.holderId() == null) {
             dataOutput.displayError(WorkOrderEnum.WORK_ORDER_HOLDER_ERROR);
 
-        } else if (request.plantElementId() == null) {
-            dataOutput.displayError(WorkOrderEnum.WORK_ORDER_PLANT_ELEMENT_ERROR);
-
-            // The work permit is optional, but if the user fill some of the fields, all the fields must be filled and correct.
         } else if (request.getWorkPermitDescription().isBlank()) {
             dataOutput.displayError(WorkOrderEnum.WORK_PERMIT_DESCRIPTION_ERROR);
 
         } else {
 
+            // Generate a work order ID using the current date and time.
             long workOrderId = createWorkOrderId();
+
+            // If the user fill any of the fields in the "Work permit" section,
+            // a work permit will be created and associated with the new work order.
             int workPermitId = createWorkPermit(
                     request.getWorkPermitDescription(),
                     request.getWorkPermitLockDevices(),
                     request.getWorkPermitLotoProcedureId()
             );
 
+            //
             WorkOrderInfo newWorkOrder = new WorkOrderInfo(
                     workOrderId,
                     request.description(),
@@ -231,22 +234,21 @@ public class WorkOrderInteractor implements WorkOrderInput {
                     workPermitId
             );
 
-            if (workOrderGateway.insertWorkOrder(newWorkOrder) &&
-                    associateDataToWorkOrder(
-                            workOrderId,
-                            categoryList,
-                            participantsList,
-                            usedSparePartList
-                    )
+            if (dataOutput.requestConfirmation(WorkOrderEnum.REQUEST_WORK_ORDER_CREATION)) {
 
-            ) {
-                System.out.println(newWorkOrder);
+                //Work order creation and association of the categories, participants and used spare parts.
+                if (
+                        workOrderGateway.insertWorkOrder(newWorkOrder) &&
+                        associateDataToWorkOrder(workOrderId, categoryList,participantsList, usedSparePartList)
+                ) {
+                    dataOutput.displaySuccess(WorkOrderEnum.WORK_ORDER_CREATED);
 
-            } else {
-                dataOutput.displayError(WorkOrderEnum.WORK_ORDER_CREATION_ERROR);
+                } else {
+                    dataOutput.displayError(WorkOrderEnum.WORK_ORDER_CREATION_ERROR);
+
+                }
             }
         }
-
     }
 
     // Internal method
@@ -295,16 +297,14 @@ public class WorkOrderInteractor implements WorkOrderInput {
             return 0;
         }
 
-        assert lockDevices != null;
         WorkPermit newWorkPermit = new WorkPermit(
                 0,
                 description,
-                lockDevices.isEmpty() ? null : lockDevices,
+                lockDevices,
                 lotoProcedureId == null ? 0 : lotoProcedureId
         );
         return workPermitGateway.insertWorkPermit(newWorkPermit);
     }
-
 
     /**
      * Associates the assigned categories, participants and used spare parts to the work order by inserting the corresponding records in the database.
