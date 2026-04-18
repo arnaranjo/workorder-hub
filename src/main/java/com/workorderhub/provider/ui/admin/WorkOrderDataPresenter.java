@@ -140,7 +140,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
 
             case WORK_ORDER_CREATION_ERROR:
                 String titleCreationError = "workOrder.newWorkOrder.errorTitle";
-                String messageCreationError = "workOrder.newWorkOrder.newWOrderError";
+                String messageCreationError = "workOrder.newWorkOrder.newWorkOrderError";
                 Util.ShowMessage(titleCreationError, messageCreationError);
                 break;
 
@@ -148,6 +148,12 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                 String titleNoWorkPermitDescription = "workOrder.newWorkOrder.errorTitle";
                 String messageNoWorkPermitDescription = "workOrder.newWorkPermit.newWPermitError";
                 Util.ShowMessage(titleNoWorkPermitDescription, messageNoWorkPermitDescription);
+                break;
+
+            case WORK_ORDER_UPDATE_ERROR:
+                String titleUpdateError = "workOrder.updatedWorkOrder.updatedWorkOrderTitle";
+                String messageUpdateError = "workOrder.updatedWorkOrder.updatedWorkOrderError";
+                Util.ShowMessage(titleUpdateError, messageUpdateError);
                 break;
         }
     }
@@ -164,15 +170,22 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
     }
 
     @Override
-    public void confirmNewWorkOrder(WorkOrderEnum workOrderEnum, ResponseNewWorkOrder response) {
-        if (Objects.requireNonNull(workOrderEnum) == WorkOrderEnum.WORK_ORDER_CREATED) {
-            String title = "workOrder.newWorkOrder.newWOrderTitle";
-            String message = "workOrder.newWorkOrder.newWOrderMessage";
+    public void displayConfirmation(WorkOrderEnum workOrderEnum, ResponseNewWorkOrder response) {
+        switch (workOrderEnum) {
+            case WORK_ORDER_CREATED:
+                String newWorkOrderTitle = "workOrder.newWorkOrder.newWorkOrderTitle";
+                String newWorkOrderMessage = "workOrder.newWorkOrder.newWorkOrderMessage";
+                Util.ShowMessage(newWorkOrderTitle, newWorkOrderMessage);
 
-            Util.ShowMessage(title, message);
+                // Store the created work order ID in the application state
+                AppState.getInstance().setWorkOrderId(response.workOrderId());
+                break;
 
-            // Store the created work order ID in the application state
-            AppState.getInstance().setWorkOrderId(response.workOrderId());
+            case WORK_ORDER_UPDATED:
+                String title = "workOrder.updatedWorkOrder.updatedWorkOrderTitle";
+                String message = "workOrder.updatedWorkOrder.updatedWorkOrderMessage";
+                Util.ShowMessage(title, message);
+                break;
         }
     }
 }

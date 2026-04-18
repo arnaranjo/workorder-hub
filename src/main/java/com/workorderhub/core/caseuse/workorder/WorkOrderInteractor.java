@@ -255,7 +255,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                 associateDataToWorkOrder(workOrderId, categoryList, participantsList, usedSparePartList)) {
 
             ResponseNewWorkOrder response = new ResponseNewWorkOrder(workOrderId);
-            dataOutput.confirmNewWorkOrder(WorkOrderEnum.WORK_ORDER_CREATED, response);
+            dataOutput.displayConfirmation(WorkOrderEnum.WORK_ORDER_CREATED, response);
         } else {
 
             // Remove the work permit that was created if the work order creation fails.
@@ -318,6 +318,8 @@ public class WorkOrderInteractor implements WorkOrderInput {
             return;
         }
 
+        // Work permit management
+
         int currentPermitId = currentWorkOrder.getWorkPermitId();
         int finalPermitId = currentPermitId;
         int permitIdToDelete = 0;
@@ -356,6 +358,8 @@ public class WorkOrderInteractor implements WorkOrderInput {
             permitIdToDelete = currentPermitId;
         }
 
+        // Work order update
+
         WorkOrderInfo workOrderToUpdate = new WorkOrderInfo(
                 workOrderId,
                 request.description(),
@@ -373,7 +377,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
             if (insertedPermitId != 0) {
                 workPermitGateway.deleteWorkPermit(new WorkPermit(insertedPermitId, null, null, 0));
             }
-            dataOutput.displayError(WorkOrderEnum.WORK_ORDER_CREATION_ERROR);
+            dataOutput.displayError(WorkOrderEnum.WORK_ORDER_UPDATE_ERROR);
             return;
         }
 
@@ -390,6 +394,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                 dataOutput.displayError(WorkOrderEnum.WORK_ORDER_CREATION_ERROR);
             }
         }
+        dataOutput.displayConfirmation(WorkOrderEnum.WORK_ORDER_UPDATED, null);
     }
 
     // Internal method
