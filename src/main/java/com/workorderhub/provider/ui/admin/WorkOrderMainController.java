@@ -2,10 +2,12 @@ package com.workorderhub.provider.ui.admin;
 
 import com.workorderhub.core.caseuse.workorder.*;
 import com.workorderhub.provider.common.AppState;
+import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.models.CategoryModel;
 import com.workorderhub.provider.models.ParticipantModel;
 import com.workorderhub.provider.models.UsedSparePartModel;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 
@@ -28,6 +30,8 @@ public class WorkOrderMainController implements WorkOrderMainView {
     private List<RequestParticipants> requestParticipants;
     private List<RequestUseSpareParts> requestSpareParts;
 
+    private long workOrderId;
+
     @FXML
     protected WorkOrderDataView dataViewController;
     @FXML
@@ -40,7 +44,9 @@ public class WorkOrderMainController implements WorkOrderMainView {
     //General
 
     @FXML
-    protected Label mainLabel;
+    private Label mainLabel;
+    @FXML
+    private Button updateButton;
 
     //"Valid period" tab content
 
@@ -67,6 +73,21 @@ public class WorkOrderMainController implements WorkOrderMainView {
         this.requestAssignCategories = new ArrayList<>();
         this.requestParticipants = new ArrayList<>();
         this.requestSpareParts = new ArrayList<>();
+
+        mainLabel.setStyle(PropertiesLoader.GetText("workOrder.defaultStyle"));
+        if (AppState.getInstance().getWorkOrderId() == 0) {
+            mainLabel.setText(PropertiesLoader.GetText("workOrder.defaultNew"));
+            updateButton.setDisable(true);
+
+        } else {
+            mainLabel.setText(
+                    PropertiesLoader.GetText("workOrder.defaultEdit")
+                    + ": " + AppState.getInstance().getWorkOrderId()
+            );
+            this.workOrderId = AppState.getInstance().getWorkOrderId();
+            updateButton.setDisable(false);
+
+        }
     }
 
     public WorkOrderMainController(WorkOrderInput interactor) {

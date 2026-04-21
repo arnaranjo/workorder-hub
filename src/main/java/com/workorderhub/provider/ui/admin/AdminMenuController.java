@@ -239,13 +239,12 @@ public class AdminMenuController {
 
         viewLoader.LoadView(
                 workOrderView,
-                PropertiesLoader.GetText("adminMenu.newWorkOrderTitle"),
-                PropertiesLoader.GetDouble("adminMenu.workOrderWidth"),
-                PropertiesLoader.GetDouble("adminMenu.workOrderHeight")
+                PropertiesLoader.GetText("adminMenu.newWorkOrderTitle")
         );
     }
 
     public void loadEditWorkOrderView() {
+
         WorkFrontModel selectedWorkOrder = adminMainController.getSelectedWorkOrder();
         if (selectedWorkOrder == null) {
             String titleError = "adminMenu.noSelectedTitle";
