@@ -7,7 +7,7 @@
 <VBox alignment="TOP_CENTER" prefHeight="250.0" prefWidth="250.0" spacing="10.0"
       xmlns="http://javafx.com/javafx/22"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.workorderhub.provider.ui.login.LoginController"
+      fx:controller="com.workorderhub.infrastructure.ui.login.LoginController"
 >
     <Label fx:id="loginLabel" alignment="CENTER" prefWidth="250.0">
         <padding>

@@ -1,9 +1,9 @@
 package com.workorderhub.core.caseuse.workorder;
 
-import com.workorderhub.provider.models.CategoryModel;
-import com.workorderhub.provider.models.ParticipantModel;
-import com.workorderhub.provider.models.SparePartModel;
-import com.workorderhub.provider.models.UsedSparePartModel;
+import com.workorderhub.infrastructure.models.CategoryModel;
+import com.workorderhub.infrastructure.models.ParticipantModel;
+import com.workorderhub.infrastructure.models.SparePartModel;
+import com.workorderhub.infrastructure.models.UsedSparePartModel;
 
 import java.util.List;
 

@@ -1,12 +1,12 @@
 package com.workorderhub.main;
 
 import com.workorderhub.core.caseuse.login.LoginInteractor;
-import com.workorderhub.provider.common.PropertiesLoader;
-import com.workorderhub.provider.common.ViewLoader;
-import com.workorderhub.provider.database.DBCredentials;
-import com.workorderhub.provider.database.DBUser;
-import com.workorderhub.provider.ui.login.LoginController;
-import com.workorderhub.provider.ui.login.LoginPresenter;
+import com.workorderhub.infrastructure.common.PropertiesLoader;
+import com.workorderhub.infrastructure.common.ViewLoader;
+import com.workorderhub.infrastructure.database.DBCredentials;
+import com.workorderhub.infrastructure.database.DBUser;
+import com.workorderhub.infrastructure.ui.login.LoginController;
+import com.workorderhub.infrastructure.ui.login.LoginPresenter;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

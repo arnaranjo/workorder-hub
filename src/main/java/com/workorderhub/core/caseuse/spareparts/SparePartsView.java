@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.spareparts;
 
-import com.workorderhub.provider.models.SparePartCategoryModel;
+import com.workorderhub.infrastructure.models.SparePartCategoryModel;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@
 <BorderPane prefWidth="800.0"
             xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.workorderhub.provider.ui.admin.EditUserController"
+            fx:controller="com.workorderhub.infrastructure.ui.admin.EditUserController"
 >
     <top>
         <Label fx:id="editUserLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="50.0" prefWidth="800.0"

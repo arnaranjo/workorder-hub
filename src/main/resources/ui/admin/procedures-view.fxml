@@ -7,7 +7,7 @@
 
 <VBox xmlns="http://javafx.com/javafx/22"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.workorderhub.provider.ui.admin.ProceduresController"
+      fx:controller="com.workorderhub.infrastructure.ui.admin.ProceduresController"
 >
     <Label fx:id="mainLabel" alignment="CENTER" prefHeight="50.0" prefWidth="800.0">
         <font>

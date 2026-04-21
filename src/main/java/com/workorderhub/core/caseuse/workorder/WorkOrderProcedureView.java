@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.workorder;
 
-import com.workorderhub.provider.models.WorkProcedureModel;
+import com.workorderhub.infrastructure.models.WorkProcedureModel;
 
 import java.util.List;
 

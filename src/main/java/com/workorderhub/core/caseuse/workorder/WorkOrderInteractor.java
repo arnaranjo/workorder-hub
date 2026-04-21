@@ -3,7 +3,7 @@ package com.workorderhub.core.caseuse.workorder;
 import com.workorderhub.core.caseuse.spareparts.SparePartRow;
 import com.workorderhub.core.entity.*;
 import com.workorderhub.core.gateway.*;
-import com.workorderhub.provider.common.AppState;
+import com.workorderhub.infrastructure.common.AppState;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

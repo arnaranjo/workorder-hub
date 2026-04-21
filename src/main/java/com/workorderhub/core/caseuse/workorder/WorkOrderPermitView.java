@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.workorder;
 
-import com.workorderhub.provider.models.LotoProcedureModel;
+import com.workorderhub.infrastructure.models.LotoProcedureModel;
 
 import java.util.List;
 

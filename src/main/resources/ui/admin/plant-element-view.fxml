@@ -19,7 +19,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.workorderhub.provider.ui.admin.PlantElementController"
+            fx:controller="com.workorderhub.infrastructure.ui.admin.PlantElementController"
 >
     <top>
         <Label fx:id="mainLabel" alignment="CENTER" maxWidth="Infinity" prefHeight="50.0" prefWidth="1000.0" BorderPane.alignment="CENTER">

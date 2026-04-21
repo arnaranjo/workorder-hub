@@ -1,0 +1,97 @@
+package com.workorderhub.infrastructure.ui.login;
+
+import com.workorderhub.core.caseuse.adminpanel.AdminMainInteractor;
+import com.workorderhub.core.caseuse.login.LoginOutput;
+import com.workorderhub.core.caseuse.login.ResponseLogin;
+import com.workorderhub.core.caseuse.login.LoginView;
+import com.workorderhub.core.entity.UserRoleEnum;
+import com.workorderhub.infrastructure.common.AppState;
+import com.workorderhub.infrastructure.common.PropertiesLoader;
+import com.workorderhub.infrastructure.common.ViewLoader;
+import com.workorderhub.infrastructure.database.DBWorkLog;
+import com.workorderhub.infrastructure.database.DBWorkOrder;
+import com.workorderhub.infrastructure.ui.admin.AdminMainController;
+import com.workorderhub.infrastructure.ui.admin.AdminMainPresenter;
+import com.workorderhub.infrastructure.ui.admin.AdminMenuController;
+
+import java.net.URL;
+
+public class LoginPresenter implements LoginOutput {
+
+    private LoginView view;
+    private final URL adminView = getClass().getResource("/ui/admin/admin-view.fxml");
+    private final URL technicianView = getClass().getResource("/ui/supervisor/supervisor-view.fxml");
+    private final URL supervisorView = getClass().getResource("/ui/technician/technician-view.fxml");
+
+    public LoginPresenter() {
+    }
+
+    public void setView(LoginView view) {
+        this.view = view;
+    }
+
+    @Override
+    public void displayUserNoFound() {
+        view.setTopDisplay(
+                PropertiesLoader.GetText("login.userNoFound"),
+                PropertiesLoader.GetText("login.failStyle")
+        );
+    }
+
+    @Override
+    public void loadView(ResponseLogin response, UserRoleEnum userRole) {
+
+        ViewLoader viewLoader = new ViewLoader();
+        AppState appState = AppState.getInstance();
+        appState.setLoggedUser(response.userName());
+
+        switch (userRole) {
+            case MANAGER:
+
+                AdminMainPresenter presenter = new AdminMainPresenter();
+                AdminMainInteractor interactor = new AdminMainInteractor(
+                        presenter,
+                        new DBWorkOrder(),
+                        new DBWorkLog()
+                );
+
+                viewLoader.registerController(AdminMainController.class, ()-> {
+                    AdminMainController controller = new AdminMainController(interactor);
+                    presenter.setViewController(controller);
+                    return controller;
+                });
+                viewLoader.registerController(AdminMenuController.class, ()-> new AdminMenuController());
+                viewLoader.LoadView(
+                        adminView,
+                        PropertiesLoader.GetText("login.managerScreen"),
+                        PropertiesLoader.GetDouble("mainScreen.width"),
+                        PropertiesLoader.GetDouble("mainScreen.height")
+                );
+                break;
+
+            case SUPERVISOR:
+                //Log the controllers here
+
+                viewLoader.LoadView(
+                        supervisorView,
+                        PropertiesLoader.GetText("login.supervisorScreen"),
+                        PropertiesLoader.GetDouble("mainScreen.width"),
+                        PropertiesLoader.GetDouble("mainScreen.height")
+                );
+                break;
+
+            case TECHNICIAN:
+                //Log the controllers here
+
+                viewLoader.LoadView(
+                        technicianView,
+                        PropertiesLoader.GetText("login.technicianScreen"),
+                        PropertiesLoader.GetDouble("mainScreen.width"),
+                        PropertiesLoader.GetDouble("mainScreen.height")
+                );
+                break;
+        }
+
+        view.closedScreen();
+    }
+}

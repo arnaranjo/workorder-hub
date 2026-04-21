@@ -1,7 +1,7 @@
 package com.workorderhub.core.caseuse.adminpanel;
 
-import com.workorderhub.provider.models.WorkFrontModel;
-import com.workorderhub.provider.models.WorkLogModel;
+import com.workorderhub.infrastructure.models.WorkFrontModel;
+import com.workorderhub.infrastructure.models.WorkLogModel;
 
 import java.util.List;
 

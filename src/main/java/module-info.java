@@ -8,12 +8,12 @@ module com.workorderhub {
 
     exports com.workorderhub.main;
     opens com.workorderhub.main to javafx.fxml;
-    exports com.workorderhub.provider.ui.login;
-    opens com.workorderhub.provider.ui.login to javafx.fxml;
-    exports com.workorderhub.provider.ui.admin;
-    opens com.workorderhub.provider.ui.admin to javafx.fxml;
-    exports com.workorderhub.provider.models;
-    opens com.workorderhub.provider.models to javafx.fxml;
+    exports com.workorderhub.infrastructure.ui.login;
+    opens com.workorderhub.infrastructure.ui.login to javafx.fxml;
+    exports com.workorderhub.infrastructure.ui.admin;
+    opens com.workorderhub.infrastructure.ui.admin to javafx.fxml;
+    exports com.workorderhub.infrastructure.models;
+    opens com.workorderhub.infrastructure.models to javafx.fxml;
 
     exports com.workorderhub.core.caseuse.edituser;
     exports com.workorderhub.core.caseuse.newuser;

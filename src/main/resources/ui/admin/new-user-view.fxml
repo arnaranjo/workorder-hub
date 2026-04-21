@@ -8,7 +8,7 @@
       prefWidth="400.0"
       xmlns="http://javafx.com/javafx/22"
       xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.workorderhub.provider.ui.admin.NewUserController"
+      fx:controller="com.workorderhub.infrastructure.ui.admin.NewUserController"
 >
     <padding>
         <Insets bottom="20.0"/>

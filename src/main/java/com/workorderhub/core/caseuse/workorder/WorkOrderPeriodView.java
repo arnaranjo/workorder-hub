@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.workorder;
 
-import com.workorderhub.provider.models.WorkFrontModel;
+import com.workorderhub.infrastructure.models.WorkFrontModel;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <BorderPane xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.workorderhub.provider.ui.admin.SparePartsController"
+            fx:controller="com.workorderhub.infrastructure.ui.admin.SparePartsController"
 >
     <top>
         <Label fx:id="mainLabel" alignment="CENTER" maxWidth="Infinity" prefHeight="50.0" prefWidth="1000.0"

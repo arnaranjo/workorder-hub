@@ -13,7 +13,7 @@
 <BorderPane prefHeight="768.0" prefWidth="1366.0"
             xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.workorderhub.provider.ui.admin.WorkOrderMainController"
+            fx:controller="com.workorderhub.infrastructure.ui.admin.WorkOrderMainController"
 >
     <top>
         <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" prefHeight="50.0"
