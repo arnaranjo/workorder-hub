@@ -13,7 +13,7 @@ import java.util.List;
 public final class AppState {
 
     private static volatile AppState instance;
-    private String loggedUser;
+    private String loggedUser = null;
     private List<StatusModel> workOrderStatusList;
     private long workOrderId = 0;
 
@@ -31,10 +31,20 @@ public final class AppState {
         return instance;
     }
 
+    private AppState() {}
+
+    /**
+     * Sets the logged user name in the app state.
+     * @param loggedUser the name of the logged user to set
+     */
     public void setLoggedUser(String loggedUser){
         this.loggedUser = loggedUser;
     }
 
+    /**
+     * Gets the logged user name from the app state.
+      * @return the name of the logged user, or null if no user is logged in
+     */
     public String getLoggedUser(){
         return loggedUser;
     }

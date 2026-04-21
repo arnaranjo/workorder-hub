@@ -14,8 +14,8 @@
         <Insets bottom="10.0" top="10.0" />
     </padding>
     <Button mnemonicParsing="false" onAction="#LoadNewWorkOrderView" prefWidth="110.0" text="New Order" />
-    <Button mnemonicParsing="false" prefWidth="110.0" text="Edit Order" />
-    <Button mnemonicParsing="false" prefWidth="110.0" text="Delete Order" />
+    <Button mnemonicParsing="false" onAction="#loadEditWorkOrderView" prefWidth="110.0" text="Edit Order" />
+    <Button mnemonicParsing="false" onAction="#deleteWorkOrder" prefWidth="110.0" text="Delete Order" />
     <Separator prefWidth="200.0" />
     <Button mnemonicParsing="false" onAction="#LoadNewUserView" prefWidth="110.0" text="Add User" />
     <Button mnemonicParsing="false" onAction="#LoadEditUserView" prefWidth="110.0" text="Edit User" />

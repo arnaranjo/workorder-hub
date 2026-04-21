@@ -17,12 +17,18 @@ import java.util.Objects;
 public class WorkOrderDataPresenter implements WorkOrderDataOutput {
 
     private WorkOrderDataView viewController;
+    private WorkOrderDataListener workOrderDataListener;
 
     public WorkOrderDataPresenter() {
     }
 
     public void setViewController(WorkOrderDataView viewController) {
         this.viewController = viewController;
+    }
+
+
+    public void setDataListener(WorkOrderDataListener workOrderDataListener){
+        this.workOrderDataListener = workOrderDataListener;
     }
 
     @Override
@@ -179,6 +185,8 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
 
                 // Store the created work order ID in the application state
                 AppState.getInstance().setWorkOrderId(response.workOrderId());
+                workOrderDataListener.onNewWorkOrder();
+
                 break;
 
             case WORK_ORDER_UPDATED:

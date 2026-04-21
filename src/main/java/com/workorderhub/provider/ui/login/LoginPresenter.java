@@ -1,5 +1,6 @@
 package com.workorderhub.provider.ui.login;
 
+import com.workorderhub.core.caseuse.adminpanel.AdminMainInteractor;
 import com.workorderhub.core.caseuse.login.LoginOutput;
 import com.workorderhub.core.caseuse.login.ResponseLogin;
 import com.workorderhub.core.caseuse.login.LoginView;
@@ -7,7 +8,10 @@ import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.provider.common.AppState;
 import com.workorderhub.provider.common.PropertiesLoader;
 import com.workorderhub.provider.common.ViewLoader;
+import com.workorderhub.provider.database.DBWorkLog;
+import com.workorderhub.provider.database.DBWorkOrder;
 import com.workorderhub.provider.ui.admin.AdminMainController;
+import com.workorderhub.provider.ui.admin.AdminMainPresenter;
 import com.workorderhub.provider.ui.admin.AdminMenuController;
 
 import java.net.URL;
@@ -43,7 +47,19 @@ public class LoginPresenter implements LoginOutput {
 
         switch (userRole) {
             case MANAGER:
-                viewLoader.registerController(AdminMainController.class, ()-> new AdminMainController());
+
+                AdminMainPresenter presenter = new AdminMainPresenter();
+                AdminMainInteractor interactor = new AdminMainInteractor(
+                        presenter,
+                        new DBWorkOrder(),
+                        new DBWorkLog()
+                );
+
+                viewLoader.registerController(AdminMainController.class, ()-> {
+                    AdminMainController controller = new AdminMainController(interactor);
+                    presenter.setViewController(controller);
+                    return controller;
+                });
                 viewLoader.registerController(AdminMenuController.class, ()-> new AdminMenuController());
                 viewLoader.LoadView(
                         adminView,

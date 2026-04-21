@@ -5,33 +5,33 @@ import com.workorderhub.core.caseuse.workorder.WorkOrderMainView;
 
 public class WorkOrderMainPresenter implements WorkOrderMainOutput {
 
-    private WorkOrderMainView view;
+    private WorkOrderMainView viewController;
 
     public WorkOrderMainPresenter() {
     }
 
-    public void setView(WorkOrderMainView view) {
-        this.view = view;
+    public void setViewController(WorkOrderMainView viewController) {
+        this.viewController = viewController;
     }
 
     @Override
     public void toggleValidPeriodSelection() {
-        if (view != null) {
-            view.toggleValidPeriodContent();
+        if (viewController != null) {
+            viewController.toggleValidPeriodContent();
         }
     }
 
     @Override
     public void toggleProcedureSelection() {
-        if (view != null) {
-            view.toggleWorkProcedureContent();
+        if (viewController != null) {
+            viewController.toggleWorkProcedureContent();
         }
     }
 
     @Override
     public void togglePermitSelection() {
-        if (view != null) {
-            view.toggleWorkPermitContent();
+        if (viewController != null) {
+            viewController.toggleWorkPermitContent();
         }
     }
 }
