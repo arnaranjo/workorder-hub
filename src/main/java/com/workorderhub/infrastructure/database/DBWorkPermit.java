@@ -2,6 +2,7 @@ package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.WorkPermit;
 import com.workorderhub.core.gateway.WorkPermitGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

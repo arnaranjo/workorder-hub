@@ -17,10 +17,10 @@ public class PropertiesLoader {
     static {
         try {
             propertiesInputStream = new FileInputStream(
-                    "src/main/java/com/workorderhub/infrastructure/ui/properties/config.properties"
+                    "src/main/java/com/workorderhub/infrastructure/config/config.properties"
             );
             sizeInputStream = new FileInputStream(
-                    "src/main/java/com/workorderhub/infrastructure/ui/properties/windows-size.properties"
+                    "src/main/java/com/workorderhub/infrastructure/config/windows-size.properties"
             );
             texts.load(propertiesInputStream);
             size.load(sizeInputStream);

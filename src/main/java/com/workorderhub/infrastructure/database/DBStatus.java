@@ -1,6 +1,7 @@
 package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.Status;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

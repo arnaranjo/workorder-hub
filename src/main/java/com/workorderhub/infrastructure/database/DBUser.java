@@ -3,6 +3,7 @@ package com.workorderhub.infrastructure.database;
 import com.workorderhub.core.entity.User;
 import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.core.gateway.UserGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;

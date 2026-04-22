@@ -2,6 +2,7 @@ package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.LotoProcedure;
 import com.workorderhub.core.gateway.LotoProcedureGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

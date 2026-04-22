@@ -2,6 +2,7 @@ package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.SparePart;
 import com.workorderhub.core.gateway.SparePartGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

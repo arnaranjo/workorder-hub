@@ -2,6 +2,7 @@ package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.*;
 import com.workorderhub.core.gateway.WorkLogGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDateTime;

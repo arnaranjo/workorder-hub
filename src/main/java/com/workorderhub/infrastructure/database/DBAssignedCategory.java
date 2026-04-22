@@ -1,6 +1,7 @@
 package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.AssignedCategory;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

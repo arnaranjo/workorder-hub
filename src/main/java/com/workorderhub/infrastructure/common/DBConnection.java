@@ -1,4 +1,4 @@
-package com.workorderhub.infrastructure.database;
+package com.workorderhub.infrastructure.common;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class DBConnection {
     static {
         try {
             fileInputStream = new FileInputStream(
-                    "src/main/java/com/workorderhub/infrastructure/ui/properties/config.properties"
+                    "src/main/java/com/workorderhub/infrastructure/config/database.properties"
             );
             properties.load(fileInputStream);
 

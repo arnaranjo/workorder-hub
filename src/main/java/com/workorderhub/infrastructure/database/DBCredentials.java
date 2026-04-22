@@ -2,6 +2,7 @@ package com.workorderhub.infrastructure.database;
 
 import com.workorderhub.core.entity.Credentials;
 import com.workorderhub.core.gateway.CredentialsGateway;
+import com.workorderhub.infrastructure.common.DBConnection;
 
 import java.sql.*;
 
