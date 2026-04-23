@@ -16,7 +16,7 @@ public class DBConnection {
     private static String username;
     private static String password;
 
-    private static Connection dbAccess = null;
+    private static volatile Connection dbAccess = null;
 
     static {
         try {
@@ -35,6 +35,7 @@ public class DBConnection {
 
         } catch (ClassNotFoundException | SQLException | IOException e) {
             System.out.println(e.getMessage());
+
         } finally {
             if (fileInputStream != null) {
                 try {
@@ -48,14 +49,18 @@ public class DBConnection {
     }
 
     public static Connection DBConnect() {
-        try {
-            if (dbAccess == null) {
-                dbAccess = DriverManager.getConnection(address, username, password);
+        if (dbAccess == null) {
+            synchronized (DBConnection.class) {
+                if (dbAccess == null) {
+                    try {
+                        dbAccess = DriverManager.getConnection(address, username, password);
+                        System.out.println("Connected...");
 
-                System.out.println("Connected...");
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
         return dbAccess;
     }
