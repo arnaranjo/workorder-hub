@@ -3,6 +3,8 @@ package com.workorderhub.infrastructure.ui.admin;
 import com.workorderhub.core.caseuse.spareparts.SparePartRow;
 import com.workorderhub.core.caseuse.workorder.*;
 import com.workorderhub.core.entity.Category;
+import com.workorderhub.core.entity.Participant;
+import com.workorderhub.core.entity.UsedSparePart;
 import com.workorderhub.core.entity.User;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
@@ -44,6 +46,17 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
     }
 
     @Override
+    public void displayCategoryListInfo(List<Category> categoryList) {
+        for (Category category : categoryList) {
+            viewController.displayAssignedCategoryList(new CategoryModel(
+                    category.getCategoryId(),
+                    category.getCategoryName(),
+                    category.getCategoryDescription()
+            ));
+        }
+    }
+
+    @Override
     public void displayPlantElementInfo(ResponsePlantElement response) {
         viewController.displayPlantElementInfo(
                 response.elementTag(),
@@ -51,6 +64,11 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                 response.elementLocation()
         );
         viewController.confirmPlantElement(response.elementId());
+    }
+
+    @Override
+    public void displayDescription(ResponseDescription response) {
+        viewController.setWorkOrderDescription(response.workOrderDescription());
     }
 
     @Override
@@ -77,6 +95,16 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                         holder.getUserEmail()
                 )).toList();
         viewController.setHolderList(participantModels);
+    }
+
+    @Override
+    public void displayHolderInfo(ResponseHolderInfo response) {
+        viewController.displayHolderInfo(
+                response.userName(),
+                response.userPhoneNumber(),
+                response.userEmail()
+        );
+        viewController.confirmHolder(response.userId());
     }
 
     @Override
@@ -193,7 +221,41 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                 String title = "workOrder.updatedWorkOrder.updatedWorkOrderTitle";
                 String message = "workOrder.updatedWorkOrder.updatedWorkOrderMessage";
                 Util.ShowMessage(title, message);
+
+                workOrderDataListener.onEditWorkOrder();
                 break;
         }
+    }
+
+    @Override
+    public void displayParticipantInfo(List<Participant> participantList) {
+        for (Participant pt : participantList ){
+            viewController.displayTechnicianInfo(
+                    pt.getEmployeeName(),
+                    pt.getEmployeePhoneNumber(),
+                    pt.getEmployeeEmail()
+            );
+        }
+    }
+
+    @Override
+    public void displayUsedSparePartInfo(List<UsedSparePart> usedSparePartList) {
+        for (UsedSparePart usp : usedSparePartList ){
+            viewController.setSparePartSelectionView(
+                    usp.getCurrentStock(),
+                    usp.getSpareName(),
+                    usp.getSpareNumber(),
+                    usp.getSelectedNumber()
+            );
+        }
+    }
+
+    @Override
+    public void displayWorkOrderRequirements(ResponseRequirements response) {
+        viewController.setRequirements(
+                response.isValidPeriodRequired(),
+                response.isWorkProcedureRequired(),
+                response.isWorkPermitRequired()
+        );
     }
 }

@@ -47,6 +47,8 @@ public class WorkOrderMainController implements WorkOrderMainView {
     private Label mainLabel;
     @FXML
     private Button updateButton;
+    @FXML
+    private Button createButton;
 
     //"Valid period" tab content
 
@@ -74,18 +76,24 @@ public class WorkOrderMainController implements WorkOrderMainView {
         this.requestParticipants = new ArrayList<>();
         this.requestSpareParts = new ArrayList<>();
 
+        this.workOrderId = AppState.getInstance().getWorkOrderId();
+
+        // Check if we are creating a new work order or editing an existing one.
         mainLabel.setStyle(PropertiesLoader.GetText("workOrder.defaultStyle"));
-        if (AppState.getInstance().getWorkOrderId() == 0) {
+        if (workOrderId == 0) {
             mainLabel.setText(PropertiesLoader.GetText("workOrder.defaultNew"));
+            createButton.setDisable(false);
             updateButton.setDisable(true);
 
         } else {
             mainLabel.setText(
                     PropertiesLoader.GetText("workOrder.defaultEdit")
-                    + ": " + AppState.getInstance().getWorkOrderId()
+                    + ": " + workOrderId
             );
-            this.workOrderId = AppState.getInstance().getWorkOrderId();
+
+            createButton.setDisable(true);
             updateButton.setDisable(false);
+            interactor.loadWorkOrderElement(new RequestLoadWorkOrder(workOrderId));
 
         }
     }
@@ -123,7 +131,7 @@ public class WorkOrderMainController implements WorkOrderMainView {
                 );
 
         getAssociatedData();
-        interactor.createWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts );
+        interactor.createWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts);
     }
 
     @FXML
@@ -154,7 +162,7 @@ public class WorkOrderMainController implements WorkOrderMainView {
                     );
 
             getAssociatedData();
-            interactor.updateWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts );
+            interactor.updateWorkOrder(request, requestAssignCategories, requestParticipants, requestSpareParts);
         }
     }
 
@@ -218,6 +226,7 @@ public class WorkOrderMainController implements WorkOrderMainView {
             requestSpareParts.add(new RequestUseSpareParts(
                     sparePart.getSparePartId(),
                     sparePart.getSelectedNumber(),
+                    sparePart.getCurrentStock(),
                     sparePart.getSpareName(),
                     sparePart.getSpareNumber()
             ));

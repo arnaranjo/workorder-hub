@@ -353,12 +353,16 @@ public class DBWorkOrder implements WorkOrderGateway {
                 wo.work_start_date,
                 wo.work_end_date,
                 wo.work_comments,
+                pe.element_id,
                 pe.element_tag,
                 pe.element_description,
                 pe.element_location,
+                pe.inspection_date,
+                pe.element_check_frequency,
                 wpr.work_procedure_id,
                 wpr.work_procedure_code,
                 wpr.work_procedure_name,
+                hl.employee_id,
                 hl.employee_name,
                 hl.company_email,
                 hl.phone_number,
@@ -402,15 +406,18 @@ public class DBWorkOrder implements WorkOrderGateway {
                 //The information of the plant element is not complete in this query,
                 //It is set the missing information with default values.
                 PlantElement plantElement = new PlantElement.Builder()
-                        .withElementId(0)
+                        .withElementId(resultSet.getInt("pe.element_id"))
                         .withElementTag(resultSet.getString("pe.element_tag"))
                         .withElementDescription(resultSet.getString("pe.element_description"))
                         .withElementLocation(resultSet.getString("pe.element_description"))
-                        .withInspectionDate(null)
-                        .withInspectionFrequency(0)
+                        .withInspectionDate(resultSet.getDate("pe.inspection_date") == null ?
+                                null : resultSet.getDate("inspection_date").toLocalDate())
+                        .withInspectionFrequency(resultSet.getObject("element_check_frequency") == null ?
+                                0 : resultSet.getInt("element_check_frequency"))
                         .build();
 
                 User user = new User();
+                user.setId(resultSet.getInt("hl.employee_id"));
                 user.setUserName(resultSet.getString("hl.employee_name"));
                 user.setUserEmail(resultSet.getString("hl.company_email"));
                 user.setUserPhoneNumber(resultSet.getString("hl.phone_number"));
@@ -419,18 +426,21 @@ public class DBWorkOrder implements WorkOrderGateway {
                 WorkPermit workPermit = new WorkPermit();
                 LotoProcedure lotoProcedure = new LotoProcedure();
                 if (resultSet.getInt("wpr.work_procedure_id") != 0) {
+                    workProcedure.setProcedureId(resultSet.getInt("wpr.work_procedure_id"));
                     workProcedure.setDocumentCode(resultSet.getString("wpr.work_procedure_code"));
-                    workProcedure.setDocumentCode(resultSet.getString("wpr.work_procedure_name"));
+                    workProcedure.setDocumentName(resultSet.getString("wpr.work_procedure_name"));
                 } else {
                     workProcedure = null;
                 }
                 if (resultSet.getInt("wpe.work_permit_id") != 0) {
+                    workPermit.setWorkPermitId(resultSet.getInt("wpe.work_permit_id"));
                     workPermit.setDescription(resultSet.getString("wpe.work_permit_description"));
                     workPermit.setLockoutDeviceId(resultSet.getString("wpe.lockout_device_id"));
                 } else {
                     workPermit = null;
                 }
                 if (resultSet.getInt("loto_procedure_id") != 0) {
+                    lotoProcedure.setProcedureId(resultSet.getInt("lp.loto_procedure_id"));
                     lotoProcedure.setDocumentCode(resultSet.getString("lp.loto_procedure_code"));
                     lotoProcedure.setDocumentName(resultSet.getString("lp.loto_procedure_name"));
                 } else {

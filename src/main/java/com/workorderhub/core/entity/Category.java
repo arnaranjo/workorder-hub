@@ -12,9 +12,10 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, String description) {
+    public Category(int categoryId, String name, String categoryDescription) {
+        this.categoryId = categoryId;
         this.categoryName = name;
-        this.categoryDescription = description;
+        this.categoryDescription = categoryDescription;
     }
 
     public int getCategoryId() {

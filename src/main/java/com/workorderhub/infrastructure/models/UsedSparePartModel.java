@@ -5,16 +5,18 @@ public class UsedSparePartModel {
     private long workOrderId;
     private int sparePartId;
     private int selectedNumber;
+    private int currentStock;
     private String spareName;
     private String spareNumber;
 
     public UsedSparePartModel() {
     }
 
-    public UsedSparePartModel(long workOrderId, int sparePartId, int selectedNumber) {
+    public UsedSparePartModel(long workOrderId, int sparePartId, int selectedNumber, int currentStock) {
         this.workOrderId = workOrderId;
         this.sparePartId = sparePartId;
         this.selectedNumber = selectedNumber;
+        this.currentStock = currentStock;
     }
 
     public long getWorkOrderId() {
@@ -39,6 +41,14 @@ public class UsedSparePartModel {
 
     public void setSelectedNumber(int selectedNumber) {
         this.selectedNumber = selectedNumber;
+    }
+
+    public int getCurrentStock() {
+        return currentStock;
+    }
+
+    public void setCurrentStock(int currentStock) {
+        this.currentStock = currentStock;
     }
 
     public String getSpareName() {

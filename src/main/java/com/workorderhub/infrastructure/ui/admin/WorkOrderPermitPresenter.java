@@ -1,6 +1,7 @@
 package com.workorderhub.infrastructure.ui.admin;
 
 import com.workorderhub.core.caseuse.workorder.LotoProcedureRow;
+import com.workorderhub.core.caseuse.workorder.ResponseWOrkPermitInfo;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPermitOutput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPermitView;
 import com.workorderhub.infrastructure.models.LotoProcedureModel;
@@ -27,5 +28,27 @@ public class WorkOrderPermitPresenter implements WorkOrderPermitOutput {
                         lotoProcedureRow.documentName()
                 )).toList();
         this.viewController.setLotoProcedureList(modelList);
+    }
+
+    @Override
+    public void displayWorkPermitInfo(ResponseWOrkPermitInfo response) {
+        if (response.lotoProcedureId()!= null) {
+            LotoProcedureModel model = new LotoProcedureModel(
+                    response.lotoProcedureId(),
+                    response.lotoProcedureCode(),
+                    response.lotoProcedureName()
+            );
+            this.viewController.setWorkPermitInfo(
+                    response.permitDescription(),
+                    response.lockDevices(),
+                    model
+            );
+        } else{
+            this.viewController.setWorkPermitInfo(
+                    response.permitDescription(),
+                    response.lockDevices(),
+                    null
+            );
+        }
     }
 }

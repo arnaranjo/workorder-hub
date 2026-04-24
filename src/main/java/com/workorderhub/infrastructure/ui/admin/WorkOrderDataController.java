@@ -15,6 +15,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,10 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     //"Work Order" tab content - Category selection
     @FXML
-    protected ChoiceBox<String> workOrderCategorySelector = new ChoiceBox<>();
+    protected ChoiceBox<CategoryModel> workOrderCategorySelector = new ChoiceBox<>();
     @FXML
     protected ListView<String> workOrderCategoryView = new ListView<>();
 
-    private List<CategoryModel> categoryList;
     private List<CategoryModel> assignedCategoryList;
 
     //"Work Order" tab content - Task description
@@ -115,7 +115,6 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
         this.isPElementSelected = false;
         this.isHolderSelected = false;
-        this.holderId = 0;
 
         /**
          * Initialises the lists that will contain the information of the categories, participants
@@ -152,21 +151,15 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     @FXML
     protected void addWorkOrderCategory() {
-        if (!categoryList.isEmpty()) {
-            if (!workOrderCategoryView.getItems().contains(this.workOrderCategorySelector.getValue())) {
+        CategoryModel selected = this.workOrderCategorySelector.getValue();
+        if (selected == null) return;
 
-                //Add to the ListView
-                this.workOrderCategoryView.getItems().add(this.workOrderCategorySelector.getValue());
+        boolean alreadyAssigned = assignedCategoryList.stream()
+                .anyMatch(c -> c.getId() == selected.getId());
 
-                for (CategoryModel category : categoryList) {
-                    if (category.getName().equals(this.workOrderCategorySelector.getValue())) {
-
-                        //Add to the AssignedList, the list of categories that will be assigned to the work order
-                        assignedCategoryList.add(category);
-
-                    }
-                }
-            }
+        if (!alreadyAssigned) {
+            assignedCategoryList.add(selected);
+            workOrderCategoryView.getItems().add(selected.getName() + ": " + selected.getDescription());
         }
     }
 
@@ -254,21 +247,16 @@ public class WorkOrderDataController implements WorkOrderDataView {
                 UsedSparePartModel usedSparePart = new UsedSparePartModel();
                 usedSparePart.setSparePartId(selectedSparePart.getSparePartId());
                 usedSparePart.setSelectedNumber(numberSelected);
+                usedSparePart.setCurrentStock(selectedSparePart.getSpareStock());
                 usedSparePart.setSpareName(selectedSparePart.getSpareName());
                 usedSparePart.setSpareNumber(selectedSparePart.getSpareNumber());
 
-                if (selectedSparePart.getSpareStock() == 0) {
-                    sparePartSelectedView.getItems().add(
-                            selectedSparePart.getSpareName() + " (" +
-                                    selectedSparePart.getSpareNumber() + ") Selected number: " + numberSelected +
-                                    " (Last items in stock)"
-                    );
-                } else {
-                    sparePartSelectedView.getItems().add(
-                            selectedSparePart.getSpareName() + " (" +
-                                    selectedSparePart.getSpareNumber() + ") Selected number: " + numberSelected
-                    );
-                }
+                setSparePartSelectionView(
+                        selectedSparePart.getSpareStock(),
+                        selectedSparePart.getSpareName(),
+                        selectedSparePart.getSpareNumber(),
+                        numberSelected
+                );
 
                 usedSparePartList.add(usedSparePart);
                 updateFilter();
@@ -329,11 +317,32 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     @Override
     public void setCategoryList(List<CategoryModel> categoryList) {
-        this.categoryList = categoryList;
-        for (CategoryModel category : categoryList) {
-            this.workOrderCategorySelector.getItems().add(category.getName());
-        }
+        this.workOrderCategorySelector.setItems(FXCollections.observableArrayList(categoryList));
         this.workOrderCategorySelector.getSelectionModel().selectFirst();
+
+        this.workOrderCategorySelector.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(CategoryModel c) {
+                return c == null ? "" : c.getName();
+            }
+
+            @Override
+            public CategoryModel fromString(String s) {
+                return null;
+            }
+        });
+    }
+
+
+    @Override
+    public void displayAssignedCategoryList(CategoryModel model) {
+        boolean alreadyAssigned = assignedCategoryList.stream()
+                .anyMatch(c -> c.getId() == model.getId());
+
+        if (!alreadyAssigned) {
+            assignedCategoryList.add(model);
+            workOrderCategoryView.getItems().add(model.getName() + ": " + model.getDescription());
+        }
     }
 
     @Override
@@ -368,10 +377,20 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
+    public void setHolderId(int holderId) {
+        this.holderId = holderId;
+    }
+
+    @Override
     public void displayPlantElementInfo(String elementTag, String elementDescription, String elementLocation) {
         this.tagLabel.setText(elementTag);
         this.descriptionLabel.setText(elementDescription);
         this.locationLabel.setText(elementLocation);
+    }
+
+    @Override
+    public void setWorkOrderDescription(String description) {
+        this.workOrderDescriptionArea.setText(description);
     }
 
     @Override
@@ -390,6 +409,18 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
+    public void setRequirements(boolean validPeriodRequired, boolean workProcedureRequired, boolean workPermitRequired) {
+        this.cBoxValidPeriod.setSelected(validPeriodRequired);
+        interactor.toggleValidPeriodDisable();
+
+        this.cBoxWorkProcedure.setSelected(workProcedureRequired);
+        interactor.toggleProcedureSelectionDisable();
+
+        this.cBoxWorkPermit.setSelected(workPermitRequired);
+        interactor.togglePermitSelectionDisable();
+    }
+
+    @Override
     public String getWorkOrderDescription() {
         return this.workOrderDescriptionArea.getText();
     }
@@ -401,6 +432,12 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
+    public void confirmHolder(int holderId) {
+        this.isHolderSelected = true;
+        this.holderId = holderId;
+    }
+
+    @Override
     public void setSparePartTableItems(List<SparePartModel> sparePartList) {
         ObservableList<SparePartModel> sparePartObsList = FXCollections.observableList(sparePartList);
         this.sparePartFilList = new FilteredList<>(sparePartObsList);
@@ -408,8 +445,16 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
-    public boolean isPlantElementConfirmed() {
-        return this.isPElementSelected;
+    public void setSparePartSelectionView(int stock, String spareName, String spareNumber, int quantity) {
+        if (stock == 0) {
+            this.sparePartSelectedView.getItems().add(
+                    spareName + " (" + spareNumber + ") Selected number: " + quantity + " (Last items in stock)"
+            );
+        } else {
+            this.sparePartSelectedView.getItems().add(
+                    spareName + " (" + spareNumber + ") Selected number: " + quantity
+            );
+        }
     }
 
     @Override
@@ -423,11 +468,6 @@ public class WorkOrderDataController implements WorkOrderDataView {
     @Override
     public List<CategoryModel> getAssignedCategories() {
         return this.assignedCategoryList;
-    }
-
-    @Override
-    public boolean isHolderConfirmed() {
-        return this.isHolderSelected;
     }
 
     @Override

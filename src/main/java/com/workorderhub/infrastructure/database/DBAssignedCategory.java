@@ -20,7 +20,8 @@ public class DBAssignedCategory implements com.workorderhub.core.gateway.Assigne
                 SELECT
                 woc.work_order_id,
                 woc.category_id,
-                ca.category_name
+                ca.category_name,
+                ca.category_description
                 FROM work_order_category woc
                 LEFT JOIN category ca ON woc.category_id = ca.category_id
                 WHERE woc.work_order_id = ?;
@@ -38,6 +39,7 @@ public class DBAssignedCategory implements com.workorderhub.core.gateway.Assigne
                 assignedCategory.setWorkOrderId(resultSet.getLong("woc.work_order_id"));
                 assignedCategory.setCategoryId(resultSet.getInt("woc.category_id"));
                 assignedCategory.setCategoryName(resultSet.getString("ca.category_name"));
+                assignedCategory.setCategoryDescription(resultSet.getString("ca.category_description"));
 
                 assignedCategoryList.add(assignedCategory);
             }

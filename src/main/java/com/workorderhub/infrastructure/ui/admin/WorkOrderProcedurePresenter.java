@@ -1,5 +1,6 @@
 package com.workorderhub.infrastructure.ui.admin;
 
+import com.workorderhub.core.caseuse.workorder.ResponseProcedureInfo;
 import com.workorderhub.core.caseuse.workorder.WorkOrderProcedureOutput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderProcedureView;
 import com.workorderhub.core.caseuse.workorder.WorkProcedureRow;
@@ -27,5 +28,10 @@ public class WorkOrderProcedurePresenter implements WorkOrderProcedureOutput {
                         workProcedureRow.documentName()
         )).toList();
         viewController.setWorkProcedureList(modelList);
+    }
+
+    @Override
+    public void displayProcedureInfo(ResponseProcedureInfo response) {
+            viewController.setProcedureInfo(response);
     }
 }

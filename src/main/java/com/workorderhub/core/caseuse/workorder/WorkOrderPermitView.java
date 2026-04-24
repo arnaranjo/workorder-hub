@@ -33,4 +33,12 @@ public interface WorkOrderPermitView {
      * @return the selected LOTO procedure ID for the work permit, null if no LOTO procedure has been selected.
      */
     Integer getSelectedLotoProcedureId();
+
+    /**
+     * Sets the information of the work permit, including the description, lock devices and the selected LOTO procedure.
+     * @param description the description of the work permit.
+     * @param lockDevices the lock devices specified for the LOTO procedure of the work permit.
+     * @param model the selected LOTO procedure for the work permit.
+     */
+    void setWorkPermitInfo(String description, String lockDevices, LotoProcedureModel model);
 }

@@ -152,6 +152,25 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
         return this.selectedLotoProcedure.getLotoProcedureId();
     }
 
+    @Override
+    public void setWorkPermitInfo(String description, String lockDevices, LotoProcedureModel model) {
+        this.workPermitDescriptionArea.setText(description);
+
+
+        if (lockDevices != null) {
+            cBoxLoto.setSelected(true);
+            toggleLoto();
+            this.lockDevicesField.setText(lockDevices);
+        }
+        if (model != null) {
+            this.selectedLotoProcedure = model;
+            this.lotoProcedureCode.setText(
+                    PropertiesLoader.GetText("workOrder.lotoProcedure.codeDefault") + " " +
+                            selectedLotoProcedure.getLotoProcedureCode()
+            );
+        }
+    }
+
     // Auxiliary methods
 
     /**

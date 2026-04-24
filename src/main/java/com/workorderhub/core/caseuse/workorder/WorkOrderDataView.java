@@ -17,6 +17,12 @@ public interface WorkOrderDataView {
     void setCategoryList(List<CategoryModel> categoryList);
 
     /**
+     * Displays the information of a category in the view.
+     * @param model A CategoryModel object containing the information of the category to be displayed in the view.
+     */
+    void displayAssignedCategoryList(CategoryModel model);
+
+    /**
      * Displays the list of technicians in the view.
      *
      * @param technicianList A list of UserModel objects representing the user as technicians.
@@ -49,6 +55,12 @@ public interface WorkOrderDataView {
     void displayHolderInfo(String holderName, String holderPhoneNumber, String holderEmail);
 
     /**
+     * Sets the ID of the confirmed holder.
+     * @param holderId The ID of the holder to be set as the confirmed holder.
+     */
+    void setHolderId(int holderId);
+
+    /**
      * Displays the information of the retrieved plant element
      *
      * @param elementTag         The tag of the plant element.
@@ -56,6 +68,12 @@ public interface WorkOrderDataView {
      * @param elementLocation    The location of the plant element.
      */
     void displayPlantElementInfo(String elementTag, String elementDescription, String elementLocation);
+
+    /**
+     * Displays the information of the retrieved work order description.
+     * @param description The description of the work order to be displayed in the view.
+     */
+    void setWorkOrderDescription(String description);
 
     /**
      * Checks if the period of the work order is required.
@@ -79,6 +97,14 @@ public interface WorkOrderDataView {
     boolean isWorkPermitRequired();
 
     /**
+     * Sets the requirements for the work order, including whether a valid period, work procedure, and work permit are required.
+     * @param validPeriodRequired indicates whether a valid period is required for the work order.
+     * @param workProcedureRequired indicates whether a work procedure is required for the work order.
+     * @param workPermitRequired indicates whether a work permit is required for the work order.
+     */
+    void setRequirements(boolean validPeriodRequired, boolean workProcedureRequired, boolean workPermitRequired);
+
+    /**
      * Retrieves the description of the work order from the view.
      *
      * @return the description of the work order, or null if no description has been provided.
@@ -95,6 +121,12 @@ public interface WorkOrderDataView {
     void confirmPlantElement(int elementId);
 
     /**
+     * Confirms the holder is valid and can be associated with the work order.
+     * @param holderId The ID of the holder to be confirmed.
+     */
+    void confirmHolder(int holderId);
+
+    /**
      * Populates the spare part table.
      *
      * @param sparePartList A list of SparePartRow objects containing the information
@@ -103,11 +135,13 @@ public interface WorkOrderDataView {
     void setSparePartTableItems(List<SparePartModel> sparePartList);
 
     /**
-     * Checks if the plant element has been confirmed by the user.
-     *
-     * @return true if the plant element has been confirmed, false otherwise.
+     * Sets the spare part selection view with the provided information.
+     * @param stock the stock of the spare part to be displayed in the view.
+     * @param spareName the name of the spare part to be displayed in the view.
+     * @param spareNumber the part number to be displayed in the view.
+     * @param quantity the quantity of spare parts selected to be displayed in the view.
      */
-    boolean isPlantElementConfirmed();
+    void setSparePartSelectionView(int stock, String spareName, String spareNumber, int quantity);
 
     /**
      * Retrieves the ID of the confirmed plant element.
@@ -116,12 +150,6 @@ public interface WorkOrderDataView {
      */
     Integer getPlantElementId();
 
-    /**
-     * Checks if a technician has been confirmed by the user.
-     *
-     * @return true if a technician has been confirmed, false otherwise.
-     */
-    boolean isHolderConfirmed();
 
     /**
      * Retrieves the ID of the confirmed holder.

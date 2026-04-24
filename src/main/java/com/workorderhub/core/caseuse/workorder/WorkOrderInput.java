@@ -92,4 +92,11 @@ public interface WorkOrderInput {
             List<RequestParticipants> participantsList,
             List<RequestUseSpareParts> usedSparePartList
     );
+
+    /**
+     * Loads all the information of an existing work order to be displayed in the view for editing.
+     * @param request the data required to load the work order information.
+     */
+    void loadWorkOrderElement(RequestLoadWorkOrder request);
 }
+

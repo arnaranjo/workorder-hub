@@ -36,4 +36,11 @@ public interface WorkOrderPeriodView {
      * null if no valid period has been selected.
      */
     public LocalDate getEndDate();
+
+    /**
+     * Sets the valid period for the work order in the view.
+     * @param startDate The start date of the valid period to be set in the view.
+     * @param endDate The end date of the valid period to be set in the view.
+     */
+    void setValidPeriod(LocalDate startDate, LocalDate endDate);
 }

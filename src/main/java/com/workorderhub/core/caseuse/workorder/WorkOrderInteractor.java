@@ -78,7 +78,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         List<Category> categoryList = categoryGateway.getCategoryList();
 
         if (categoryList.isEmpty()) {
-            categoryList.add(new Category("No categories available", null));
+            categoryList.add(new Category(0, "No categories available", null));
 
         } else {
             dataOutput.setCategoryList(categoryList);
@@ -313,10 +313,11 @@ public class WorkOrderInteractor implements WorkOrderInput {
         Integer permitLotoProcedureId = request.getWorkPermitLotoProcedureId();
         boolean hasRequestedPermit = hasWorkPermitData(permitDescription, permitLockDevices, permitLotoProcedureId);
 
-        if (hasRequestedPermit && !hasText(permitDescription)) {
+        if (!hasText(permitDescription)) {
             dataOutput.displayError(WorkOrderEnum.WORK_PERMIT_DESCRIPTION_ERROR);
             return;
         }
+        //TODO: Check loto
 
         // Work permit management
 
@@ -395,6 +396,108 @@ public class WorkOrderInteractor implements WorkOrderInput {
             }
         }
         dataOutput.displayConfirmation(WorkOrderEnum.WORK_ORDER_UPDATED, null);
+    }
+
+    @Override
+    public void loadWorkOrderElement(RequestLoadWorkOrder request) {
+        long id = request.workOrderId();
+        boolean isValidPeriodRequired = false;
+        boolean isWorkProcedureRequired = false;
+        boolean isWorkPermitRequired = false;
+
+        // Display assigned categories
+        List<Category> categoryList = assignedCategoryGateway.getCategoriesByWorkOrder(id).stream()
+                .map(assignedCategory -> new Category(
+                        assignedCategory.getCategoryId(),
+                        assignedCategory.getCategoryName(),
+                        assignedCategory.getCategoryDescription()
+                )).toList();
+
+        dataOutput.displayCategoryListInfo(categoryList);
+
+        // Display assigned participants
+        dataOutput.displayParticipantInfo(participantGateway.getParticipantsByWorkOrder(id));
+
+        // Display used spare parts
+        List<UsedSparePart> usedSparePartList = usedSparePartGateway.getUsedSpareByWorkOrder(id);
+        dataOutput.displayUsedSparePartInfo(usedSparePartList);
+
+        /*
+         * The work order element contains all the information of the work order that is needed to display
+         * the data in the view, such as the plant element, work procedure, loto procedure,
+         * work permit and user information.
+         */
+        WorkOrderElement workOrderElement = workOrderGateway.getWorkFrontElement(request.workOrderId());
+
+        //Plant element information
+        ResponsePlantElement responsePlantElement = new ResponsePlantElement(
+                workOrderElement.getPlantElement().getElementId(),
+                workOrderElement.getPlantElement().getElementTag(),
+                workOrderElement.getPlantElement().getElementDescription(),
+                workOrderElement.getPlantElement().getElementLocation(),
+                workOrderElement.getPlantElement().getInspectionDate(),
+                workOrderElement.getPlantElement().getInspectionFrequency()
+        );
+        dataOutput.displayPlantElementInfo(responsePlantElement);
+
+        //Description
+        dataOutput.displayDescription(
+                new ResponseDescription(workOrderElement.getWorkOrder().getDescription())
+        );
+
+        //Holder
+        ResponseHolderInfo responseHolderInfo = new ResponseHolderInfo(
+                workOrderElement.getUser().getUserId(),
+                workOrderElement.getUser().getUserName(),
+                workOrderElement.getUser().getUserPhoneNumber(),
+                workOrderElement.getUser().getUserEmail()
+        );
+        dataOutput.displayHolderInfo(responseHolderInfo);
+
+        //Valid Period
+        if (workOrderElement.getWorkOrder().getStartDate() != null && workOrderElement.getWorkOrder().getEndDate() != null) {
+            isValidPeriodRequired = true;
+
+            ResponseValidPeriod responseValidPeriod = new ResponseValidPeriod(
+                    workOrderElement.getWorkOrder().getStartDate(),
+                    workOrderElement.getWorkOrder().getEndDate()
+            );
+            periodOutput.displayValidPeriodInfo(responseValidPeriod);
+        }
+
+        //Work procedure information
+        if (workOrderElement.getWorkProcedure() != null) {
+            isWorkProcedureRequired = true;
+
+            ResponseProcedureInfo responseProcedureInfo = new ResponseProcedureInfo(
+                    workOrderElement.getWorkProcedure().getProcedureId(),
+                    workOrderElement.getWorkProcedure().getDocumentCode(),
+                    workOrderElement.getWorkProcedure().getDocumentName()
+            );
+            procedureOutput.displayProcedureInfo(responseProcedureInfo);
+        }
+
+        //Work permit
+        if (workOrderElement.getWorkPermit() != null) {
+            isWorkPermitRequired = true;
+
+            ResponseWOrkPermitInfo responseWOrkPermitInfo = new ResponseWOrkPermitInfo(
+                    workOrderElement.getWorkPermit().getDescription(),
+                    workOrderElement.getWorkPermit().getLockoutDeviceId(),
+                    workOrderElement.getLotoProcedure() != null ? workOrderElement.getLotoProcedure().getProcedureId() : null,
+                    workOrderElement.getLotoProcedure() != null ? workOrderElement.getLotoProcedure().getDocumentCode() : null,
+                    workOrderElement.getLotoProcedure() != null ? workOrderElement.getLotoProcedure().getDocumentName() : null
+            );
+            permitOutput.displayWorkPermitInfo(responseWOrkPermitInfo);
+        }
+
+        /*
+         * Display the requirements of the work order element,so the view can show or hide the sections
+         * of the form according to the data that the work order has.
+         */
+        dataOutput.displayWorkOrderRequirements(
+                new ResponseRequirements(isValidPeriodRequired, isWorkProcedureRequired, isWorkPermitRequired)
+        );
     }
 
     // Internal method
@@ -478,6 +581,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestUseSpareParts.sparePartId(),
                         requestUseSpareParts.selectedNumber(),
+                        requestUseSpareParts.currentStock(),
                         requestUseSpareParts.spareName(),
                         requestUseSpareParts.spareNumber()
                 )).toList();
@@ -495,7 +599,9 @@ public class WorkOrderInteractor implements WorkOrderInput {
                     .map(requestAssignCategory -> new AssignedCategory(
                             workOrderId,
                             requestAssignCategory.id(),
-                            requestAssignCategory.name()
+                            requestAssignCategory.name(),
+                            requestAssignCategory.description()
+
                     )).toList();
 
             List<Participant> participantList = participantsList.stream()
@@ -549,7 +655,8 @@ public class WorkOrderInteractor implements WorkOrderInput {
                 AssignedCategory newCategory = new AssignedCategory(
                         workOrderId,
                         requestCategory.id(),
-                        requestCategory.name()
+                        requestCategory.name(),
+                        requestCategory.description()
                 );
 
                 if (!assignedCategoryGateway.insertAssignedCategory(newCategory)) {
@@ -643,6 +750,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestSparePart.sparePartId(),
                         requestSparePart.selectedNumber(),
+                        requestSparePart.currentStock(),
                         requestSparePart.spareName(),
                         requestSparePart.spareNumber()
                 );
@@ -656,6 +764,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestSparePart.sparePartId(),
                         requestSparePart.selectedNumber(),
+                        requestSparePart.currentStock(),
                         requestSparePart.spareName(),
                         requestSparePart.spareNumber()
                 );
@@ -677,7 +786,10 @@ public class WorkOrderInteractor implements WorkOrderInput {
      * @return true if the user has filled any of the fields in the "Work permit" section, false otherwise.
      */
     private boolean hasWorkPermitData(String description, String lockDevices, Integer lotoProcedureId) {
-        return hasText(description) || hasText(lockDevices) || lotoProcedureId != null;
+        if (!hasText(description)) {
+            return false;
+
+        } else return hasText(description) && (hasText(lockDevices) || lotoProcedureId != null);
     }
 
     /**

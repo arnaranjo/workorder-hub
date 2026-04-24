@@ -13,14 +13,14 @@ public interface WorkOrderProcedureView {
     void setWorkProcedureList(List<WorkProcedureModel> workProcedureList);
 
     /**
-     * Checks if a work procedure has been selected by the user.
-     * @return true if a work procedure has been selected, false otherwise.
-     */
-    boolean isWorkProcedureSelected();
-
-    /**
      * Retrieves the ID of the selected work procedure.
      * @return the ID of the selected work procedure, or -1 if no work procedure has been selected.
      */
     int getSelectedWorkProcedure();
+
+    /**
+     * Displays the information of a specific work procedure in the view.
+     * @param response A ResponseProcedureInfo object containing the information of the work procedure to be displayed in the view.
+     */
+    void setProcedureInfo(ResponseProcedureInfo response);
 }

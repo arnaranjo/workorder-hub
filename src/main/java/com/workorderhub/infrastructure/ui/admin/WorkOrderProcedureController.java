@@ -1,5 +1,6 @@
 package com.workorderhub.infrastructure.ui.admin;
 
+import com.workorderhub.core.caseuse.workorder.ResponseProcedureInfo;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderProcedureView;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
@@ -121,16 +122,25 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
     }
 
     @Override
-    public boolean isWorkProcedureSelected() {
-        return this.isWorkProcedureSelected;
-    }
-
-    @Override
     public int getSelectedWorkProcedure() {
         if (this.selectedWorkProcedure == null) {
             return -1;
         }
         return this.selectedWorkProcedure.getWorkProcedureId();
+    }
+
+    @Override
+    public void setProcedureInfo(ResponseProcedureInfo response) {
+        this.isWorkProcedureSelected = true;
+        this.selectedWorkProcedure = new WorkProcedureModel(
+                response.procedureId(),
+                response.documentCode(),
+                response.documentName()
+        );
+        workProcedureLabel.setText(
+                PropertiesLoader.GetText("workOrder.workProcedure.codeDefault") + " " +
+                        selectedWorkProcedure.getWorkProcedureCode()
+        );
     }
 
     // Auxiliary methods

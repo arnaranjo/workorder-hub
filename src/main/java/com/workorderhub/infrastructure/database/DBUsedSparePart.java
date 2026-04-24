@@ -25,7 +25,8 @@ public class DBUsedSparePart implements UsedSparePartGateway {
                 wos.selected_number,
                 sp.spare_part_id,
                 sp.spare_part_name,
-                sp.spare_part_number
+                sp.spare_part_number,
+                sp.spare_part_stock
                 FROM work_order_spare wos
                 LEFT JOIN spare_part sp ON wos.spare_part_id = sp.spare_part_id
                 WHERE wos.work_order_id = ?;
@@ -45,6 +46,7 @@ public class DBUsedSparePart implements UsedSparePartGateway {
                 usedSparePart.setSparePartId(resultSet.getInt("sp.spare_part_id"));
                 usedSparePart.setSpareName(resultSet.getString("sp.spare_part_name"));
                 usedSparePart.setSpareNumber(resultSet.getString("sp.spare_part_number"));
+                usedSparePart.setCurrentStock(resultSet.getInt("sp.spare_part_stock"));
 
                 usedSparePartsList.add(usedSparePart);
             }

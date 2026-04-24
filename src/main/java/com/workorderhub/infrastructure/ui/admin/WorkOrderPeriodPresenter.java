@@ -1,5 +1,6 @@
 package com.workorderhub.infrastructure.ui.admin;
 
+import com.workorderhub.core.caseuse.workorder.ResponseValidPeriod;
 import com.workorderhub.core.caseuse.workorder.WorkFrontRow;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPeriodOutput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPeriodView;
@@ -33,5 +34,10 @@ public class WorkOrderPeriodPresenter implements WorkOrderPeriodOutput {
                 workFrontRow.status()
         )).toList();
         viewController.setWorkFrontList(modelList);
+    }
+
+    @Override
+    public void displayValidPeriodInfo(ResponseValidPeriod response) {
+        viewController.setValidPeriod(response.startDate(), response.endDate());
     }
 }

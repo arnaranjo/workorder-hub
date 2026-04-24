@@ -2,6 +2,8 @@ package com.workorderhub.core.caseuse.workorder;
 
 import com.workorderhub.core.caseuse.spareparts.SparePartRow;
 import com.workorderhub.core.entity.Category;
+import com.workorderhub.core.entity.Participant;
+import com.workorderhub.core.entity.UsedSparePart;
 import com.workorderhub.core.entity.User;
 
 import java.util.List;
@@ -16,11 +18,23 @@ public interface WorkOrderDataOutput {
     void setCategoryList(List<Category> categoryList);
 
     /**
+     * Displays the information of a category in the view.
+     * @param categoryList A list of Category objects representing the information of the category to be displayed in the view.
+     */
+    void displayCategoryListInfo(List<Category> categoryList);
+
+    /**
      * Displays the information of the retrieved plant element
      *
      * @param response Response with the plant element information to be displayed in the view.
      */
     void displayPlantElementInfo(ResponsePlantElement response);
+
+    /**
+     * Displays the information of the retrieved work order description
+     * @param response Response with the work order description information to be displayed in the view.
+     */
+    void displayDescription(ResponseDescription response);
 
     /**
      * Displays the list of technicians in the view.
@@ -36,6 +50,12 @@ public interface WorkOrderDataOutput {
      * @param userRole   A string representing the role of the user supervisor.
      */
     void displayHolderList(List<User> holderList, String userRole);
+
+    /**
+     * Displays the information of a holder in the view.
+     * @param response Response with the holder information to be displayed in the view.
+     */
+    void displayHolderInfo(ResponseHolderInfo response);
 
     /**
      * Displays the list of spare parts in the view.
@@ -66,4 +86,22 @@ public interface WorkOrderDataOutput {
      * @param workOrderEnum An enum value representing the specific success message to be displayed in the view.
      */
     void displayConfirmation(WorkOrderEnum workOrderEnum, ResponseNewWorkOrder response);
+
+    /**
+     * Displays the information of the retrieved participants.
+     * @param participantList A list of Participant objects representing the participants to be displayed in the view.
+     */
+    void displayParticipantInfo(List<Participant> participantList);
+
+    /**
+     * Displays the information of the retrieved used spare parts.
+     * @param usedSparePartList A list of spare parts objects representing the used spare parts to be displayed in the view.
+     */
+    void displayUsedSparePartInfo(List<UsedSparePart> usedSparePartList);
+
+    /**
+     * Displays the information of the retrieved work order requirements.
+     * @param response Response with the work order requirements information to be displayed in the view.
+     */
+    void displayWorkOrderRequirements(ResponseRequirements response);
 }

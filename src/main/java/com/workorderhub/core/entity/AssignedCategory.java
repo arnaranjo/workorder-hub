@@ -8,14 +8,21 @@ public class AssignedCategory {
     private long workOrderId;
     private int categoryId;
     private String categoryName;
+    private String categoryDescription;
 
     public AssignedCategory() {
     }
 
-    public AssignedCategory(long workOrderId, int categoryId, String categoryName) {
+    public AssignedCategory(
+            long workOrderId,
+            int categoryId,
+            String categoryName,
+            String categoryDescription
+    ) {
         this.workOrderId = workOrderId;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
+        this.categoryDescription = categoryDescription;
     }
 
     public int getCategoryId() {
@@ -40,6 +47,14 @@ public class AssignedCategory {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String description) {
+        this.categoryDescription = description;
     }
 }
 

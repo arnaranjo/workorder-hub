@@ -6,6 +6,7 @@ import com.workorderhub.core.caseuse.plantelement.PlantElementInteractor;
 import com.workorderhub.core.caseuse.procedures.LotoProcedureInteractor;
 import com.workorderhub.core.caseuse.procedures.WorkProcedureInteractor;
 import com.workorderhub.core.caseuse.spareparts.SparePartInteractor;
+import com.workorderhub.core.caseuse.workorder.WorkOrderDataListener;
 import com.workorderhub.core.caseuse.workorder.WorkOrderInteractor;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
@@ -174,11 +175,17 @@ public class AdminMenuController {
 
         WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
         WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();
-        dataPresenter.setDataListener(() -> {
+        dataPresenter.setDataListener(new WorkOrderDataListener() {
+            @Override
+            public void onNewWorkOrder() {
+                AppState.getInstance().resetWorkOrder();
+                adminMainController.retrieveWorkFront();
+            }
 
-            // Executed when the data presenter notifies that a new work order has been created,
-            AppState.getInstance().resetWorkOrder();
-            adminMainController.retrieveWorkFront();
+            @Override
+            public void onEditWorkOrder() {
+                return;
+            }
         });
 
         WorkOrderPeriodPresenter periodPresenter = new WorkOrderPeriodPresenter();
@@ -259,6 +266,17 @@ public class AdminMenuController {
 
             WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
             WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();
+            dataPresenter.setDataListener(new WorkOrderDataListener() {
+                @Override
+                public void onNewWorkOrder() {
+                    return;
+                }
+
+                @Override
+                public void onEditWorkOrder() {
+                    adminMainController.retrieveWorkFront();
+                }
+            });
             WorkOrderPeriodPresenter periodPresenter = new WorkOrderPeriodPresenter();
             WorkOrderProcedurePresenter procedurePresenter = new WorkOrderProcedurePresenter();
             WorkOrderPermitPresenter permitPresenter = new WorkOrderPermitPresenter();

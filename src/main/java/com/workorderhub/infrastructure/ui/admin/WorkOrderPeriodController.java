@@ -151,4 +151,12 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
     public LocalDate getEndDate() {
         return this.selectedEndDate;
     }
+
+    @Override
+    public void setValidPeriod(LocalDate startDate, LocalDate endDate) {
+        this.startDatePicker.setValue(startDate);
+        this.endDatePicker.setValue(endDate);
+        this.confirmationLabel.setText(PropertiesLoader.GetText("workOrder.validPeriod.confDates"));
+        this.isPeriodSelected = true;
+    }
 }
