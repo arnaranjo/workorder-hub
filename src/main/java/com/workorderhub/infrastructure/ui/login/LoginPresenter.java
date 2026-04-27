@@ -4,6 +4,7 @@ import com.workorderhub.core.caseuse.adminpanel.AdminMainInteractor;
 import com.workorderhub.core.caseuse.login.LoginOutput;
 import com.workorderhub.core.caseuse.login.ResponseLogin;
 import com.workorderhub.core.caseuse.login.LoginView;
+import com.workorderhub.core.caseuse.technician.TechnicianMainInteractor;
 import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
@@ -13,6 +14,8 @@ import com.workorderhub.infrastructure.database.DBWorkOrder;
 import com.workorderhub.infrastructure.ui.admin.AdminMainController;
 import com.workorderhub.infrastructure.ui.admin.AdminMainPresenter;
 import com.workorderhub.infrastructure.ui.admin.AdminMenuController;
+import com.workorderhub.infrastructure.ui.technician.TechnicianMainController;
+import com.workorderhub.infrastructure.ui.technician.TechnicianMainPresenter;
 
 import java.net.URL;
 
@@ -20,8 +23,8 @@ public class LoginPresenter implements LoginOutput {
 
     private LoginView view;
     private final URL adminView = getClass().getResource("/ui/admin/admin-view.fxml");
-    private final URL technicianView = getClass().getResource("/ui/supervisor/supervisor-view.fxml");
-    private final URL supervisorView = getClass().getResource("/ui/technician/technician-view.fxml");
+    private final URL supervisorView = getClass().getResource("/ui/supervisor/supervisor-main-view.fxml");
+    private final URL technicianView = getClass().getResource("/ui/technician/technician-main-view.fxml");
 
     public LoginPresenter() {
     }
@@ -43,7 +46,7 @@ public class LoginPresenter implements LoginOutput {
 
         ViewLoader viewLoader = new ViewLoader();
         AppState appState = AppState.getInstance();
-        appState.setLoggedUser(response.userName());
+        appState.setLoggedUser(response.userName(), response.userId());
 
         switch (userRole) {
             case MANAGER:
@@ -81,7 +84,18 @@ public class LoginPresenter implements LoginOutput {
                 break;
 
             case TECHNICIAN:
-                //Log the controllers here
+
+                TechnicianMainPresenter technicianMainPresenter = new TechnicianMainPresenter();
+                TechnicianMainInteractor technicianMainInteractor = new TechnicianMainInteractor(
+                        technicianMainPresenter,
+                        new DBWorkOrder()
+                );
+
+                viewLoader.registerController(TechnicianMainController.class, ()-> {
+                    TechnicianMainController controller = new TechnicianMainController(technicianMainInteractor);
+                    technicianMainPresenter.setViewController(controller);
+                    return controller;
+                });
 
                 viewLoader.LoadView(
                         technicianView,

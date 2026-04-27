@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/22"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.workorderhub.infrastructure.ui.technician.TechnicianMainController"
+>
+    <top>
+        <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" prefHeight="50.0"
+               prefWidth="800.0" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="18.0"/>
+            </font>
+        </Label>
+    </top>
+    <center>
+        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefViewportHeight="640.0"
+                    prefViewportWidth="1024.0" vbarPolicy="ALWAYS">
+            <GridPane alignment="TOP_CENTER" hgap="20.0" vgap="10.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"/>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"/>
+                    <ColumnConstraints hgrow="ALWAYS" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" valignment="CENTER"
+                                    vgrow="NEVER"/>
+                </rowConstraints>
+                <padding>
+                    <Insets bottom="10.0" left="20.0" right="20.0" top="20.0"/>
+                </padding>
+                <Label text="Plant Element">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="10.0" layoutY="26.0" text="Description" GridPane.rowIndex="7">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="workOrderDescription" promptText="Work description / actions..."
+                          GridPane.columnSpan="3" GridPane.rowIndex="8" GridPane.rowSpan="3"/>
+                <Label layoutX="10.0" layoutY="30.0" text="Category" GridPane.rowIndex="4">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="pElementTag" text="TAG: " GridPane.rowIndex="1"/>
+                <Label fx:id="pElementLocation" text="LOCATION: " GridPane.rowIndex="2"/>
+                <Label fx:id="pElementDescription" text="DESCRIPTION: " GridPane.rowIndex="3"/>
+                <Label text="Holder" GridPane.columnIndex="1">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="holderNameLabel" text="NAME:" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label fx:id="holderContactLabel" text="CONTACT: " GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                <Label text="Participants" GridPane.columnIndex="2">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label text="Number of spare parts finally used:" GridPane.rowIndex="27"/>
+                <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#EditSparePartNumber"
+                        prefWidth="220.0" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="31"/>
+                <Spinner fx:id="numSelected" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
+                         GridPane.rowIndex="31"/>
+                <ListView fx:id="sparePartSelectedView" GridPane.columnSpan="3" GridPane.rowIndex="28"
+                          GridPane.rowSpan="3" GridPane.vgrow="ALWAYS"/>
+                <Label layoutX="30.0" layoutY="113.0" text="Spare Parts" GridPane.rowIndex="26">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <ListView fx:id="participantView" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="5"/>
+                <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="11"/>
+                <Label layoutX="30.0" layoutY="317.0" text="Work Procedure" GridPane.columnIndex="1"
+                       GridPane.rowIndex="4">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="workProcedureCodeLabel" layoutX="30.0" layoutY="363.0" text="CONFIRMATION: "
+                       GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                <Label fx:id="workOrderCategoryLabel" layoutX="466.0" layoutY="363.0" text="CONFIRMATION: "
+                       GridPane.rowIndex="5"/>
+                <Label layoutX="146.0" layoutY="440.0" text="Technician Comment" GridPane.rowIndex="20">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="technicianCommentArea" layoutX="146.0" layoutY="478.0" promptText="Final comment..."
+                          GridPane.columnSpan="3" GridPane.rowIndex="21" GridPane.rowSpan="3"/>
+                <Button layoutX="146.0" layoutY="969.0" maxWidth="300.0" minWidth="220.0" mnemonicParsing="false"
+                        onAction="#AddTechnicianComment" prefWidth="220.0" text="Confirm" GridPane.rowIndex="24"/>
+                <TextArea fx:id="workPermitDescriptionArea" layoutX="146.0" layoutY="438.0"
+                          promptText="Work Permit description" GridPane.columnSpan="3" GridPane.rowIndex="13"
+                          GridPane.rowSpan="3"/>
+                <Label text="Safety Lock" GridPane.rowIndex="16">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="146.0" layoutY="399.0" text="Work Permit" GridPane.rowIndex="12">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="safetyLockLabel" layoutX="146.0" layoutY="281.0" text="DESCRIPTION: "
+                       GridPane.rowIndex="17"/>
+                <Label fx:id="lotoProcedureCodeLabel" layoutX="146.0" layoutY="812.0" text="DESCRIPTION: "
+                       GridPane.rowIndex="18"/>
+                <Separator prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="19"/>
+            </GridPane>
+        </ScrollPane>
+    </center>
+    <left>
+        <VBox prefWidth="120.0" spacing="10.0" BorderPane.alignment="CENTER">
+            <Label text="Valid period">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Label>
+            <Label fx:id="startDateLabel" text="Start Date"/>
+            <Label fx:id="endDateLabel" layoutX="10.0" layoutY="113.0" text="End Date"/>
+            <Label text="Status">
+                <font>
+                    <Font size="18.0"/>
+                </font>
+            </Label>
+            <Label fx:id="statusLabel" text="status"/>
+            <BorderPane.margin>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0"/>
+            </BorderPane.margin>
+        </VBox>
+    </left>
+    <bottom>
+        <Pane prefHeight="50.0" BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>
