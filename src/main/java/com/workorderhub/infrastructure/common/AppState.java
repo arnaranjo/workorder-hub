@@ -14,6 +14,7 @@ public final class AppState {
 
     private static volatile AppState instance;
     private String loggedUser = null;
+    private int loggedUserId = 0;
     private List<StatusModel> workOrderStatusList;
     private long workOrderId = 0;
 
@@ -36,9 +37,11 @@ public final class AppState {
     /**
      * Sets the logged user name in the app state.
      * @param loggedUser the name of the logged user to set
+     * @param loggedUserId the ID of the logged user to set
      */
-    public void setLoggedUser(String loggedUser){
+    public void setLoggedUser(String loggedUser, int loggedUserId){
         this.loggedUser = loggedUser;
+        this.loggedUserId = loggedUserId;
     }
 
     /**
@@ -47,6 +50,14 @@ public final class AppState {
      */
     public String getLoggedUser(){
         return loggedUser;
+    }
+
+    /**
+     * Gets the logged user ID from the app state.
+     * @return the ID of the logged user, or 0 if no user is logged in
+     */
+    public int getLoggedUserId() {
+        return loggedUserId;
     }
 
     public List<StatusModel> getWorkOrderStatusList() {

@@ -33,7 +33,7 @@ public class LoginInteractor implements LoginInput {
 
         } else {
             User user = userGateway.getUserByCredentials(id);
-            response = new ResponseLogin(user.getUserName());
+            response = new ResponseLogin(user.getUserName(), user.getUserId());
 
             switch (user.getIdRol()) {
                 case 1:
