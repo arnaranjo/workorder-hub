@@ -16,9 +16,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ChoiceBox?>
 <BorderPane xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.workorderhub.infrastructure.ui.technician.TechnicianMainController"
+            fx:controller="com.workorderhub.infrastructure.ui.technician.WorkOrderCheckController"
 >
     <top>
         <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" prefHeight="50.0"
@@ -123,9 +124,9 @@
                         <Font size="18.0"/>
                     </font>
                 </Label>
-                <Label fx:id="pElementTag" text="TAG: " GridPane.rowIndex="1"/>
-                <Label fx:id="pElementLocation" text="LOCATION: " GridPane.rowIndex="2"/>
-                <Label fx:id="pElementDescription" text="DESCRIPTION: " GridPane.rowIndex="3"/>
+                <Label fx:id="plantElementTag" text="TAG: " GridPane.rowIndex="1"/>
+                <Label fx:id="planElementLocation" text="LOCATION: " GridPane.rowIndex="2"/>
+                <Label fx:id="planElementDescription" text="DESCRIPTION: " GridPane.rowIndex="3"/>
                 <Label text="Holder" GridPane.columnIndex="1">
                     <font>
                         <Font size="18.0"/>
@@ -139,9 +140,9 @@
                     </font>
                 </Label>
                 <Label text="Number of spare parts finally used:" GridPane.rowIndex="27"/>
-                <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#EditSparePartNumber"
+                <Button maxWidth="300.0" minWidth="220.0" mnemonicParsing="false" onAction="#editSparePartNumber"
                         prefWidth="220.0" text="Edit" GridPane.columnIndex="1" GridPane.rowIndex="31"/>
-                <Spinner fx:id="numSelected" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
+                <Spinner fx:id="numfinallyUsed" maxWidth="300.0" minWidth="220.0" prefWidth="220.0"
                          GridPane.rowIndex="31"/>
                 <ListView fx:id="sparePartSelectedView" GridPane.columnSpan="3" GridPane.rowIndex="28"
                           GridPane.rowSpan="3" GridPane.vgrow="ALWAYS"/>
@@ -158,7 +159,7 @@
                         <Font size="18.0"/>
                     </font>
                 </Label>
-                <Label fx:id="workProcedureCodeLabel" layoutX="30.0" layoutY="363.0" text="CONFIRMATION: "
+                <Label fx:id="workProcedureLabel" layoutX="30.0" layoutY="363.0" text="CONFIRMATION: "
                        GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                 <Label fx:id="workOrderCategoryLabel" layoutX="466.0" layoutY="363.0" text="CONFIRMATION: "
                        GridPane.rowIndex="5"/>
@@ -170,7 +171,7 @@
                 <TextArea fx:id="technicianCommentArea" layoutX="146.0" layoutY="478.0" promptText="Final comment..."
                           GridPane.columnSpan="3" GridPane.rowIndex="21" GridPane.rowSpan="3"/>
                 <Button layoutX="146.0" layoutY="969.0" maxWidth="300.0" minWidth="220.0" mnemonicParsing="false"
-                        onAction="#AddTechnicianComment" prefWidth="220.0" text="Confirm" GridPane.rowIndex="24"/>
+                        onAction="#addTechnicianComment" prefWidth="220.0" text="Confirm" GridPane.rowIndex="24"/>
                 <TextArea fx:id="workPermitDescriptionArea" layoutX="146.0" layoutY="438.0"
                           promptText="Work Permit description" GridPane.columnSpan="3" GridPane.rowIndex="13"
                           GridPane.rowSpan="3"/>

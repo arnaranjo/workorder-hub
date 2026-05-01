@@ -49,10 +49,10 @@
             <ChoiceBox fx:id="searchCriteriaSelector" prefWidth="160.0" />
             <TextField fx:id="workOrderSearchField" />
             <Separator prefWidth="200.0" />
-            <Button mnemonicParsing="false" prefWidth="160.0" text="Start Order" />
+            <Button onAction="#startWorkOrder" mnemonicParsing="false" prefWidth="160.0" text="Start Order" />
             <Separator prefWidth="200.0" />
-            <Button mnemonicParsing="false" prefWidth="160.0" text="Review" />
-            <Button mnemonicParsing="false" prefWidth="160.0" text="Close Order" />
+            <Button onAction="#checkWorkOrder" mnemonicParsing="false" prefWidth="160.0" text="Review" />
+            <Button onAction="#closeWorkOrder" mnemonicParsing="false" prefWidth="160.0" text="Close Order" />
         </VBox>
     </left>
 </BorderPane>

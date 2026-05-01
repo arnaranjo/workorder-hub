@@ -29,7 +29,7 @@ public class Main extends Application {
         ViewLoader viewLoader = new ViewLoader();
         viewLoader.registerController(LoginController.class, () -> {
             LoginController controller = new LoginController(interactor);
-            presenter.setView(controller);
+            presenter.setLoginViewController(controller);
             return controller;
         });
 

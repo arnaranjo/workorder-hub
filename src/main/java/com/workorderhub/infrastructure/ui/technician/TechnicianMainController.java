@@ -1,9 +1,6 @@
 package com.workorderhub.infrastructure.ui.technician;
 
-import com.workorderhub.core.caseuse.technician.RequestWorkFront;
-import com.workorderhub.core.caseuse.technician.TechnicianMainInput;
-import com.workorderhub.core.caseuse.technician.TechnicianMainInteractor;
-import com.workorderhub.core.caseuse.technician.TechnicianMainView;
+import com.workorderhub.core.caseuse.technician.*;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
 import com.workorderhub.infrastructure.common.Util;
@@ -11,11 +8,11 @@ import com.workorderhub.infrastructure.models.WorkFrontModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -85,6 +82,14 @@ public class TechnicianMainController implements TechnicianMainView {
         statusColumn = new TableColumn<>(PropertiesLoader.GetText("technicianView.status"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        workFrontTable.getColumns().add(workOrderIdColumn);
+        workFrontTable.getColumns().add(startDateColumn);
+        workFrontTable.getColumns().add(endDateColumn);
+        workFrontTable.getColumns().add(workProcedureColumn);
+        workFrontTable.getColumns().add(plantElementColumn);
+        workFrontTable.getColumns().add(holderColumn);
+        workFrontTable.getColumns().add(statusColumn);
+
         workFrontList = new ArrayList<>();
         interactor.retrieveWorkFrontList(
                 new RequestWorkFront(AppState.getInstance().getLoggedUserId())
@@ -95,17 +100,17 @@ public class TechnicianMainController implements TechnicianMainView {
 
     }
 
+    // FXML methods
+
     @FXML
-    private void reviewWorkOrder() {
-        if (!workFrontTable.getSelectionModel().isEmpty()){
-            AppState.getInstance().setWorkOrderId(
-                    workFrontTable.getSelectionModel().getSelectedItem().getWorkOrderId()
-            );
+    private void checkWorkOrder() {
+        if (!workFrontTable.getSelectionModel().isEmpty()) {
 
-            //LoadView
+            long workOrderId = workFrontTable.getSelectionModel().getSelectedItem().getWorkOrderId();
+            AppState.getInstance().setWorkOrderId(workOrderId);
+            interactor.loadWorkOrder(new RequestLoadWorkOrder(workOrderId));
 
-        }
-        else {
+        } else {
             String errTitle = "technicianView.noSelectedTitle";
             String errMessage = "technicianView.noSelectedMessage";
             Util.ShowMessage(errTitle, errMessage);
@@ -113,14 +118,59 @@ public class TechnicianMainController implements TechnicianMainView {
         }
     }
 
+    @FXML
+    private void startWorkOrder() {
+        if (workFrontTable.getSelectionModel().isEmpty()) {
+            String errTitle = "technicianView.noSelectedTitle";
+            String errMessage = "technicianView.noSelectedMessage";
+            Util.ShowMessage(errTitle, errMessage);
+            return;
+        }
+
+        RequestUpdateStatus request = new RequestUpdateStatus(
+                workFrontTable.getSelectionModel().getSelectedItem().getWorkOrderId()
+        );
+        interactor.startWorkOrder(request);
+    }
+
+    @FXML
+    private void closeWorkOrder() {
+        if (workFrontTable.getSelectionModel().isEmpty()) {
+            String errTitle = "technicianView.noSelectedTitle";
+            String errMessage = "technicianView.noSelectedMessage";
+            Util.ShowMessage(errTitle, errMessage);
+            return;
+        }
+
+        RequestUpdateStatus request = new RequestUpdateStatus(
+                workFrontTable.getSelectionModel().getSelectedItem().getWorkOrderId()
+        );
+        interactor.closeWorkOrder(request);
+    }
+
+    // interface methods
+
+    @Override
+    public void setWorkFrontList(List<WorkFrontModel> workFrontList) {
+        if (this.workFrontObsList == null) {
+            this.workFrontObsList = FXCollections.observableArrayList();
+            this.workFrontFilList = new FilteredList<>(this.workFrontObsList);
+            this.workFrontTable.setItems(this.workFrontFilList);
+        }
+
+        this.workFrontObsList.setAll(workFrontList);
+        this.workFrontTable.refresh();
+    }
+
+    // Auxiliary methods
 
     /**
      * Sets the function to display the work order description when is selected.
      */
     private void setWorkOrderInfo() {
-        workFrontTable.getSelectionModel().selectedItemProperty().addListener((_, _, newSelection) -> {
+        this.workFrontTable.getSelectionModel().selectedItemProperty().addListener((_, _, newSelection) -> {
             if (newSelection != null) {
-                descriptionArea.setText(newSelection.getDescription());
+                this.descriptionArea.setText(newSelection.getDescription());
             }
         });
     }
@@ -280,20 +330,5 @@ public class TechnicianMainController implements TechnicianMainView {
         }
          */
 
-    }
-
-    @Override
-    public void setWorkFrontList(List<WorkFrontModel> workFrontList) {
-        workFrontObsList = FXCollections.observableArrayList(workFrontList);
-        workFrontFilList = new FilteredList<>(workFrontObsList);
-
-        workFrontTable.setItems(workFrontFilList);
-        workFrontTable.getColumns().add(workOrderIdColumn);
-        workFrontTable.getColumns().add(startDateColumn);
-        workFrontTable.getColumns().add(endDateColumn);
-        workFrontTable.getColumns().add(workProcedureColumn);
-        workFrontTable.getColumns().add(plantElementColumn);
-        workFrontTable.getColumns().add(holderColumn);
-        workFrontTable.getColumns().add(statusColumn);
     }
 }

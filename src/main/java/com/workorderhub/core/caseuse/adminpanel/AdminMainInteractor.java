@@ -1,6 +1,7 @@
 package com.workorderhub.core.caseuse.adminpanel;
 
 import com.workorderhub.core.caseuse.workorder.WorkFrontRow;
+import com.workorderhub.core.entity.StatusEnum;
 import com.workorderhub.core.gateway.WorkLogGateway;
 import com.workorderhub.core.gateway.WorkOrderGateway;
 
@@ -26,7 +27,8 @@ public class AdminMainInteractor implements AdminMainInput {
 
     @Override
     public void retrieveWorkFronts() {
-        List<WorkFrontRow> workFrontRowList = workOrderGateway.getWorkFrontList().stream()
+        List<WorkFrontRow> workFrontRowList = workOrderGateway
+                .getWorkFrontList(StatusEnum.OPEN, StatusEnum.ONGOING).stream()
                 .map(workOrderElement -> new WorkFrontRow(
                         workOrderElement.getWorkOrder().getWorkOrderId(),
                         workOrderElement.getWorkOrder().getDescription(),
@@ -47,7 +49,8 @@ public class AdminMainInteractor implements AdminMainInput {
     @Override
     public void retrieveClosedOrders(RequestClosedOrders request) {
         LocalDate date = request.startDate();
-        List<WorkFrontRow> closedOrdersList = workOrderGateway.getClosedWorkList(date).stream()
+        List<WorkFrontRow> closedOrdersList = workOrderGateway
+                .getClosedWorkList(date, StatusEnum.CLOSED).stream()
                 .map(workOrderElement -> new WorkFrontRow(
                         workOrderElement.getWorkOrder().getWorkOrderId(),
                         workOrderElement.getWorkOrder().getDescription(),

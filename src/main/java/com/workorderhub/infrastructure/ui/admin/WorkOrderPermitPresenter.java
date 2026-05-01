@@ -1,7 +1,7 @@
 package com.workorderhub.infrastructure.ui.admin;
 
 import com.workorderhub.core.caseuse.workorder.LotoProcedureRow;
-import com.workorderhub.core.caseuse.workorder.ResponseWOrkPermitInfo;
+import com.workorderhub.core.caseuse.workorder.ResponseWorkPermitInfo;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPermitOutput;
 import com.workorderhub.core.caseuse.workorder.WorkOrderPermitView;
 import com.workorderhub.infrastructure.models.LotoProcedureModel;
@@ -31,7 +31,7 @@ public class WorkOrderPermitPresenter implements WorkOrderPermitOutput {
     }
 
     @Override
-    public void displayWorkPermitInfo(ResponseWOrkPermitInfo response) {
+    public void displayWorkPermitInfo(ResponseWorkPermitInfo response) {
         if (response.lotoProcedureId()!= null) {
             LotoProcedureModel model = new LotoProcedureModel(
                     response.lotoProcedureId(),

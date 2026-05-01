@@ -66,7 +66,7 @@ public class DBWorkOrder implements WorkOrderGateway {
     }
 
     @Override
-    public List<WorkOrderElement> getWorkFrontList() {
+    public List<WorkOrderElement> getWorkFrontList(StatusEnum firstStatus, StatusEnum secondStatus) {
 
         List<WorkOrderElement> workFrontList = new ArrayList<>();
         String sql = """
@@ -88,112 +88,15 @@ public class DBWorkOrder implements WorkOrderGateway {
                 LEFT JOIN work_permit wpt ON wo.work_permit_id = wpt.work_permit_id
                 LEFT JOIN loto_procedure lp ON wpt.loto_procedure_id = lp.loto_procedure_id
                 LEFT JOIN status s ON wo.status_id = s.status_id
-                WHERE s.order_status IN ('Open', 'On Going')
-                ORDER BY wo.work_order_id;
-                """;
-
-        try {
-            sqlManager = DBConnection.DBConnect();
-            Statement statement = sqlManager.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            while (resultSet.next()) {
-
-                WorkOrderInfo workOrderInfo = new WorkOrderInfo();
-                workOrderInfo.setWorkOrderId(resultSet.getLong("wo.work_order_id"));
-                workOrderInfo.setDescription(resultSet.getString("wo.work_description"));
-                workOrderInfo.setStartDate(
-                        resultSet.getDate("wo.work_start_date") == null ?
-                                null : resultSet.getDate("wo.work_start_date").toLocalDate()
-                );
-                workOrderInfo.setEndDate(
-                        resultSet.getDate("wo.work_end_date") == null ?
-                                null : resultSet.getDate("wo.work_end_date").toLocalDate()
-                );
-
-                PlantElement plantElement = new PlantElement.Builder()
-                        .withElementId(0)
-                        .withElementTag(resultSet.getString("pe.element_tag"))
-                        .withElementDescription(null)
-                        .withElementLocation(null)
-                        .withInspectionDate(null)
-                        .withInspectionFrequency(0)
-                        .build();
-
-                WorkProcedure workProcedure = new WorkProcedure();
-                // Work procedure Code may be null.
-                workProcedure.setDocumentCode(resultSet.getString("wpr.work_procedure_code"));
-
-                WorkPermit workPermit = new WorkPermit();
-                // LockoutDeviceId may be null.
-                workPermit.setLockoutDeviceId(resultSet.getString("wpt.lockout_device_id"));
-
-                LotoProcedure lotoProcedure = new LotoProcedure();
-                lotoProcedure.setDocumentCode(resultSet.getString("lp.loto_procedure_code"));
-
-                User user = new User();
-                user.setUserName(resultSet.getString("hl.employee_name"));
-
-                Status status = new Status();
-                status.setOrderStatus(resultSet.getString("s.order_status"));
-
-                WorkOrderElement workOrderElement = new WorkOrderElement.Builder()
-                        .withWorkOrder(workOrderInfo)
-                        .withPlantElement(plantElement)
-                        .withEmployee(user)
-                        .withWorkProcedure(workProcedure)
-                        .withWorkPermit(workPermit)
-                        .withLotoProcedure(lotoProcedure)
-                        .withStatus(status)
-                        .build();
-
-                workFrontList.add(workOrderElement);
-            }
-
-            resultSet.close();
-            statement.close();
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            DBConnection.DBDisconnect();
-        }
-
-        return workFrontList;
-    }
-
-    @Override
-    public List<WorkOrderElement> getAssignedWorkList(int employeeId) {
-
-        List<WorkOrderElement> workFrontList = new ArrayList<>();
-        String sql = """
-                SELECT
-                	wo.work_order_id,
-                	wo.work_description,
-                    wo.work_start_date,
-                    wo.work_end_date,
-                    pe.element_tag,
-                    wpr.work_procedure_code,
-                    wpt.lockout_device_id,
-                    lp.loto_procedure_code,
-                    hl.employee_name,
-                    s.order_status
-                FROM work_order wo
-                LEFT JOIN employee hl ON wo.holder = hl.employee_id
-                LEFT JOIN plant_element pe ON wo.plant_element_id = pe.element_id
-                LEFT JOIN work_procedure wpr ON wo.work_procedure_id = wpr.work_procedure_id
-                LEFT JOIN work_permit wpt ON wo.work_permit_id = wpt.work_permit_id
-                LEFT JOIN loto_procedure lp ON wpt.loto_procedure_id = lp.loto_procedure_id
-                LEFT JOIN status s ON wo.status_id = s.status_id
-                INNER JOIN work_order_employee woe ON wo.work_order_id = woe.work_order_id
-                WHERE s.order_status IN ('Open', 'On Going') AND woe.employee_id = ?
+                WHERE s.order_status IN (?, ?)
                 ORDER BY wo.work_order_id;
                 """;
 
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setInt(1, employeeId);
+            statement.setString(1, firstStatus.GetStatus());
+            statement.setString(2, secondStatus.GetStatus());
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
@@ -262,7 +165,108 @@ public class DBWorkOrder implements WorkOrderGateway {
     }
 
     @Override
-    public List<WorkOrderElement> getClosedWorkList(LocalDate startDate) {
+    public List<WorkOrderElement> getAssignedWorkList(int employeeId, StatusEnum firstStatus, StatusEnum secondStatus) {
+
+        List<WorkOrderElement> workFrontList = new ArrayList<>();
+        String sql = """
+                SELECT
+                	wo.work_order_id,
+                	wo.work_description,
+                    wo.work_start_date,
+                    wo.work_end_date,
+                    pe.element_tag,
+                    wpr.work_procedure_code,
+                    wpt.lockout_device_id,
+                    lp.loto_procedure_code,
+                    hl.employee_name,
+                    s.order_status
+                FROM work_order wo
+                LEFT JOIN employee hl ON wo.holder = hl.employee_id
+                LEFT JOIN plant_element pe ON wo.plant_element_id = pe.element_id
+                LEFT JOIN work_procedure wpr ON wo.work_procedure_id = wpr.work_procedure_id
+                LEFT JOIN work_permit wpt ON wo.work_permit_id = wpt.work_permit_id
+                LEFT JOIN loto_procedure lp ON wpt.loto_procedure_id = lp.loto_procedure_id
+                LEFT JOIN status s ON wo.status_id = s.status_id
+                INNER JOIN work_order_employee woe ON wo.work_order_id = woe.work_order_id
+                WHERE s.order_status IN (?, ?) AND woe.employee_id = ?
+                ORDER BY wo.work_order_id;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, firstStatus.GetStatus());
+            statement.setString(2, secondStatus.GetStatus());
+            statement.setInt(3, employeeId);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+
+                WorkOrderInfo workOrderInfo = new WorkOrderInfo();
+                workOrderInfo.setWorkOrderId(resultSet.getLong("wo.work_order_id"));
+                workOrderInfo.setDescription(resultSet.getString("wo.work_description"));
+                workOrderInfo.setStartDate(
+                        resultSet.getDate("wo.work_start_date") == null ?
+                                null : resultSet.getDate("wo.work_start_date").toLocalDate()
+                );
+                workOrderInfo.setEndDate(
+                        resultSet.getDate("wo.work_end_date") == null ?
+                                null : resultSet.getDate("wo.work_end_date").toLocalDate()
+                );
+
+                PlantElement plantElement = new PlantElement.Builder()
+                        .withElementId(0)
+                        .withElementTag(resultSet.getString("pe.element_tag"))
+                        .withElementDescription(null)
+                        .withElementLocation(null)
+                        .withInspectionDate(null)
+                        .withInspectionFrequency(0)
+                        .build();
+
+                WorkProcedure workProcedure = new WorkProcedure();
+                // Work procedure Code may be null.
+                workProcedure.setDocumentCode(resultSet.getString("wpr.work_procedure_code"));
+
+                WorkPermit workPermit = new WorkPermit();
+                // LockoutDeviceId may be null.
+                workPermit.setLockoutDeviceId(resultSet.getString("wpt.lockout_device_id"));
+
+                LotoProcedure lotoProcedure = new LotoProcedure();
+                lotoProcedure.setDocumentCode(resultSet.getString("lp.loto_procedure_code"));
+
+                User user = new User();
+                user.setUserName(resultSet.getString("hl.employee_name"));
+
+                Status status = new Status();
+                status.setOrderStatus(resultSet.getString("s.order_status"));
+
+                WorkOrderElement workOrderElement = new WorkOrderElement.Builder()
+                        .withWorkOrder(workOrderInfo)
+                        .withPlantElement(plantElement)
+                        .withEmployee(user)
+                        .withWorkProcedure(workProcedure)
+                        .withWorkPermit(workPermit)
+                        .withLotoProcedure(lotoProcedure)
+                        .withStatus(status)
+                        .build();
+
+                workFrontList.add(workOrderElement);
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            DBConnection.DBDisconnect();
+        }
+
+        return workFrontList;
+    }
+
+    @Override
+    public List<WorkOrderElement> getClosedWorkList(LocalDate startDate, StatusEnum statusEnum) {
 
         List<WorkOrderElement> workFrontList = new ArrayList<>();
         String sql = getSql(startDate);
@@ -271,8 +275,10 @@ public class DBWorkOrder implements WorkOrderGateway {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
 
+            statement.setString(1, statusEnum.GetStatus());
+
             if (startDate != null) {
-                statement.setDate(1, Date.valueOf(startDate));
+                statement.setDate(2, Date.valueOf(startDate));
             }
 
             ResultSet resultSet = statement.executeQuery();
@@ -687,6 +693,69 @@ public class DBWorkOrder implements WorkOrderGateway {
         return false;
     }
 
+    @Override
+    public boolean updateWorkOrderStatus(long workOrderId, StatusEnum status) {
+
+        String sql = """
+                UPDATE work_order
+                SET status_id = (SELECT status_id FROM status WHERE order_status = ?)
+                WHERE work_order_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, status.GetStatus());
+            statement.setLong(2, workOrderId);
+
+            boolean result = statement.executeUpdate() != 0;
+            statement.close();
+            return result;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean setWorkOrderComment(long workOrderId, String comment) {
+
+        String sql = """
+                UPDATE work_order
+                SET work_comments = ?
+                WHERE work_order_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+
+            if (comment == null) {
+                statement.setNull(1, Types.NULL);
+            } else {
+                statement.setString(1, comment);
+            }
+            statement.setLong(2, workOrderId);
+
+            boolean result = statement.executeUpdate() != 0;
+            statement.close();
+            return result;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return false;
+    }
+
     /**
      * Gets the SQL script according to the dates.
      *
@@ -713,7 +782,7 @@ public class DBWorkOrder implements WorkOrderGateway {
                 LEFT JOIN work_permit wpt ON wo.work_permit_id = wpt.work_permit_id
                 LEFT JOIN loto_procedure lp ON wpt.loto_procedure_id = lp.loto_procedure_id
                 LEFT JOIN status s ON wo.status_id = s.status_id
-                WHERE s.order_status = 'Closed'
+                WHERE s.order_status = ?
                 """;
 
         if ((startDate != null)) {

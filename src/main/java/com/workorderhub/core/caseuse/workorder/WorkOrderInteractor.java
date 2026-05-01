@@ -148,7 +148,8 @@ public class WorkOrderInteractor implements WorkOrderInput {
 
     @Override
     public void retrieveWorkFrontList() {
-        List<WorkFrontRow> workFrontRowList = workOrderGateway.getWorkFrontList().stream()
+        List<WorkFrontRow> workFrontRowList = workOrderGateway
+                .getWorkFrontList(StatusEnum.OPEN, StatusEnum.ONGOING).stream()
                 .map(workOrderElement -> new WorkFrontRow(
                         workOrderElement.getWorkOrder().getWorkOrderId(),
                         workOrderElement.getWorkOrder().getDescription(),
@@ -481,7 +482,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         if (workOrderElement.getWorkPermit() != null) {
             isWorkPermitRequired = true;
 
-            ResponseWOrkPermitInfo responseWOrkPermitInfo = new ResponseWOrkPermitInfo(
+            ResponseWorkPermitInfo responseWOrkPermitInfo = new ResponseWorkPermitInfo(
                     workOrderElement.getWorkPermit().getDescription(),
                     workOrderElement.getWorkPermit().getLockoutDeviceId(),
                     workOrderElement.getLotoProcedure() != null ? workOrderElement.getLotoProcedure().getProcedureId() : null,
@@ -581,9 +582,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestUseSpareParts.sparePartId(),
                         requestUseSpareParts.selectedNumber(),
-                        requestUseSpareParts.currentStock(),
-                        requestUseSpareParts.spareName(),
-                        requestUseSpareParts.spareNumber()
+                        requestUseSpareParts.currentStock()
                 )).toList();
 
         if (!usedSparePartGateway.insertUsedSparePartBatch(usedSparePartList)) {
@@ -750,9 +749,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestSparePart.sparePartId(),
                         requestSparePart.selectedNumber(),
-                        requestSparePart.currentStock(),
-                        requestSparePart.spareName(),
-                        requestSparePart.spareNumber()
+                        requestSparePart.currentStock()
                 );
 
                 if (!usedSparePartGateway.insertUsedSparePart(newSparePart)) {
@@ -764,9 +761,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
                         workOrderId,
                         requestSparePart.sparePartId(),
                         requestSparePart.selectedNumber(),
-                        requestSparePart.currentStock(),
-                        requestSparePart.spareName(),
-                        requestSparePart.spareNumber()
+                        requestSparePart.currentStock()
                 );
 
                 if (!usedSparePartGateway.updateUsedSparePart(updatedSparePart)) {

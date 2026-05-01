@@ -12,11 +12,20 @@ public class UsedSparePartModel {
     public UsedSparePartModel() {
     }
 
-    public UsedSparePartModel(long workOrderId, int sparePartId, int selectedNumber, int currentStock) {
+    public UsedSparePartModel(
+            long workOrderId,
+            int sparePartId,
+            int selectedNumber,
+            int currentStock,
+            String spareName,
+            String spareNumber
+    ) {
         this.workOrderId = workOrderId;
         this.sparePartId = sparePartId;
         this.selectedNumber = selectedNumber;
         this.currentStock = currentStock;
+        this.spareName = spareName;
+        this.spareNumber = spareNumber;
     }
 
     public long getWorkOrderId() {

@@ -1,6 +1,6 @@
 package com.workorderhub.core.caseuse.workorder;
 
-public record ResponseWOrkPermitInfo(
+public record ResponseWorkPermitInfo(
         String permitDescription,
         String lockDevices,
         Integer lotoProcedureId,

@@ -31,6 +31,18 @@ public class UsedSparePart {
         this.spareNumber = spareNumber;
     }
 
+    public UsedSparePart(
+            long workOrderId,
+            int sparePartId,
+            int selectedNumber,
+            int currentStock
+    ) {
+        this.workOrderId = workOrderId;
+        this.sparePartId = sparePartId;
+        this.selectedNumber = selectedNumber;
+        this.currentStock = currentStock;
+    }
+
     public long getWorkOrderId() {
         return workOrderId;
     }
