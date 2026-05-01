@@ -362,6 +362,11 @@ public class WorkOrderDataController implements WorkOrderDataView {
     }
 
     @Override
+    public void setParticipantList(List<ParticipantModel> participantList) {
+        this.participantList.addAll(participantList);
+    }
+
+    @Override
     public void setHolderList(List<ParticipantModel> holderList) {
         this.holderList = holderList;
         for (ParticipantModel holder : holderList) {
@@ -442,6 +447,11 @@ public class WorkOrderDataController implements WorkOrderDataView {
         ObservableList<SparePartModel> sparePartObsList = FXCollections.observableList(sparePartList);
         this.sparePartFilList = new FilteredList<>(sparePartObsList);
         this.sparePartTable.setItems(sparePartFilList);
+    }
+
+    @Override
+    public void setUsedSparePartList(List<UsedSparePartModel> usedSparePartList) {
+        this.usedSparePartList.addAll(usedSparePartList);
     }
 
     @Override

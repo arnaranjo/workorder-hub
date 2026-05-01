@@ -39,6 +39,13 @@ public interface WorkOrderDataView {
     void displayTechnicianInfo(String technicianName, String technicianPhoneNumber, String technicianEmail);
 
     /**
+     * Displays the list of participants in the view.
+     *
+     * @param participantList A list of UserModel objects representing the user as participants.
+     */
+    void setParticipantList(List<ParticipantModel> participantList);
+
+    /**
      * Displays the list of holders in the view.
      *
      * @param holderList A list of UserModel objects representing the user as holders.
@@ -133,6 +140,12 @@ public interface WorkOrderDataView {
      *                      to be displayed in the spare parts table.
      */
     void setSparePartTableItems(List<SparePartModel> sparePartList);
+
+    /**
+     * Populates the used spare part list.
+     * @param usedSparePartList A list of UsedSparePartModel objects containing the information to be displayed in the used spare parts table.
+     */
+    void setUsedSparePartList(List<UsedSparePartModel> usedSparePartList);
 
     /**
      * Sets the spare part selection view with the provided information.

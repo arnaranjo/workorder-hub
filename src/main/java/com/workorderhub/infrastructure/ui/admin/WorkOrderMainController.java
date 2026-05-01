@@ -107,7 +107,7 @@ public class WorkOrderMainController implements WorkOrderMainView {
     @FXML
     protected void createNewWorkOrder() {
 
-        boolean hasValidPeriod = !validPeriodTab.isDisabled() && validPeriodViewController.isPeriodSelected();
+        boolean hasValidPeriod = validPeriodViewController.isPeriodSelected();
         LocalDate startDate = hasValidPeriod ? validPeriodViewController.getStartDate() : null;
         LocalDate endDate = hasValidPeriod ? validPeriodViewController.getEndDate() : null;
 

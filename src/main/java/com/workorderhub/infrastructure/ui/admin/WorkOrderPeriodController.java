@@ -144,12 +144,12 @@ public class WorkOrderPeriodController implements WorkOrderPeriodView {
 
     @Override
     public LocalDate getStartDate() {
-        return this.selectedStartDate;
+        return this.startDatePicker.getValue();
     }
 
     @Override
     public LocalDate getEndDate() {
-        return this.selectedEndDate;
+        return this.endDatePicker.getValue();
     }
 
     @Override

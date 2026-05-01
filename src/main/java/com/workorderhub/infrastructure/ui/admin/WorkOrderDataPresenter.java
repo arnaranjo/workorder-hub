@@ -12,6 +12,7 @@ import com.workorderhub.infrastructure.common.Util;
 import com.workorderhub.infrastructure.models.CategoryModel;
 import com.workorderhub.infrastructure.models.ParticipantModel;
 import com.workorderhub.infrastructure.models.SparePartModel;
+import com.workorderhub.infrastructure.models.UsedSparePartModel;
 
 import java.util.List;
 import java.util.Objects;
@@ -236,6 +237,16 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                     pt.getEmployeeEmail()
             );
         }
+
+        List<ParticipantModel> participantModels = participantList.stream()
+                .map(participant -> new ParticipantModel(
+                        participant.getWorkOrderId(),
+                        participant.getUserId(),
+                        participant.getEmployeeName(),
+                        participant.getEmployeeEmail(),
+                        participant.getEmployeePhoneNumber()
+                )).toList();
+        viewController.setParticipantList(participantModels);
     }
 
     @Override
@@ -248,6 +259,17 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
                     usp.getSelectedNumber()
             );
         }
+
+            List<UsedSparePartModel> sparePartModels = usedSparePartList.stream()
+                    .map(usedSparePart -> new UsedSparePartModel(
+                            usedSparePart.getWorkOrderId(),
+                            usedSparePart.getSparePartId(),
+                            usedSparePart.getSelectedNumber(),
+                            usedSparePart.getCurrentStock(),
+                            usedSparePart.getSpareName(),
+                            usedSparePart.getSpareNumber()
+                    )).toList();
+            viewController.setUsedSparePartList(sparePartModels);
     }
 
     @Override
