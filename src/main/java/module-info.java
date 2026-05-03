@@ -14,6 +14,8 @@ module com.workorderhub {
     opens com.workorderhub.infrastructure.ui.admin to javafx.fxml;
     exports com.workorderhub.infrastructure.ui.technician;
     opens com.workorderhub.infrastructure.ui.technician to javafx.fxml;
+    exports com.workorderhub.infrastructure.ui.supervisor;
+    opens com.workorderhub.infrastructure.ui.supervisor to javafx.fxml;
     exports com.workorderhub.infrastructure.models;
     opens com.workorderhub.infrastructure.models to javafx.fxml;
 
