@@ -111,9 +111,9 @@ public class WorkOrderCheckController implements WorkOrderCheckView {
     // View interface methods
 
     @Override
-    public void setPeriodDate(LocalDate startDate, LocalDate endDate) {
-        startDateLabel.setText(startDate.toString());
-        endDateLabel.setText(endDate.toString());
+    public void setPeriodDate(String startDate, String endDate) {
+        startDateLabel.setText(startDate);
+        endDateLabel.setText(endDate);
     }
 
     @Override

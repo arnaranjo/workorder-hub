@@ -19,7 +19,7 @@ import java.util.List;
  * CODE REFERENCES
  * 1 - Allow only digits <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html#sum"/>
  */
-public class SparePartsController implements SparePartsView {
+public class SparePartController implements SparePartsView {
 
     //Stock selectors values:
     int MIN_STOCK = 0;
@@ -97,7 +97,7 @@ public class SparePartsController implements SparePartsView {
 
     }
 
-    public SparePartsController(SparePartInput interactor) {
+    public SparePartController(SparePartInput interactor) {
         this.interactor = interactor;
     }
 

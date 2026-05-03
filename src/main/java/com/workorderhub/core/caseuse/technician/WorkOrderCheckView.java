@@ -18,7 +18,7 @@ public interface WorkOrderCheckView {
      * @param startDate fecha de inicio del período.
      * @param endDate   fecha de fin del período.
      */
-    void setPeriodDate(LocalDate startDate, LocalDate endDate);
+    void setPeriodDate(String startDate, String endDate);
 
     /**
      * Muestra los datos generales de la orden de trabajo.

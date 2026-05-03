@@ -151,8 +151,8 @@ public class AdminMenuController {
         );
 
         ViewLoader viewLoader = new ViewLoader();
-        viewLoader.registerController(SparePartsController.class, () -> {
-            SparePartsController controller = new SparePartsController(
+        viewLoader.registerController(SparePartController.class, () -> {
+            SparePartController controller = new SparePartController(
                     interactor
             );
 

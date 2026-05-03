@@ -21,8 +21,8 @@ public class WorkOrderCheckPresenter implements WorkOrderCheckOutput {
     @Override
     public void displayWorkOrderData(ResponseWorkOrderData responseWorkOrderData) {
         viewController.setPeriodDate(
-                responseWorkOrderData.startDate(),
-                responseWorkOrderData.endDate()
+                responseWorkOrderData.startDate() == null ? "N/A" : responseWorkOrderData.startDate().toString(),
+                responseWorkOrderData.endDate() == null ? "N/A" : responseWorkOrderData.endDate().toString()
         );
         viewController.setWorkOrderData(
                 responseWorkOrderData.workOrderDescripcion(),
@@ -59,10 +59,10 @@ public class WorkOrderCheckPresenter implements WorkOrderCheckOutput {
     @Override
     public void displayWorkPermit(ResponseWorkPermit responseWorkPermit) {
         viewController.setWorkPermitInfo(
-                responseWorkPermit.workPermitDescription(),
-                responseWorkPermit.lockDeviceId(),
-                responseWorkPermit.LotoProcedureName(),
-                responseWorkPermit.LotoProcedureCode()
+                responseWorkPermit.workPermitDescription() == null ? "N/A" : responseWorkPermit.workPermitDescription(),
+                responseWorkPermit.lockDeviceId() == null ? "N/A" : responseWorkPermit.lockDeviceId(),
+                responseWorkPermit.LotoProcedureName() == null ? "N/A" : responseWorkPermit.LotoProcedureName(),
+                responseWorkPermit.LotoProcedureCode() == null ? "N/A" : responseWorkPermit.LotoProcedureCode()
         );
     }
 

@@ -84,13 +84,14 @@ public class WorkOrderCheckInteractor implements WorkOrderCheckInput {
         );
         output.displayHolderInfo(responseHolderInfo);
 
-        ResponseProcedureInfo responseProcedureInfo = new ResponseProcedureInfo(
-                workOrderElement.getWorkProcedure().getProcedureId(),
-                workOrderElement.getWorkProcedure().getDocumentCode(),
-                workOrderElement.getWorkProcedure().getDocumentName()
-        );
-        output.displayProcedureInfo(responseProcedureInfo);
-
+        if (workOrderElement.getWorkProcedure() != null) {
+            ResponseProcedureInfo responseProcedureInfo = new ResponseProcedureInfo(
+                    workOrderElement.getWorkProcedure().getProcedureId(),
+                    workOrderElement.getWorkProcedure().getDocumentCode(),
+                    workOrderElement.getWorkProcedure().getDocumentName()
+            );
+            output.displayProcedureInfo(responseProcedureInfo);
+        }
 
         if (workOrderElement.getWorkPermit() != null) {
             boolean isLoto = workOrderElement.getLotoProcedure() == null;
