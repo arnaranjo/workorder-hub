@@ -39,7 +39,7 @@ public class ViewLoader {
      *  @return a callback that provides controller instances for FXML loading
      *  @throws RuntimeException if a controller cannot be instantiated
      */
-    private javafx.util.Callback<Class<?>, Object> buildControllerFactory() {
+    javafx.util.Callback<Class<?>, Object> buildControllerFactory() {
         return type -> {
             if (controllersMap.containsKey(type)) {
                 return controllersMap.get(type).get();
