@@ -45,7 +45,10 @@ public class PlantElementInteractor implements PlantElementInput {
         )
             presenter.displayError(PlantElementEnum.INCOMPLETE_INFORMATION);
 
-        else {
+        else if (isElementTagInUse(request.elementTag(), 0)) {
+            presenter.displayError(PlantElementEnum.PLANT_ELEMENT_TAG_IN_USE);
+
+        } else {
             PlantElement newPlantElement = new PlantElement.Builder()
                     .withElementId(0)
                     .withElementTag(request.elementTag())
@@ -90,6 +93,10 @@ public class PlantElementInteractor implements PlantElementInput {
             presenter.displayError(PlantElementEnum.INCOMPLETE_INFORMATION);
 
             //Recover the old value in the table cell.
+            presenter.updateElementTagCell(responseCell);
+
+        } else if (isElementTagInUse(request.newElementTag(), request.elementId())) {
+            presenter.displayError(PlantElementEnum.PLANT_ELEMENT_TAG_IN_USE);
             presenter.updateElementTagCell(responseCell);
 
         } else if (plantElementGateway.UpdateElementTag(request.elementId(), request.newElementTag())) {
@@ -240,5 +247,20 @@ public class PlantElementInteractor implements PlantElementInput {
 
             }
         }
+    }
+
+    //Auxiliary methods
+
+    /**
+     * Checks if the element tag is already in use by another plant element.
+     * @param elementTag
+     * @param currentElementId
+     * @return
+     */
+    private boolean isElementTagInUse(String elementTag, int currentElementId) {
+        PlantElement plantElement = plantElementGateway.GetPlantElementByTag(elementTag);
+
+        return plantElement != null
+                && plantElement.getElementId() != currentElementId;
     }
 }

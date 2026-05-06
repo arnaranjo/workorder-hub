@@ -95,6 +95,10 @@ public class PlantElementPresenter implements PlantElementOutput {
                 view.setInfoDisplay(PropertiesLoader.GetText("plantElement.incompleteInfo"));
                 break;
 
+            case PLANT_ELEMENT_TAG_IN_USE:
+                view.setInfoDisplay(PropertiesLoader.GetText("plantElement.tagInUse"));
+                break;
+
             case PlANT_ELEMENT_ADDITION_ERROR:
                 view.setInfoDisplay(PropertiesLoader.GetText("plantElement.addedElementError"));
                 break;

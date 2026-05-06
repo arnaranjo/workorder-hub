@@ -2,6 +2,7 @@ package com.workorderhub.core.caseuse.plantelement;
 
 public enum PlantElementEnum {
     INCOMPLETE_INFORMATION,
+    PLANT_ELEMENT_TAG_IN_USE,
     PlANT_ELEMENT_ADDITION_ERROR,
     PLANT_ELEMENT_ADDED,
     PlANT_ELEMENT_UPDATE_ERROR,
