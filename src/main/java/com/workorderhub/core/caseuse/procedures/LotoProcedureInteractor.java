@@ -65,25 +65,51 @@ public class LotoProcedureInteractor implements LotoProcedureInput {
     }
 
     @Override
-    public boolean UpdateLotoProcedure(RequestUpdateLotoProcedure request) {
-        if (request.documentCode().isEmpty() || request.documentName().isEmpty()) {
+    public boolean UpdateLotoProcedureCode(RequestUpdateLotoProcedureCode request) {
+        if (request.documentCode().isEmpty() || request.documentCode().isBlank()) {
             presenter.displayLotoProcedureError(LotoProcedureEnum.INCOMPLETE_INFORMATION);
 
         } else if (isProcedureCodeInUse(request.documentCode())) {
             presenter.displayLotoProcedureError(LotoProcedureEnum.DOCUMENT_CODE_IN_USE);
+            return false;
 
         } else {
-            LotoProcedure lotoProcedure = new LotoProcedure(
-                    request.documentId(),
-                    request.documentCode(),
-                    request.documentName()
-            );
+            if (lotoProcedureGateway.updateProcedureCode(request.documentId(), request.documentCode())) {
 
-            if (lotoProcedureGateway.updateProcedure(lotoProcedure)) {
+                LotoProcedure lotoProcedure = lotoProcedureGateway.getLotoProcedureById(request.documentId());
                 ResponseLotoProcedure procedure = new ResponseLotoProcedure(
-                        request.documentId(),
-                        request.documentCode(),
-                        request.documentName()
+                        lotoProcedure.getProcedureId(),
+                        lotoProcedure.getDocumentCode(),
+                        lotoProcedure.getDocumentName()
+                );
+                presenter.displayLotoProcedureConfirmation(
+                        procedure,
+                        LotoProcedureEnum.PROCEDURE_UPDATED
+                );
+                return true;
+
+            } else {
+                presenter.displayLotoProcedureError(LotoProcedureEnum.PROCEDURE_UPDATE_ERROR);
+
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean UpdateLotoProcedureName(RequestUpdateLotoProcedureName request) {
+        if (request.documentName().isEmpty() || request.documentName().isBlank()) {
+            presenter.displayLotoProcedureError(LotoProcedureEnum.INCOMPLETE_INFORMATION);
+
+        } else {
+            if (lotoProcedureGateway.updateProcedureName(request.documentId(), request.documentName())) {
+
+                LotoProcedure lotoProcedure = lotoProcedureGateway.getLotoProcedureById(request.documentId());
+                ResponseLotoProcedure procedure = new ResponseLotoProcedure(
+                        lotoProcedure.getProcedureId(),
+                        lotoProcedure.getDocumentCode(),
+                        lotoProcedure.getDocumentName()
                 );
                 presenter.displayLotoProcedureConfirmation(
                         procedure,

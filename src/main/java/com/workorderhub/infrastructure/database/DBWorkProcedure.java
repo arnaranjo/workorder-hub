@@ -112,33 +112,101 @@ public class DBWorkProcedure implements WorkProcedureGateway {
 
         }
     }
-
+    
     @Override
-    public boolean updateProcedure(WorkProcedure workProcedure) {
+    public boolean updateProcedureName(int documentId, String newName) {
 
         String sql = """
                 UPDATE work_procedure
-                SET work_procedure_code = ?, work_procedure_name = ?
+                SET work_procedure_name = ?
                 WHERE work_procedure_id = ?;
                 """;
 
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setString(1, workProcedure.getDocumentCode());
-            statement.setString(2, workProcedure.getDocumentName());
-            statement.setInt(3, workProcedure.getProcedureId());
+            statement.setString(1, newName);
+            statement.setInt(2, documentId);
 
             statement.executeUpdate();
             return true;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
 
         } finally {
             DBConnection.DBDisconnect();
 
         }
+        return false;
+        
+    }
+
+    @Override
+    public boolean updateProcedureCode(int documentId, String newCode) {
+
+        String sql = """
+                UPDATE work_procedure
+                SET work_procedure_code = ?
+                WHERE work_procedure_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, newCode);
+            statement.setInt(2, documentId);
+
+            statement.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return false;
+        
+    }
+
+    @Override
+    public WorkProcedure getWorkProcedureById(int documentId) {
+        String sql = """
+                SELECT *
+                FROM work_procedure
+                WHERE work_procedure_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setInt(1, documentId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                WorkProcedure workProcedure = new WorkProcedure(
+                        resultSet.getInt("work_procedure_id"),
+                        resultSet.getString("work_procedure_code"),
+                        resultSet.getString("work_procedure_name")
+                );
+
+                resultSet.close();
+                statement.close();
+                return workProcedure;
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return null;
     }
 }

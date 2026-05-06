@@ -1,8 +1,7 @@
 package com.workorderhub.core.caseuse.procedures;
 
-public record RequestUpdateWorkProcedure(
+public record RequestUpdateWorkProcedureName(
         int documentId,
-        String documentCode,
         String documentName
 ) {
 }

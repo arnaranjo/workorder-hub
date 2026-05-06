@@ -15,16 +15,17 @@
 <BorderPane xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.workorderhub.infrastructure.ui.technician.TechnicianMainController"
+            styleClass="content-panel"
 >
     <top>
-        <Label fx:id="mainLabel" alignment="CENTER" maxWidth="Infinity" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <Label fx:id="mainLabel" alignment="CENTER" maxWidth="Infinity" prefHeight="50.0" prefWidth="800.0" styleClass="page-title" BorderPane.alignment="CENTER">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
     </top>
     <center>
-        <VBox spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox spacing="10.0" styleClass="content-panel" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="20.0" right="20.0" top="20.0" />
             </padding>
@@ -42,7 +43,7 @@
         </VBox>
     </center>
     <left>
-        <VBox prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox prefWidth="200.0" spacing="10.0" styleClass="side-panel" BorderPane.alignment="CENTER">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>

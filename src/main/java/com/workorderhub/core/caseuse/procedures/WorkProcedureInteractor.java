@@ -64,25 +64,49 @@ public class WorkProcedureInteractor implements WorkProcedureInput {
     }
 
     @Override
-    public boolean UpdateWorkProcedure(RequestUpdateWorkProcedure request) {
-        if (request.documentCode().isEmpty() || request.documentName().isEmpty()) {
+    public boolean UpdateWorkProcedureCode(RequestUpdateWorkProcedureCode request) {
+        if (request.documentCode().isEmpty() || request.documentCode().isBlank()) {
             presenter.displayWorkProcedureError(WorkProcedureEnum.INCOMPLETE_INFORMATION);
 
         } else if (isProcedureCodeInUse(request.documentCode())) {
             presenter.displayWorkProcedureError(WorkProcedureEnum.DOCUMENT_CODE_IN_USE);
+            return false;
 
         } else {
-            WorkProcedure workProcedure = new WorkProcedure(
-                    request.documentId(),
-                    request.documentCode(),
-                    request.documentName()
-            );
-
-            if (workProcedureGateway.updateProcedure(workProcedure)) {
+            if (workProcedureGateway.updateProcedureCode(request.documentId(), request.documentCode())) {
+                WorkProcedure workProcedure = workProcedureGateway.getWorkProcedureById(request.documentId());
                 ResponseWorkProcedure procedure = new ResponseWorkProcedure(
-                        request.documentId(),
-                        request.documentCode(),
-                        request.documentName()
+                        workProcedure.getProcedureId(),
+                        workProcedure.getDocumentCode(),
+                        workProcedure.getDocumentName()
+                );
+                presenter.displayWorkProcedureConfirmation(
+                        procedure,
+                        WorkProcedureEnum.PROCEDURE_UPDATED
+                );
+                return true;
+
+            } else {
+                presenter.displayWorkProcedureError(WorkProcedureEnum.PROCEDURE_UPDATE_ERROR);
+
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean UpdateWorkProcedureName(RequestUpdateWorkProcedureName request) {
+        if (request.documentName().isEmpty()) {
+            presenter.displayWorkProcedureError(WorkProcedureEnum.INCOMPLETE_INFORMATION);
+
+        } else {
+            if (workProcedureGateway.updateProcedureName(request.documentId(), request.documentName())) {
+                WorkProcedure workProcedure = workProcedureGateway.getWorkProcedureById(request.documentId());
+                ResponseWorkProcedure procedure = new ResponseWorkProcedure(
+                        workProcedure.getProcedureId(),
+                        workProcedure.getDocumentCode(),
+                        workProcedure.getDocumentName()
                 );
                 presenter.displayWorkProcedureConfirmation(
                         procedure,

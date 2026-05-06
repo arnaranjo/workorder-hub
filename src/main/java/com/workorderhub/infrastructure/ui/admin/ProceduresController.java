@@ -187,17 +187,19 @@ public class ProceduresController implements ProcedureView {
         workProcedureCodeColumn.setOnEditCommit(cell -> {
 
                     WorkProcedureModel workProcedure = cell.getRowValue();
-                    workProcedure.setWorkProcedureCode(cell.getNewValue());
+                    String oldValue = cell.getOldValue();
+                    String newValue = cell.getNewValue();
 
-                    RequestUpdateWorkProcedure request = new RequestUpdateWorkProcedure(
+                    RequestUpdateWorkProcedureCode request = new RequestUpdateWorkProcedureCode(
                             workProcedure.getWorkProcedureId(),
-                            workProcedure.getWorkProcedureCode(),
-                            workProcedure.getWorkProcedureName()
+                            newValue
                     );
-                    if (workProcedureInteractor.UpdateWorkProcedure(request)) {
+                    if (workProcedureInteractor.UpdateWorkProcedureCode(request)) {
+                        workProcedure.setWorkProcedureCode(newValue);
                         workProcedureTable.refresh();
 
                     } else {
+                        workProcedure.setWorkProcedureCode(oldValue);
                         workProcedureTable.edit(-1, null);
                         workProcedureTable.refresh();
 
@@ -208,17 +210,19 @@ public class ProceduresController implements ProcedureView {
         workProcedureNameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         workProcedureNameColumn.setOnEditCommit(cell -> {
                     WorkProcedureModel workProcedure = cell.getRowValue();
-                    workProcedure.setWorkProcedureName(cell.getNewValue());
+                    String oldValue = cell.getOldValue();
+                    String newValue = cell.getNewValue();
 
-                    RequestUpdateWorkProcedure request = new RequestUpdateWorkProcedure(
+                    RequestUpdateWorkProcedureName request = new RequestUpdateWorkProcedureName(
                             workProcedure.getWorkProcedureId(),
-                            workProcedure.getWorkProcedureCode(),
-                            workProcedure.getWorkProcedureName()
+                            newValue
                     );
-                    if (workProcedureInteractor.UpdateWorkProcedure(request)) {
+                    if (workProcedureInteractor.UpdateWorkProcedureName(request)) {
+                        workProcedure.setWorkProcedureName(newValue);
                         workProcedureTable.refresh();
 
                     } else {
+                        workProcedure.setWorkProcedureName(oldValue);
                         workProcedureTable.edit(-1, null);
                         workProcedureTable.refresh();
 
@@ -235,17 +239,19 @@ public class ProceduresController implements ProcedureView {
         lotoProcedureCodeColumn.setOnEditCommit(cell -> {
 
                     LotoProcedureModel lotoProcedure = cell.getRowValue();
-                    lotoProcedure.setLotoProcedureCode(cell.getNewValue());
+                    String oldValue = cell.getOldValue();
+                    String newValue = cell.getNewValue();
 
-                    RequestUpdateLotoProcedure request = new RequestUpdateLotoProcedure(
+                    RequestUpdateLotoProcedureCode request = new RequestUpdateLotoProcedureCode(
                             lotoProcedure.getLotoProcedureId(),
-                            lotoProcedure.getLotoProcedureCode(),
-                            lotoProcedure.getLotoProcedureName()
+                            newValue
                     );
-                    if (lotoProcedureInteractor.UpdateLotoProcedure(request)) {
+                    if (lotoProcedureInteractor.UpdateLotoProcedureCode(request)) {
+                        lotoProcedure.setLotoProcedureCode(newValue);
                         lotoProcedureTable.refresh();
 
                     } else {
+                        lotoProcedure.setLotoProcedureCode(oldValue);
                         lotoProcedureTable.edit(-1, null);
                         lotoProcedureTable.refresh();
 
@@ -257,17 +263,19 @@ public class ProceduresController implements ProcedureView {
         lotoProcedureNameColumn.setOnEditCommit(cell -> {
 
                     LotoProcedureModel lotoProcedure = cell.getRowValue();
-                    lotoProcedure.setLotoProcedureName(cell.getNewValue());
+                    String oldValue = cell.getOldValue();
+                    String newValue = cell.getNewValue();
 
-                    RequestUpdateLotoProcedure request = new RequestUpdateLotoProcedure(
+                    RequestUpdateLotoProcedureName request = new RequestUpdateLotoProcedureName(
                             lotoProcedure.getLotoProcedureId(),
-                            lotoProcedure.getLotoProcedureCode(),
-                            lotoProcedure.getLotoProcedureName()
+                            newValue
                     );
-                    if (lotoProcedureInteractor.UpdateLotoProcedure(request)) {
+                    if (lotoProcedureInteractor.UpdateLotoProcedureName(request)) {
+                        lotoProcedure.setLotoProcedureName(newValue);
                         lotoProcedureTable.refresh();
 
                     } else {
+                        lotoProcedure.setLotoProcedureName(oldValue);
                         lotoProcedureTable.edit(-1, null);
                         lotoProcedureTable.refresh();
 

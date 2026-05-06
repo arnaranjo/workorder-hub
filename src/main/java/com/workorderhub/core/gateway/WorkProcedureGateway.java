@@ -26,9 +26,25 @@ public interface WorkProcedureGateway {
     boolean deleteProcedure(int documentId);
 
     /**
-     * Updates a work procedure.
-     * @param workProcedure work procedure to delete.
+     * Updates a work procedure name.
+     * @param documentId work procedure ID to update.
+     * @param newName New name to update.
      * @return True if is successfully updated, false if not.
      */
-    boolean updateProcedure(WorkProcedure workProcedure);
+    boolean updateProcedureName(int documentId, String newName);
+
+    /**
+     * Updates a work procedure code.
+     * @param documentId work procedure ID to update.
+     * @param newCode New code to update.
+     * @return True if is successfully updated, false if not.
+     */
+    boolean updateProcedureCode(int documentId, String newCode);
+
+    /**
+     * Gets a work procedure by its ID.
+     * @param documentId work procedure ID to retrieve.
+     * @return WorkProcedure object if found, null if not found.
+     */
+    WorkProcedure getWorkProcedureById(int documentId);
 }

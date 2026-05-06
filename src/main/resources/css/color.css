@@ -1,0 +1,51 @@
+
+/* PALETA DE COLORES GLOBAL - MINIMALISTA PROFESIONAL */
+
+.root {
+    /* Color primario - usado en botones, headers, enlaces principales */
+    -fx-primary: #118ab2;
+
+    /* Color primario oscuro - usado en hover de botones, estados activos */
+    -fx-primary-dark: #073b4c;
+
+    /* Color primario claro - usado en fondos de selección, highlights */
+    -fx-primary-light: #adb5bd;
+}
+
+.root {
+    /* Color de éxito - usado en botones/labels de operaciones exitosas (verde) */
+    -fx-success: #f8f9fa;
+
+    /* Color de advertencia - usado en alertas/warnings (naranja) */
+    -fx-warning: #E67E22;
+
+    /* Color de peligro/error - usado en botones eliminar, errores (rojo) */
+    -fx-danger: #E74C3C;
+
+    /* Color de información - usado en mensajes informativos (azul) */
+    -fx-info: #3498DB;
+}
+
+.root {
+    /* Color de texto principal - usado en párrafos, labels normales */
+    -fx-text-primary: #212529;
+
+    /* Color de texto secundario - usado en subtítulos, texto debilitado */
+    -fx-text-secondary: #495057;
+}
+
+.root {
+    /* Color de fondo principal - fondo blanco de toda la aplicación */
+    -fx-bg-primary: #f8f9fa;
+
+    /* Color de fondo secundario - usado en sidebar, headers, paneles oscuros */
+    -fx-bg-secondary: #e9ecef;
+}
+
+.root {
+    /* Color de borde - usado en inputs, tablas, separadores */
+    -fx-border-color: #ced4da;
+
+    /* Color de borde en foco - usado cuando un elemento está activo/seleccionado */
+    -fx-border-focus: #dee2e6;
+}

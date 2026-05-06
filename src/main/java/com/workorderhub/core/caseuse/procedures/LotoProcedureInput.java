@@ -22,7 +22,14 @@ public interface LotoProcedureInput {
      * @param request Record of the LOTO procedure to update.
      * @return true if the update is successful or false if not.
      */
-    boolean UpdateLotoProcedure(RequestUpdateLotoProcedure request);
+    boolean UpdateLotoProcedureCode(RequestUpdateLotoProcedureCode request);
+
+    /**
+     * Updates a LOTO procedure name in the database.
+     * @param request Record of the LOTO procedure to update.
+     * @return true if the update is successful or false if not.
+     */
+    boolean UpdateLotoProcedureName(RequestUpdateLotoProcedureName request);
 
     /**
      * Deletes a LOTO procedure in the database.

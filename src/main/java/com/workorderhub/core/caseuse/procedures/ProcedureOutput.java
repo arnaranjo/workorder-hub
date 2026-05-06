@@ -1,5 +1,7 @@
 package com.workorderhub.core.caseuse.procedures;
 
+import com.workorderhub.core.entity.LotoProcedure;
+
 import java.util.List;
 
 public interface ProcedureOutput {

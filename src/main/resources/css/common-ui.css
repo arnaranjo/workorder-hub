@@ -1,0 +1,129 @@
+/* Common UI styles loaded globally by ViewLoader.
+   It relies on looked-up colors defined in color.css. */
+
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 12px;
+    -fx-background-color: -fx-bg-primary;
+}
+
+.label {
+    -fx-text-fill: -fx-text-primary;
+}
+
+.page-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-padding: 8 0 8 0;
+}
+
+.section-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.side-panel {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-padding: 12;
+    -fx-spacing: 10;
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 0 1 0 0;
+}
+
+.content-panel {
+    -fx-background-color: -fx-bg-primary;
+}
+
+.status-bar {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: #D0D0D0;
+    -fx-border-width: 1 0 0 0;
+}
+
+.status-label {
+    -fx-text-fill: -fx-text-secondary;
+    -fx-font-size: 11px;
+}
+
+.text-field,
+.password-field,
+.combo-box,
+.choice-box,
+.date-picker,
+.spinner {
+    -fx-background-color: white;
+    -fx-border-color: #D0D0D0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 8;
+}
+
+.text-area {
+    -fx-border-color: #D0D0D0;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+}
+
+.button {
+    -fx-background-color: -fx-primary;
+    -fx-text-fill: white;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: -fx-primary-dark;
+}
+
+.button.secondary {
+    -fx-background-color: transparent;
+    -fx-border-color: -fx-primary;
+    -fx-text-fill: -fx-primary;
+}
+
+.table-view {
+    -fx-border-color: #D0D0D0;
+    -fx-background-color: white;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-border-color: #D0D0D0;
+    -fx-font-weight: bold;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: -fx-primary-light;
+}
+
+.tab-pane .tab-header-background {
+    -fx-background-color: -fx-bg-secondary;
+}
+
+.tab-pane .tab {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-padding: 6 12;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: -fx-primary;
+}
+
+.tab-pane .tab:selected .tab-label {
+    -fx-text-fill: white;
+}
+
+.accordion .titled-pane > .title {
+    -fx-background-color: -fx-bg-secondary;
+    -fx-font-weight: bold;
+}
+
+.scroll-pane {
+    -fx-background: -fx-bg-primary;
+    -fx-background-color: transparent;
+}
+

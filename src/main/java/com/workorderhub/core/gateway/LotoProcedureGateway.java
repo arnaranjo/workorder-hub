@@ -26,9 +26,25 @@ public interface LotoProcedureGateway {
     boolean deleteProcedure(int documentId);
 
     /**
-     * Updates a LOTO procedure.
-     * @param lotoProcedure LOTO procedure to delete.
+     * Updates a LOTO procedure name.
+     * @param documentId LOTO procedure ID to update.
+     * @param newName New name to update.
      * @return True if is successfully updated, false if not.
      */
-    boolean updateProcedure(LotoProcedure lotoProcedure);
+    boolean updateProcedureName(int documentId, String newName);
+
+    /**
+     * Updates a LOTO procedure code.
+     * @param documentId LOTO procedure ID to update.
+     * @param newCode New code to update.
+     * @return True if is successfully updated, false if not.
+     */
+    boolean updateProcedureCode(int documentId, String newCode);
+
+    /**
+     * Gets a LOTO procedure by its document ID.
+     * @param documentId LOTO procedure ID to retrieve.
+     * @return LOTO object if found, null if not found.
+     */
+    LotoProcedure getLotoProcedureById(int documentId);
 }

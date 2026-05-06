@@ -8,10 +8,11 @@
             xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.workorderhub.infrastructure.ui.admin.AdminMainController"
+            styleClass="content-panel"
 >
     <bottom>
-        <Pane prefHeight="50.0">
-            <Label fx:id="statusLabel" layoutX="14.0" layoutY="17.0" text="User" />
+        <Pane prefHeight="50.0" styleClass="status-bar">
+            <Label fx:id="statusLabel" layoutX="14.0" layoutY="17.0" styleClass="status-label" text="User" />
         </Pane>
     </bottom>
     <center>
@@ -24,7 +25,7 @@
                 </TableView>
             </Tab>
             <Tab closable="false" text="Closed">
-                <VBox>
+                <VBox styleClass="content-panel">
                     <HBox spacing="20.0">
                         <padding>
                             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -40,7 +41,7 @@
                 </VBox>
             </Tab>
             <Tab closable="false" text="Change Log">
-                <VBox>
+                <VBox styleClass="content-panel">
                     <HBox spacing="20.0">
                         <VBox.margin>
                             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -58,7 +59,7 @@
         </TabPane>
     </center>
     <left>
-        <Pane prefWidth="150.0" BorderPane.alignment="CENTER">
+        <Pane prefWidth="150.0" styleClass="side-panel" BorderPane.alignment="CENTER">
             <fx:include fx:id="adminMenu" source="admin-menu.fxml" />
         </Pane>
     </left>

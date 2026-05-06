@@ -1,6 +1,7 @@
 package com.workorderhub.infrastructure.common;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -15,6 +16,9 @@ import java.util.function.Supplier;
  */
 public class ViewLoader {
 
+    private static final String COLOR_STYLESHEET = "/css/color.css";
+    private static final String COMMON_STYLESHEET = "/css/common-ui.css";
+
     private final Map<Class<?>, Supplier<?>> controllersMap = new HashMap<>();
 
     /**
@@ -28,6 +32,20 @@ public class ViewLoader {
     }
 
     public ViewLoader() {
+    }
+
+    private Scene buildStyledScene(Parent root) {
+        Scene scene = new Scene(root);
+        addStylesheetIfExists(scene, COLOR_STYLESHEET);
+        addStylesheetIfExists(scene, COMMON_STYLESHEET);
+        return scene;
+    }
+
+    private void addStylesheetIfExists(Scene scene, String cssPath) {
+        URL cssResource = getClass().getResource(cssPath);
+        if (cssResource != null) {
+            scene.getStylesheets().add(cssResource.toExternalForm());
+        }
     }
 
     /**
@@ -68,7 +86,7 @@ public class ViewLoader {
 
         try {
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(buildStyledScene(loader.load()));
             stage.setResizable(false);
             stage.setTitle(title);
             stage.show();
@@ -99,7 +117,7 @@ public class ViewLoader {
 
         try {
             Stage stage = new Stage();
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(buildStyledScene(loader.load()));
             stage.setTitle(title);
             stage.setResizable(true);
             stage.setMaximized(true);

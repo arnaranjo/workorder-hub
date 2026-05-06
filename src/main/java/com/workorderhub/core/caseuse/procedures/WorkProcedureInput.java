@@ -16,6 +16,7 @@ public interface WorkProcedureInput {
      */
     int CreateWorkProcedure(RequestNewWorkProcedure request);
 
+
     /**
      * Updates a work procedure in the database.
      * It must compare and check if the document code is used in other document.
@@ -23,7 +24,14 @@ public interface WorkProcedureInput {
      * @param request Record of the work procedure to update.
      * @return true if the update is successful or false if not.
      */
-    boolean UpdateWorkProcedure(RequestUpdateWorkProcedure request);
+    boolean UpdateWorkProcedureCode(RequestUpdateWorkProcedureCode request);
+
+    /**
+     * Updates a work procedure name in the database.
+     * @param request Record of the work procedure to update.
+     * @return true if the update is successful or false if not.
+     */
+    boolean UpdateWorkProcedureName(RequestUpdateWorkProcedureName request);
 
     /**
      * Deletes a work procedure in the database.

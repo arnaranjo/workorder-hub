@@ -115,30 +115,97 @@ public class DBLotoProcedure implements LotoProcedureGateway {
     }
 
     @Override
-    public boolean updateProcedure(LotoProcedure lotoProcedure) {
+    public boolean updateProcedureName(int documentId, String newName) {
         String sql = """
                 UPDATE loto_procedure
-                SET loto_procedure_code = ?, loto_procedure_name = ?
+                SET loto_procedure_name = ?
                 WHERE loto_procedure_id = ?;
                 """;
 
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setString(1, lotoProcedure.getDocumentCode());
-            statement.setString(2, lotoProcedure.getDocumentName());
-            statement.setInt(3, lotoProcedure.getProcedureId());
+            statement.setString(1, newName);
+            statement.setInt(2, documentId);
 
             statement.executeUpdate();
             return true;
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return false;
 
         } finally {
             DBConnection.DBDisconnect();
 
         }
+        return false;
+        
+    }
+
+    @Override
+    public boolean updateProcedureCode(int documentId, String newCode) {
+        String sql = """
+                UPDATE loto_procedure
+                SET loto_procedure_code = ?
+                WHERE loto_procedure_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setString(1, newCode);
+            statement.setInt(2, documentId);
+
+            statement.executeUpdate();
+            return true;
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return false;
+        
+    }
+
+    @Override
+    public LotoProcedure getLotoProcedureById(int documentId) {
+        String sql = """
+                SELECT *
+                FROM loto_procedure
+                WHERE loto_procedure_id = ?;
+                """;
+
+        try {
+            sqlManager = DBConnection.DBConnect();
+            PreparedStatement statement = sqlManager.prepareStatement(sql);
+            statement.setInt(1, documentId);
+
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                LotoProcedure lotoProcedure = new LotoProcedure(
+                        resultSet.getInt("loto_procedure_id"),
+                        resultSet.getString("loto_procedure_code"),
+                        resultSet.getString("loto_procedure_name")
+                );
+
+                resultSet.close();
+                statement.close();
+                return lotoProcedure;
+            }
+
+            resultSet.close();
+            statement.close();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+        } finally {
+            DBConnection.DBDisconnect();
+
+        }
+        return null;
     }
 }

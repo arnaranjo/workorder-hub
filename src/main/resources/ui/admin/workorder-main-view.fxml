@@ -14,9 +14,11 @@
             xmlns="http://javafx.com/javafx/22"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.workorderhub.infrastructure.ui.admin.WorkOrderMainController"
+            styleClass="content-panel"
 >
     <top>
         <Label fx:id="mainLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" prefHeight="50.0"
+               styleClass="page-title"
                prefWidth="800.0" BorderPane.alignment="CENTER">
             <font>
                 <Font size="18.0"/>
@@ -49,7 +51,7 @@
         </TabPane>
     </center>
     <left>
-        <VBox BorderPane.alignment="CENTER">
+        <VBox styleClass="side-panel" BorderPane.alignment="CENTER">
             <Button fx:id="createButton" mnemonicParsing="false" onAction="#createNewWorkOrder" prefWidth="100.0" text="Open Order">
                 <VBox.margin>
                     <Insets left="20.0" right="20.0" top="10.0"/>

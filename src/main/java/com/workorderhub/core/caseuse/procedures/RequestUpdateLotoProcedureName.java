@@ -1,8 +1,7 @@
 package com.workorderhub.core.caseuse.procedures;
 
-public record RequestUpdateLotoProcedure(
+public record RequestUpdateLotoProcedureName(
         int documentId,
-        String documentCode,
         String documentName
 ) {
 }
