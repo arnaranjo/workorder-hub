@@ -88,7 +88,7 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
                 String ConfTitle = "workOrder.lotoProcedure.confLotoProcedureTitle";
                 String ConfMessage = "workOrder.lotoProcedure.confLotoProcedureMessage";
 
-                if (Util.RequestConfirmation(ConfTitle, ConfMessage)) {
+                if (Util.requestConfirmation(ConfTitle, ConfMessage)) {
 
                     this.selectedLotoProcedure = lotoProcedureTable.getSelectionModel().getSelectedItem();
 
@@ -102,14 +102,14 @@ public class WorkOrderPermitController implements WorkOrderPermitView {
                 String title = "workOrder.lotoProcedure.lotoProcedureErrorTitle";
                 String messageError = "workOrder.lotoProcedure.lotoProcedureErrorMessage";
 
-                Util.ShowMessage(title, messageError);
+                Util.showMessage(title, messageError);
 
             }
         } else {
             String title = "workOrder.lotoProcedure.lotoProcedureErrorTitle";
             String messageError = "workOrder.lotoProcedure.noSelectedErrorMessage";
 
-            Util.ShowMessage(title, messageError);
+            Util.showMessage(title, messageError);
 
         }
     }

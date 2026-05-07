@@ -23,7 +23,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String confCredentialsTitle = "editUserView.deletedAccessConfirmation.title";
                 String confCredentialsMessage = "editUserView.deletedAccessConfirmation.content";
 
-                confirmation = Util.RequestConfirmation(
+                confirmation = Util.requestConfirmation(
                         confCredentialsTitle,
                         confCredentialsMessage
                 );
@@ -33,7 +33,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String confUserTitle = "editUserView.deletedUserConfirmation.title";
                 String confUserMessage = "editUserView.deletedUserConfirmation.content";
 
-                confirmation = Util.RequestConfirmation(
+                confirmation = Util.requestConfirmation(
                         confUserTitle,
                         confUserMessage
                 );
@@ -43,7 +43,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String confUpdateUserTitle = "editUserView.updatedUserConfirmation.title";
                 String confUpdateUserMessage = "editUserView.updatedUserConfirmation.content";
 
-                confirmation = Util.RequestConfirmation(
+                confirmation = Util.requestConfirmation(
                         confUpdateUserTitle,
                         confUpdateUserMessage
                 );
@@ -60,7 +60,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String credentialsTitle = "editUserView.deletedAccessApproval.title";
                 String credentialsMessage = "editUserView.deletedAccessApproval.content";
 
-                Util.RequestConfirmation(
+                Util.requestConfirmation(
                         credentialsTitle,
                         credentialsMessage
                 );
@@ -70,7 +70,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String userTitle = "editUserView.deletedUserApproval.title";
                 String userMessage = "editUserView.deletedUserApproval.content";
 
-                Util.RequestConfirmation(
+                Util.requestConfirmation(
                         userTitle,
                         userMessage
                 );
@@ -80,7 +80,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String updateUserTitle = "editUserView.updatedUserApproval.title";
                 String updateUserMessage = "editUserView.updatedUserApproval.content";
 
-                Util.RequestConfirmation(
+                Util.requestConfirmation(
                         updateUserTitle,
                         updateUserMessage
                 );
@@ -102,7 +102,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String noCredentialTitle = "editUserView.deletedAccessError.title";
                 String noCredentialMessage = "editUserView.deletedAccessError.content";
 
-                Util.ShowMessage(
+                Util.showMessage(
                         noCredentialTitle,
                         noCredentialMessage
                 );
@@ -133,7 +133,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String credentialDeleteErrTitle = "editUserView.deletedAccessError.title";
                 String credentialDeleteErrMessage = "editUserView.deletedAccessError.deletion";
 
-                Util.ShowMessage(
+                Util.showMessage(
                         credentialDeleteErrTitle,
                         credentialDeleteErrMessage
                 );
@@ -143,7 +143,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String userDeleteErrTitle = "editUserView.deletedUserError.title";
                 String userDeleteErrMessage = "editUserView.deletedUserError.deletion";
 
-                Util.ShowMessage(
+                Util.showMessage(
                         userDeleteErrTitle,
                         userDeleteErrMessage
                 );
@@ -153,7 +153,7 @@ public class EditUserPresenter implements EditUserOutput {
                 String userUpdateErrTitle = "editUserView.updatedUserError.title";
                 String userUpdateErrMessage = "editUserView.updatedUserError.deletion";
 
-                Util.ShowMessage(
+                Util.showMessage(
                         userUpdateErrTitle,
                         userUpdateErrMessage
                 );

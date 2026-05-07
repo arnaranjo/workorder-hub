@@ -1,9 +1,11 @@
 package com.workorderhub.infrastructure.ui.admin;
 
+import com.workorderhub.core.caseuse.adminpanel.AdminMainEnum;
 import com.workorderhub.core.caseuse.adminpanel.AdminMainView;
 import com.workorderhub.core.caseuse.adminpanel.AdminMainOutput;
 import com.workorderhub.core.caseuse.adminpanel.WorkLogRow;
 import com.workorderhub.core.caseuse.workorder.WorkFrontRow;
+import com.workorderhub.infrastructure.common.Util;
 import com.workorderhub.infrastructure.models.WorkFrontModel;
 import com.workorderhub.infrastructure.models.WorkLogModel;
 
@@ -38,8 +40,6 @@ public class AdminMainPresenter implements AdminMainOutput {
                         workFrontRow.status()
                 )).toList();
         viewController.setWorkFrontList(modelList);
-
-        //TODO: Display placeholder when list is empty
     }
 
     @Override
@@ -58,8 +58,6 @@ public class AdminMainPresenter implements AdminMainOutput {
                         workFrontRow.status()
                 )).toList();
         viewController.setClosedOrdersList(modelList);
-
-        //TODO: Display placeholder when list is empty
     }
 
     @Override
@@ -77,7 +75,45 @@ public class AdminMainPresenter implements AdminMainOutput {
                         workLogRow.workPermitId()
                 )).toList();
         viewController.setWorkLogList(modelList);
+    }
 
-        //TODO: Display placeholder when list is empty
+    @Override
+    public void displayError(AdminMainEnum adminMainEnum) {
+        switch (adminMainEnum){
+            case DELETE_WORK_ORDER_ERROR:
+                String errorTitle = "adminView.deleteError.title";
+                String errorMessage = "adminView.deleteError.message";
+
+                Util.showMessage(errorTitle, errorMessage);
+                break;
+
+        case DELETE_WORK_ORDER_ID_ERROR:
+                String idErrorTitle = "adminView.idError.title";
+                String idErrorMessage = "adminView.idError.message";
+
+                Util.showMessage(idErrorTitle, idErrorMessage);
+                break;
+        }
+    }
+
+    @Override
+    public boolean requestConfirmation(AdminMainEnum adminMainEnum) {
+        if (adminMainEnum == AdminMainEnum.CONFIRM_DELETE_WORK_ORDER) {
+            String confirmTitle = "adminView.deleteRequest.title";
+            String confirmMessage = "adminView.deleteRequest.message";
+
+            return Util.requestConfirmation(confirmTitle, confirmMessage);
+        }
+        return false;
+    }
+
+    @Override
+    public void displaySuccess(AdminMainEnum adminMainEnum) {
+        if (adminMainEnum == AdminMainEnum.DELETE_WORK_ORDER_SUCCESS) {
+            String successTitle = "adminView.deleteConfirmation.title";
+            String successMessage = "adminView.deleteConfirmation.message";
+
+            Util.showMessage(successTitle, successMessage);
+        }
     }
 }

@@ -5,7 +5,6 @@ import com.workorderhub.infrastructure.common.Util;
 import com.workorderhub.infrastructure.models.UsedSparePartModel;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class WorkOrderCheckPresenter implements WorkOrderCheckOutput {
@@ -99,7 +98,7 @@ public class WorkOrderCheckPresenter implements WorkOrderCheckOutput {
                 String requestStartTitle = "technicianView.addCommentTitle";
                 String requestStartMessage = "technicianView.commentAdded";
 
-                Util.ShowMessage(requestStartTitle, requestStartMessage);
+                Util.showMessage(requestStartTitle, requestStartMessage);
                 break;
 
             case UPDATED_SPARE_PARTS_SUCCESS:
@@ -114,7 +113,7 @@ public class WorkOrderCheckPresenter implements WorkOrderCheckOutput {
                 String requestStartTitle = "technicianView.addCommentTitle";
                 String requestStartMessage = "technicianView.addedComment";
 
-                return Util.RequestConfirmation(requestStartTitle, requestStartMessage);
+                return Util.requestConfirmation(requestStartTitle, requestStartMessage);
 
             case REQUEST_UPDATE_SPARE_PARTS:
                 return false;

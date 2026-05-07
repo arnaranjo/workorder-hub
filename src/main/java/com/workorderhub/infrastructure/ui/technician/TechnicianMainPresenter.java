@@ -47,14 +47,14 @@ public class TechnicianMainPresenter implements TechnicianMainOutput {
                 String idErrorTitle = "technicianView.errorTitle";
                 String idErrorMessage = "technicianView.idError";
 
-                Util.ShowMessage(idErrorTitle, idErrorMessage);
+                Util.showMessage(idErrorTitle, idErrorMessage);
                 break;
 
             case WORK_ORDER_NOT_FOUND:
                 String titleNotFound = "technicianView.errorTitle";
                 String messageNotFound = "technicianView.worOrderNoFound";
 
-                Util.ShowMessage(titleNotFound, messageNotFound);
+                Util.showMessage(titleNotFound, messageNotFound);
                 break;
 
             case WORK_ORDER_START_ERROR:
@@ -62,14 +62,14 @@ public class TechnicianMainPresenter implements TechnicianMainOutput {
                 String titleStartError = "technicianView.errorTitle";
                 String messageStartError = "technicianView.openErrorMessage";
 
-                Util.ShowMessage(titleStartError, messageStartError);
+                Util.showMessage(titleStartError, messageStartError);
                 break;
 
             case WORK_ORDER_CLOSE_ERROR:
                 String titleCloseError = "technicianView.errorTitle";
                 String messageCloseError = "technicianView.closeErrorMessage";
 
-                Util.ShowMessage(titleCloseError, messageCloseError);
+                Util.showMessage(titleCloseError, messageCloseError);
                 break;
         }
     }
@@ -86,13 +86,13 @@ public class TechnicianMainPresenter implements TechnicianMainOutput {
                 String requestStartTitle = "technicianView.startTitle";
                 String requestStartMessage = "technicianView.startMessage";
 
-                return Util.RequestConfirmation(requestStartTitle, requestStartMessage);
+                return Util.requestConfirmation(requestStartTitle, requestStartMessage);
 
             case REQUEST_CONFIRMATION_CLOSE_WORK_ORDER:
                 String requestCloseTitle = "technicianView.closeTitle";
                 String requestCloseMessage = "technicianView.closeMessage";
 
-                return Util.RequestConfirmation(requestCloseTitle, requestCloseMessage);
+                return Util.requestConfirmation(requestCloseTitle, requestCloseMessage);
         }
         return false;
     }

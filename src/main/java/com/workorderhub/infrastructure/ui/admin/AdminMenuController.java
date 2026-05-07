@@ -1,5 +1,8 @@
 package com.workorderhub.infrastructure.ui.admin;
 
+import com.workorderhub.core.caseuse.adminpanel.AdminMainInput;
+import com.workorderhub.core.caseuse.adminpanel.AdminMainInteractor;
+import com.workorderhub.core.caseuse.adminpanel.RequestDeleteWorkOrder;
 import com.workorderhub.core.caseuse.edituser.EditUserInteractor;
 import com.workorderhub.core.caseuse.newuser.NewUserInteractor;
 import com.workorderhub.core.caseuse.plantelement.PlantElementInteractor;
@@ -28,6 +31,13 @@ public class AdminMenuController {
     private final URL workOrderView = getClass().getResource("/ui/admin/workorder-main-view.fxml");
 
     private AdminMainController adminMainController;
+    private AdminMainInput interactor;
+
+    public AdminMenuController(
+            AdminMainInput interactor
+    ){
+        this.interactor = interactor;
+    }
 
     /**
      * Sets the controller of the main window.
@@ -37,8 +47,10 @@ public class AdminMenuController {
         this.adminMainController = adminMainController;
     }
 
+    // Event methods
+
     @FXML
-    private void LoadNewUserView() {
+    private void loadNewUserView() {
         NewUserPresenter presenter = new NewUserPresenter();
         NewUserInteractor interactor = new NewUserInteractor(
                 presenter,
@@ -63,7 +75,7 @@ public class AdminMenuController {
     }
 
     @FXML
-    private void LoadEditUserView() {
+    private void loadEditUserView() {
         EditUserPresenter presenter = new EditUserPresenter();
         EditUserInteractor interactor = new EditUserInteractor(
                 presenter,
@@ -87,7 +99,7 @@ public class AdminMenuController {
     }
 
     @FXML
-    private void LoadProceduresView() {
+    private void loadProceduresView() {
         ProceduresPresenter presenter = new ProceduresPresenter();
         WorkProcedureInteractor workProcedureInteractor = new WorkProcedureInteractor(
                 presenter,
@@ -116,7 +128,7 @@ public class AdminMenuController {
     }
 
     @FXML
-    private void LoadPlantElementView() {
+    private void loadPlantElementView() {
         PlantElementPresenter presenter = new PlantElementPresenter();
         PlantElementInteractor interactor = new PlantElementInteractor(
                 new DBPlantElement(),
@@ -141,7 +153,7 @@ public class AdminMenuController {
         );
     }
 
-    public void LoadSparePartsView() {
+    public void loadSparePartsView() {
         SparePartPresenter presenter = new SparePartPresenter();
 
         SparePartInteractor interactor = new SparePartInteractor(
@@ -168,7 +180,8 @@ public class AdminMenuController {
         );
     }
 
-    public void LoadNewWorkOrderView() {
+    @FXML
+    private void LoadNewWorkOrderView() {
 
         // Reset the AppState to ensure there is no data from previous work order creation processes.
         AppState.getInstance().resetWorkOrder();
@@ -250,13 +263,14 @@ public class AdminMenuController {
         );
     }
 
-    public void loadEditWorkOrderView() {
+    @FXML
+    private void loadEditWorkOrderView() {
 
         WorkFrontModel selectedWorkOrder = adminMainController.getSelectedWorkOrder();
         if (selectedWorkOrder == null) {
             String titleError = "adminMenu.noSelectedTitle";
             String messageError = "adminMenu.noSelectedMessage";
-            Util.ShowMessage(titleError, messageError);
+            Util.showMessage(titleError, messageError);
 
         }
         else {
@@ -341,17 +355,20 @@ public class AdminMenuController {
         }
     }
 
-    public void deleteWorkOrder() {
+    @FXML
+    private void deleteWorkOrder() {
         if (adminMainController.getSelectedWorkOrder() == null) {
 
             String titleError = "adminMenu.noSelectedTitle";
             String messageError = "adminMenu.noSelectedMessage";
-            Util.ShowMessage(titleError, messageError);
+            Util.showMessage(titleError, messageError);
 
         } else {
+            RequestDeleteWorkOrder requestDeleteWorkOrder = new RequestDeleteWorkOrder(
+                    adminMainController.getSelectedWorkOrder().getWorkOrderId()
+            );
 
-            //Request delete
-
+            interactor.deleteWorkOrder(requestDeleteWorkOrder);
         }
     }
 }

@@ -197,7 +197,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
                         String title = "workOrder.assignment.errorTitle";
                         String message = "workOrder.assignment.errorMessage";
-                        Util.ShowMessage(title, message);
+                        Util.showMessage(title, message);
 
                         break;
                     }
@@ -227,7 +227,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
         int empty = 0;
 
         if (sparePartTable.getSelectionModel().isEmpty()) {
-            Util.ShowMessage("workOrder.defaultNew", "workOrder.sparePart.noSelected");
+            Util.showMessage("workOrder.defaultNew", "workOrder.sparePart.noSelected");
 
         } else {
             SparePartModel selectedSparePart = sparePartTable.getSelectionModel().getSelectedItem();
@@ -262,7 +262,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
                 updateFilter();
 
             } else {
-                Util.ShowMessage("workOrder.defaultNew", "workOrder.sparePart.outOfStock");
+                Util.showMessage("workOrder.defaultNew", "workOrder.sparePart.outOfStock");
 
             }
         }
@@ -301,7 +301,7 @@ public class WorkOrderDataController implements WorkOrderDataView {
                 String titleConf = "workOrder.assignment.confTitle";
                 String messageConf = "workOrder.assignment.confMessage";
 
-                Util.ShowMessage(titleConf, messageConf, holder.getUserName());
+                Util.showMessage(titleConf, messageConf, holder.getUserName());
 
                 displayHolderInfo(
                         holder.getUserName(),

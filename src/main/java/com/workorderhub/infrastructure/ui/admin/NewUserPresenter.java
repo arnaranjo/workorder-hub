@@ -16,9 +16,9 @@ public class NewUserPresenter implements NewUserOutput {
 
     @Override
     public void displayConfirmation() {
-        String title = "addUserView.acceptance.title";
-        String message = "addUserView.acceptance.content";
-        Util.ShowMessage(title, message);
+        String title = "addUserView.confirmation.title";
+        String message = "addUserView.confirmation.content";
+        Util.showMessage(title, message);
 
         view.setDefaultView();
     }

@@ -85,7 +85,7 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
                 String ConfTitle = "workOrder.workProcedure.confWorkProcedureTitle";
                 String ConfMessage = "workOrder.workProcedure.confWorkProcedureMessage";
 
-                if (Util.RequestConfirmation(ConfTitle, ConfMessage)) {
+                if (Util.requestConfirmation(ConfTitle, ConfMessage)) {
 
                     this.isWorkProcedureSelected = true;
                     this.selectedWorkProcedure = workProcedureTable.getSelectionModel().getSelectedItem();
@@ -100,14 +100,14 @@ public class WorkOrderProcedureController implements WorkOrderProcedureView {
                 String title = "workOrder.workProcedure.workProcedureErrorTitle";
                 String errorMessage = "workOrder.workProcedure.workProcedureErrorMessage";
 
-                Util.ShowMessage(title, errorMessage);
+                Util.showMessage(title, errorMessage);
 
             }
         } else {
             String title = "workOrder.workProcedure.workProcedureErrorTitle";
             String errorMessage = "workOrder.workProcedure.noSelectedErrorMessage";
 
-            Util.ShowMessage(title, errorMessage);
+            Util.showMessage(title, errorMessage);
 
         }
     }

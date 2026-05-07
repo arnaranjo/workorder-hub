@@ -27,7 +27,7 @@ public class SparePartPresenter implements SparePartOutput {
             return false;
 
         } else {
-            return Util.RequestConfirmation(title, message);
+            return Util.requestConfirmation(title, message);
 
         }
     }

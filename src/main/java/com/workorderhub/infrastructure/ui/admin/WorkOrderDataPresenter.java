@@ -152,43 +152,43 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
             case WORK_ORDER_DESCRIPTION_ERROR:
                 String titleNoDescription = "workOrder.newWorkOrder.errorTitle";
                 String messageNoDescription = "workOrder.newWorkOrder.descriptionError";
-                Util.ShowMessage(titleNoDescription, messageNoDescription);
+                Util.showMessage(titleNoDescription, messageNoDescription);
                 break;
 
             case WORK_ORDER_HOLDER_ERROR:
                 String titleNoHolder = "workOrder.newWorkOrder.errorTitle";
                 String messageNoHolder = "workOrder.newWorkOrder.holderError";
-                Util.ShowMessage(titleNoHolder, messageNoHolder);
+                Util.showMessage(titleNoHolder, messageNoHolder);
                 break;
 
             case WORK_ORDER_PLANT_ELEMENT_ERROR:
                 String titleNoPlantElement = "workOrder.newWorkOrder.errorTitle";
                 String messageNoPlantElement = "workOrder.newWorkOrder.plantElementError";
-                Util.ShowMessage(titleNoPlantElement, messageNoPlantElement);
+                Util.showMessage(titleNoPlantElement, messageNoPlantElement);
                 break;
 
             case WORK_ORDER_CATEGORY_ERROR:
                 String titleNoCategory = "workOrder.newWorkOrder.errorTitle";
                 String messageNoCategory = "workOrder.newWorkOrder.categoryError";
-                Util.ShowMessage(titleNoCategory, messageNoCategory);
+                Util.showMessage(titleNoCategory, messageNoCategory);
                 break;
 
             case WORK_ORDER_CREATION_ERROR:
                 String titleCreationError = "workOrder.newWorkOrder.errorTitle";
                 String messageCreationError = "workOrder.newWorkOrder.newWorkOrderError";
-                Util.ShowMessage(titleCreationError, messageCreationError);
+                Util.showMessage(titleCreationError, messageCreationError);
                 break;
 
             case WORK_PERMIT_DESCRIPTION_ERROR:
                 String titleNoWorkPermitDescription = "workOrder.newWorkOrder.errorTitle";
                 String messageNoWorkPermitDescription = "workOrder.newWorkPermit.newWPermitError";
-                Util.ShowMessage(titleNoWorkPermitDescription, messageNoWorkPermitDescription);
+                Util.showMessage(titleNoWorkPermitDescription, messageNoWorkPermitDescription);
                 break;
 
             case WORK_ORDER_UPDATE_ERROR:
                 String titleUpdateError = "workOrder.updatedWorkOrder.updatedWorkOrderTitle";
                 String messageUpdateError = "workOrder.updatedWorkOrder.updatedWorkOrderError";
-                Util.ShowMessage(titleUpdateError, messageUpdateError);
+                Util.showMessage(titleUpdateError, messageUpdateError);
                 break;
         }
     }
@@ -199,7 +199,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
             String title = "workOrder.newWorkOrder.confirmationTitle";
             String message = "workOrder.newWorkOrder.confirmationMessage";
 
-            return Util.RequestConfirmation(title, message);
+            return Util.requestConfirmation(title, message);
         }
         return false;
     }
@@ -210,7 +210,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
             case WORK_ORDER_CREATED:
                 String newWorkOrderTitle = "workOrder.newWorkOrder.newWorkOrderTitle";
                 String newWorkOrderMessage = "workOrder.newWorkOrder.newWorkOrderMessage";
-                Util.ShowMessage(newWorkOrderTitle, newWorkOrderMessage);
+                Util.showMessage(newWorkOrderTitle, newWorkOrderMessage);
 
                 // Store the created work order ID in the application state
                 AppState.getInstance().setWorkOrderId(response.workOrderId());
@@ -221,7 +221,7 @@ public class WorkOrderDataPresenter implements WorkOrderDataOutput {
             case WORK_ORDER_UPDATED:
                 String title = "workOrder.updatedWorkOrder.updatedWorkOrderTitle";
                 String message = "workOrder.updatedWorkOrder.updatedWorkOrderMessage";
-                Util.ShowMessage(title, message);
+                Util.showMessage(title, message);
 
                 workOrderDataListener.onEditWorkOrder();
                 break;

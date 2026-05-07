@@ -2,8 +2,14 @@ package com.workorderhub.core.caseuse.adminpanel;
 
 import com.workorderhub.core.caseuse.workorder.WorkFrontRow;
 import com.workorderhub.core.entity.StatusEnum;
+import com.workorderhub.core.entity.UsedSparePart;
+import com.workorderhub.core.gateway.AssignedCategoryGateway;
+import com.workorderhub.core.gateway.ParticipantGateway;
+import com.workorderhub.core.gateway.UsedSparePartGateway;
 import com.workorderhub.core.gateway.WorkLogGateway;
 import com.workorderhub.core.gateway.WorkOrderGateway;
+import com.workorderhub.core.entity.AssignedCategory;
+import com.workorderhub.core.entity.Participant;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,19 +20,28 @@ public class AdminMainInteractor implements AdminMainInput {
     private AdminMainOutput output;
     private WorkOrderGateway workOrderGateway;
     private WorkLogGateway workLogGateway;
+    private AssignedCategoryGateway assignedCategoryGateway;
+    private ParticipantGateway participantGateway;
+    private UsedSparePartGateway usedSparePartGateway;
 
     public AdminMainInteractor(
             AdminMainOutput output,
             WorkOrderGateway workOrderGateway,
-            WorkLogGateway workLogGateway
+            WorkLogGateway workLogGateway,
+            AssignedCategoryGateway assignedCategoryGateway,
+            ParticipantGateway participantGateway,
+            UsedSparePartGateway usedSparePartGateway
     ) {
         this.output = output;
         this.workOrderGateway = workOrderGateway;
         this.workLogGateway = workLogGateway;
+        this.assignedCategoryGateway = assignedCategoryGateway;
+        this.participantGateway = participantGateway;
+        this.usedSparePartGateway = usedSparePartGateway;
     }
 
     @Override
-    public void retrieveWorkFronts() {
+    public void retrieveWorkFront() {
         List<WorkFrontRow> workFrontRowList = workOrderGateway
                 .getWorkFrontList(StatusEnum.OPEN, StatusEnum.ONGOING).stream()
                 .map(workOrderElement -> new WorkFrontRow(
@@ -82,5 +97,57 @@ public class AdminMainInteractor implements AdminMainInput {
                         workLogElement.getWorkPermitId()
                 )).toList();
         output.displayWorkLogList(workLogRowList);
+    }
+
+    @Override
+    public void deleteWorkOrder(RequestDeleteWorkOrder request) {
+        if (request.workOrderId() <=0 ) {
+            output.displayError(AdminMainEnum.DELETE_WORK_ORDER_ERROR);
+            return;
+        }
+
+        if (!deleteAssociatedInformation(request.workOrderId())) {
+            output.displayError(AdminMainEnum.DELETE_WORK_ORDER_ERROR);
+            return;
+        }
+
+        if (workOrderGateway.deleteWorkOrder(request.workOrderId())) {
+            output.displaySuccess(AdminMainEnum.DELETE_WORK_ORDER_SUCCESS);
+            retrieveWorkFront();
+
+        } else {
+            output.displayError(AdminMainEnum.DELETE_WORK_ORDER_ERROR);
+        }
+    }
+
+    // Auxiliary methods
+
+    boolean deleteAssociatedInformation(long workOrderId){
+        if (assignedCategoryGateway == null || participantGateway == null || usedSparePartGateway == null) {
+            return false;
+        }
+
+        List<AssignedCategory> assignedCategories = assignedCategoryGateway.getCategoriesByWorkOrder(workOrderId);
+        for (AssignedCategory assignedCategory : assignedCategories) {
+            if (!assignedCategoryGateway.deleteAssignedCategory(assignedCategory)) {
+                return false;
+            }
+        }
+
+        List<Participant> participants = participantGateway.getParticipantsByWorkOrder(workOrderId);
+        for (Participant participant : participants) {
+            if (!participantGateway.deleteParticipant(participant)) {
+                return false;
+            }
+        }
+
+        List<UsedSparePart> usedSpareParts = usedSparePartGateway.getUsedSpareByWorkOrder(workOrderId);
+        for (UsedSparePart usedSparePart : usedSpareParts) {
+            if (!usedSparePartGateway.deleteUsedSparePart(usedSparePart)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

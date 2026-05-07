@@ -26,7 +26,7 @@ public class PlantElementPresenter implements PlantElementOutput {
             return false;
         }
         else {
-            return Util.RequestConfirmation(title, message);
+            return Util.requestConfirmation(title, message);
         }
     }
 

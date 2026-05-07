@@ -17,10 +17,10 @@
     <Button mnemonicParsing="false" onAction="#loadEditWorkOrderView" prefWidth="110.0" text="Edit Order" />
     <Button mnemonicParsing="false" onAction="#deleteWorkOrder" prefWidth="110.0" text="Delete Order" />
     <Separator prefWidth="200.0" />
-    <Button mnemonicParsing="false" onAction="#LoadNewUserView" prefWidth="110.0" text="Add User" />
-    <Button mnemonicParsing="false" onAction="#LoadEditUserView" prefWidth="110.0" text="Edit User" />
+    <Button mnemonicParsing="false" onAction="#loadNewUserView" prefWidth="110.0" text="Add User" />
+    <Button mnemonicParsing="false" onAction="#loadEditUserView" prefWidth="110.0" text="Edit User" />
     <Separator prefWidth="200.0" />
-    <Button mnemonicParsing="false" onAction="#LoadProceduresView"  prefWidth="110.0" text="Procedures" />
-    <Button mnemonicParsing="false" onAction="#LoadPlantElementView" prefWidth="110.0" text="Plant Elements" />
-    <Button mnemonicParsing="false" onAction="#LoadSparePartsView" prefWidth="110.0" text="Spare Parts" />
+    <Button mnemonicParsing="false" onAction="#loadProceduresView" prefWidth="110.0" text="Procedures" />
+    <Button mnemonicParsing="false" onAction="#loadPlantElementView" prefWidth="110.0" text="Plant Elements" />
+    <Button mnemonicParsing="false" onAction="#loadSparePartsView" prefWidth="110.0" text="Spare Parts" />
 </VBox>

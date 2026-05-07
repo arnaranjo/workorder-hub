@@ -50,8 +50,8 @@ public class NewUserController implements NewUserView {
 
     @FXML
     private void createUser() {
-        String title = "addUserView.confirmation.title";
-        String message = "addUserView.confirmation.content";
+        String title = "addUserView.request.title";
+        String message = "addUserView.request.content";
 
         if (nameField.getText().isEmpty() || phoneField.getText().isEmpty() || emailField.getText().isEmpty()) {
             newUserLabel.setText(PropertiesLoader.GetText("addUserView.wrongUserInfo"));
@@ -62,7 +62,7 @@ public class NewUserController implements NewUserView {
                 !confPasswordField.getText().isEmpty())
         {
             if (passwordField.getText().equals(confPasswordField.getText())) {
-                if (Util.RequestConfirmation(title, message)) {
+                if (Util.requestConfirmation(title, message)) {
                     request = new RequestNewUser(
                             nameField.getText(),
                             phoneField.getText(),
@@ -80,7 +80,7 @@ public class NewUserController implements NewUserView {
             }
 
         } else {
-            if (Util.RequestConfirmation(title, message)) {
+            if (Util.requestConfirmation(title, message)) {
                 request = new RequestNewUser(
                         nameField.getText(),
                         phoneField.getText(),

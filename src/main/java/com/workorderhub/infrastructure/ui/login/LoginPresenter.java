@@ -10,6 +10,9 @@ import com.workorderhub.core.entity.UserRoleEnum;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
 import com.workorderhub.infrastructure.common.ViewLoader;
+import com.workorderhub.infrastructure.database.DBAssignedCategory;
+import com.workorderhub.infrastructure.database.DBParticipant;
+import com.workorderhub.infrastructure.database.DBUsedSparePart;
 import com.workorderhub.infrastructure.database.DBWorkLog;
 import com.workorderhub.infrastructure.database.DBWorkOrder;
 import com.workorderhub.infrastructure.ui.admin.AdminMainController;
@@ -58,7 +61,10 @@ public class LoginPresenter implements LoginOutput {
                 AdminMainInteractor managerInteractor = new AdminMainInteractor(
                         managerPresenter,
                         new DBWorkOrder(),
-                        new DBWorkLog()
+                        new DBWorkLog(),
+                        new DBAssignedCategory(),
+                        new DBParticipant(),
+                        new DBUsedSparePart()
                 );
 
                 viewLoader.registerController(AdminMainController.class, ()-> {
@@ -66,7 +72,7 @@ public class LoginPresenter implements LoginOutput {
                     managerPresenter.setViewController(controller);
                     return controller;
                 });
-                viewLoader.registerController(AdminMenuController.class, ()-> new AdminMenuController());
+                viewLoader.registerController(AdminMenuController.class, ()-> new AdminMenuController(managerInteractor));
                 viewLoader.LoadView(
                         adminView,
                         PropertiesLoader.GetText("login.managerScreen"),

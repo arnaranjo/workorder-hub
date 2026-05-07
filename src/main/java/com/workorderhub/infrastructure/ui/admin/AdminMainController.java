@@ -1,9 +1,6 @@
 package com.workorderhub.infrastructure.ui.admin;
 
-import com.workorderhub.core.caseuse.adminpanel.AdminMainInteractor;
-import com.workorderhub.core.caseuse.adminpanel.AdminMainView;
-import com.workorderhub.core.caseuse.adminpanel.RequestClosedOrders;
-import com.workorderhub.core.caseuse.adminpanel.RequestWorkLogs;
+import com.workorderhub.core.caseuse.adminpanel.*;
 import com.workorderhub.infrastructure.common.AppState;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
 import com.workorderhub.infrastructure.common.Util;
@@ -17,12 +14,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminMainController implements AdminMainView {
 
-    private AdminMainInteractor interactor;
+    private final AdminMainInput interactor;
 
     // Menu Controller reference to allow opening the edit work order window with the selected work order.
     @FXML
@@ -35,13 +31,9 @@ public class AdminMainController implements AdminMainView {
     @FXML
     private DatePicker startDateOrder;
     @FXML
-    private Button loadClosedOrderButton;
-    @FXML
     private TableView<WorkLogModel> workLogTable;
     @FXML
     private DatePicker startDateLog;
-    @FXML
-    private Button loadLogButton;
     @FXML
     private Label statusLabel;
 
@@ -79,11 +71,7 @@ public class AdminMainController implements AdminMainView {
     private TableColumn<WorkLogModel, Integer> workPermitIdColumnWL;
 
     private ObservableList<WorkFrontModel> workFrontObsList;
-
-    private List<WorkFrontModel> closedOrdersList;
     private ObservableList<WorkFrontModel> closedOrdersObsList;
-
-    private List<WorkLogModel> workLogElementList;
     private ObservableList<WorkLogModel> workLogElementObsList;
 
 
@@ -93,6 +81,7 @@ public class AdminMainController implements AdminMainView {
 
     public void initialize(){
 
+        // Set the reference to the menu controller.
         if (adminMenuController != null) {
             this.adminMenuController.setAdminController(this);
         }
@@ -159,14 +148,20 @@ public class AdminMainController implements AdminMainView {
         workPermitIdColumnWL.setCellValueFactory(new PropertyValueFactory<>("workPermitId"));
         workPermitIdColumnWL.setCellFactory(_ -> new WorkPermitCell());
 
-        closedOrdersList = new ArrayList<>();
-        workLogElementList = new ArrayList<>();
+        workFrontObsList = FXCollections.observableArrayList();
+        closedOrdersObsList = FXCollections.observableArrayList();
+        workLogElementObsList = FXCollections.observableArrayList();
+
+        workFrontTable.setItems(workFrontObsList);
+        closedOrdersTable.setItems(closedOrdersObsList);
+        workLogTable.setItems(workLogElementObsList);
 
         buildWorkFrontTable();
         buildClosedOrdersTable();
         buildWorkLogTable();
 
         retrieveWorkFront();
+        interactor.retrieveClosedOrders(new RequestClosedOrders(null));
 
     }
 
@@ -174,37 +169,25 @@ public class AdminMainController implements AdminMainView {
 
     @Override
     public void setWorkFrontList(List<WorkFrontModel> workFrontModelList) {
-        workFrontObsList = FXCollections.observableArrayList(workFrontModelList);
-        workFrontTable.setItems(workFrontObsList);
+        workFrontObsList.setAll(workFrontModelList);
     }
 
     @Override
     public void setClosedOrdersList(List<WorkFrontModel> closedOrdersList) {
-        closedOrdersObsList = FXCollections.observableArrayList(closedOrdersList);
-        closedOrdersTable.setItems(closedOrdersObsList);
+        closedOrdersObsList.setAll(closedOrdersList);
     }
 
     @Override
     public void setWorkLogList(List<WorkLogModel> workLogList) {
-        workLogElementObsList = FXCollections.observableArrayList(workLogList);
-        workLogTable.setItems(workLogElementObsList);
+        workLogElementObsList.setAll(workLogList);
     }
 
-    // Event handlers
+    // Event methods
 
     @FXML
     private void searchClosedWorkOrder() {
-        if (startDateOrder.getValue() != null) {
-            RequestClosedOrders request = new RequestClosedOrders(startDateOrder.getValue());
-            interactor.retrieveClosedOrders(request);
-
-        } else {
-            String errTitle = "adminView.closedOrders.noSelectedTitle";
-            String errMessage = "adminView.closedOrders.noSelectedMessage";
-
-            Util.ShowMessage(errTitle, errMessage);
-
-        }
+        RequestClosedOrders request = new RequestClosedOrders(startDateOrder.getValue());
+        interactor.retrieveClosedOrders(request);
     }
 
     @FXML
@@ -217,12 +200,12 @@ public class AdminMainController implements AdminMainView {
             String errTitle = "adminView.logDate.noSelectedTitle";
             String errMessage = "adminView.logDate.noSelectedMessage";
 
-            Util.ShowMessage(errTitle, errMessage);
+            Util.showMessage(errTitle, errMessage);
 
         }
     }
 
-    // Internal methods
+    // Auxiliary methods
 
     /**
      * Adds the columns to the work front table.
@@ -237,6 +220,9 @@ public class AdminMainController implements AdminMainView {
         workFrontTable.getColumns().add(lotoProcedureCodeColumnWF);
         workFrontTable.getColumns().add(holderColumnWF);
         workFrontTable.getColumns().add(statusColumnWF);
+        workFrontTable.setPlaceholder(
+                new Label(PropertiesLoader.GetText("adminView.workFrontTable.placeHolder"))
+        );
     }
 
     /**
@@ -252,7 +238,9 @@ public class AdminMainController implements AdminMainView {
         closedOrdersTable.getColumns().add(lotoProcedureCodeColumnCW);
         closedOrdersTable.getColumns().add(holderColumnCW);
         closedOrdersTable.getColumns().add(statusColumnCW);
-
+        closedOrdersTable.setPlaceholder(
+                new Label(PropertiesLoader.GetText("adminView.closedOrdersTable.placeHolder"))
+        );
     }
 
     /**
@@ -268,6 +256,9 @@ public class AdminMainController implements AdminMainView {
         workLogTable.getColumns().add(endDateColumnWL);
         workLogTable.getColumns().add(holderColumnWL);
         workLogTable.getColumns().add(workPermitIdColumnWL);
+        workLogTable.setPlaceholder(
+                new Label(PropertiesLoader.GetText("adminView.workLogTable.placeHolder"))
+        );
     }
 
     /**
@@ -290,8 +281,10 @@ public class AdminMainController implements AdminMainView {
      * It is called by the admin menu when the user closes the edit work order window.
      */
     public void retrieveWorkFront(){
-        interactor.retrieveWorkFronts();
+        interactor.retrieveWorkFront();
     }
+
+    // Inner classes
 
     /**
      * Custom table cell to show whether a work permit is included or no.

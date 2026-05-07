@@ -123,7 +123,7 @@ public class ProceduresController implements ProcedureView {
             String title = "workProcedure.noSelectionTitle";
             String message = "workProcedure.noSelectionMessage";
 
-            Util.ShowMessage(title, message);
+            Util.showMessage(title, message);
 
         }
     }
@@ -169,7 +169,7 @@ public class ProceduresController implements ProcedureView {
             String title = "lotoProcedure.noSelectionTitle";
             String message = "lotoProcedure.noSelectionMessage";
 
-            Util.ShowMessage(title, message);
+            Util.showMessage(title, message);
 
         }
     }

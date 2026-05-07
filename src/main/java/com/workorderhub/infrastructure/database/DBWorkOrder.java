@@ -601,7 +601,7 @@ public class DBWorkOrder implements WorkOrderGateway {
     }
 
     @Override
-    public boolean deleteWorkOrder(WorkOrderInfo workOrderInfo) {
+    public boolean deleteWorkOrder(long workOrderId) {
 
         String sql = """
                 DELETE FROM work_order
@@ -611,7 +611,7 @@ public class DBWorkOrder implements WorkOrderGateway {
         try {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
-            statement.setLong(1, workOrderInfo.getWorkOrderId());
+            statement.setLong(1, workOrderId);
 
             statement.executeUpdate();
             statement.close();

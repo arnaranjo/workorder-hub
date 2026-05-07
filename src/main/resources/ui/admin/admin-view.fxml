@@ -31,7 +31,7 @@
                             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                         </padding>
                         <DatePicker fx:id="startDateOrder" prefWidth="150.0" />
-                        <Button fx:id="loadClosedOrderButton" mnemonicParsing="false" onAction="#searchClosedWorkOrder" prefWidth="150.0" text="Load" />
+                        <Button mnemonicParsing="false" onAction="#searchClosedWorkOrder" prefWidth="150.0" text="Load" />
                     </HBox>
                     <TableView fx:id="closedOrdersTable" VBox.vgrow="ALWAYS">
                         <columnResizePolicy>
@@ -47,7 +47,7 @@
                             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                         </VBox.margin>
                         <DatePicker fx:id="startDateLog" prefWidth="150.0" />
-                        <Button fx:id="loadLogButton" mnemonicParsing="false" onAction="#searchRecords" prefWidth="150.0" text="Load" />
+                        <Button mnemonicParsing="false" onAction="#searchRecords" prefWidth="150.0" text="Load" />
                     </HBox>
                     <TableView fx:id="workLogTable" VBox.vgrow="ALWAYS">
                         <columnResizePolicy>

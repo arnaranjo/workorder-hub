@@ -21,8 +21,8 @@ public class Util {
      * @param message message showed in the window.
      * @return true or false
      */
-    public static boolean RequestConfirmation(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    public static boolean requestConfirmation(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
 
         alert.setTitle(PropertiesLoader.GetText(title));
         alert.setHeaderText(null);
@@ -39,7 +39,7 @@ public class Util {
      * @param title   title of the window.
      * @param message message showed in the window.
      */
-    public static void ShowMessage(String title, String message) {
+    public static void showMessage(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         alert.setTitle(PropertiesLoader.GetText(title));
@@ -57,7 +57,7 @@ public class Util {
      * @param message           message showed in the window.
      * @param additionalMessage message added to provide additional information.
      */
-    public static void ShowMessage(String title, String message, String additionalMessage) {
+    public static void showMessage(String title, String message, String additionalMessage) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         alert.setTitle(PropertiesLoader.GetText(title));
