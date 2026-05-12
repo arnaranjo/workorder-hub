@@ -1,19 +1,20 @@
 package com.workorderhub.infrastructure.ui.supervisor;
 
+import com.workorderhub.core.caseuse.supervisor.RequestClosedWork;
 import com.workorderhub.core.caseuse.supervisor.SupervisorMainInput;
 import com.workorderhub.core.caseuse.supervisor.SupervisorMainView;
-import com.workorderhub.core.entity.WorkOrderElement;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
 import com.workorderhub.infrastructure.models.WorkFrontModel;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SupervisorMainController implements SupervisorMainView {
@@ -35,7 +36,7 @@ public class SupervisorMainController implements SupervisorMainView {
     @FXML
     private DatePicker startDatePicker;
 
-    private SupervisorMainInput interactor;
+    private final SupervisorMainInput interactor;
 
     // Work Front (WF) table columns.
     private TableColumn<WorkFrontModel, Long> workOrderIdColumnWF;
@@ -59,12 +60,10 @@ public class SupervisorMainController implements SupervisorMainView {
     private TableColumn<WorkFrontModel, String> holderColumnCW;
     private TableColumn<WorkFrontModel, String> statusColumnCW;
 
-    private List<WorkFrontModel> workFrontList;
     private ObservableList<WorkFrontModel> workFrontObsList;
     private FilteredList<WorkFrontModel> workFrontFilList;
 
-    private List<WorkFrontModel> closedWorkList;
-    private ObservableList<WorkOrderElement> closedWorkObsList;
+    private ObservableList<WorkFrontModel> closedWorkObsList;
 
     public SupervisorMainController(SupervisorMainInput interactor) {
         this.interactor = interactor;
@@ -86,7 +85,7 @@ public class SupervisorMainController implements SupervisorMainView {
         workProcedureColumnWF = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.workProcedureCode"));
         workProcedureColumnWF.setCellValueFactory(new PropertyValueFactory<>("workProcedureCode"));
         lockOutDeviceIdColumnWF = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.lockOutDeviceId"));
-        lockOutDeviceIdColumnWF.setCellValueFactory(new PropertyValueFactory<>("lockoutDeviceId"));
+        lockOutDeviceIdColumnWF.setCellValueFactory(new PropertyValueFactory<>("lockDeviceId"));
         lotoProcedureCodeColumnWF = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.lotoProcedureCode"));
         lotoProcedureCodeColumnWF.setCellValueFactory(new PropertyValueFactory<>("lotoProcedureCode"));
         holderColumnWF = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.holderName"));
@@ -105,7 +104,7 @@ public class SupervisorMainController implements SupervisorMainView {
         workProcedureColumnCW = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.workProcedureCode"));
         workProcedureColumnCW.setCellValueFactory(new PropertyValueFactory<>("workProcedureCode"));
         lockOutDeviceIdColumnCW = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.lockOutDeviceId"));
-        lockOutDeviceIdColumnCW.setCellValueFactory(new PropertyValueFactory<>("lockoutDeviceId"));
+        lockOutDeviceIdColumnCW.setCellValueFactory(new PropertyValueFactory<>("lockDeviceId"));
         lotoProcedureCodeColumnCW = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.lotoProcedureCode"));
         lotoProcedureCodeColumnCW.setCellValueFactory(new PropertyValueFactory<>("lotoProcedureCode"));
         holderColumnCW = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.holderName"));
@@ -113,10 +112,86 @@ public class SupervisorMainController implements SupervisorMainView {
         statusColumnCW = new TableColumn<>(PropertiesLoader.GetText("SupervisorView.status"));
         statusColumnCW.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        workFrontList = new ArrayList<>();
-        closedWorkList = new ArrayList<>();
+        workFrontObsList = FXCollections.observableArrayList();
+        workFrontFilList = new FilteredList<>(workFrontObsList);
+        closedWorkObsList = FXCollections.observableArrayList();
 
+        workFrontTable.setItems(workFrontFilList);
+        closedWorkTable.setItems(closedWorkObsList);
+
+        buildWorkFrontTable();
+        buildClosedWorkTable();
+
+        setDescriptionListeners();
         setSearchFunction();
+
+        interactor.retrieveWorkFront();
+        interactor.retrieveClosedWork(new RequestClosedWork(null));
+    }
+
+    @Override
+    public void setWorkFrontList(List<WorkFrontModel> workFrontList) {
+        workFrontObsList.setAll(workFrontList);
+        workFrontTable.refresh();
+    }
+
+    @Override
+    public void setClosedWorkList(List<WorkFrontModel> closedWorkList) {
+        closedWorkObsList.setAll(closedWorkList);
+        closedWorkTable.refresh();
+    }
+
+    @FXML
+    private void searchClosedWork() {
+        interactor.retrieveClosedWork(new RequestClosedWork(startDatePicker.getValue()));
+    }
+
+    private void buildWorkFrontTable() {
+        workFrontTable.getColumns().add(workOrderIdColumnWF);
+        workFrontTable.getColumns().add(startDateColumnWF);
+        workFrontTable.getColumns().add(endDateColumnWF);
+        workFrontTable.getColumns().add(plantElementColumnWF);
+        workFrontTable.getColumns().add(workProcedureColumnWF);
+        workFrontTable.getColumns().add(lockOutDeviceIdColumnWF);
+        workFrontTable.getColumns().add(lotoProcedureCodeColumnWF);
+        workFrontTable.getColumns().add(holderColumnWF);
+        workFrontTable.getColumns().add(statusColumnWF);
+        workFrontTable.setPlaceholder(
+                new Label(PropertiesLoader.GetText("SupervisorView.workFrontTable.placeHolder"))
+        );
+    }
+
+    private void buildClosedWorkTable() {
+        closedWorkTable.getColumns().add(workOrderIdColumnCW);
+        closedWorkTable.getColumns().add(startDateColumnCW);
+        closedWorkTable.getColumns().add(endDateColumnCW);
+        closedWorkTable.getColumns().add(plantElementColumnCW);
+        closedWorkTable.getColumns().add(workProcedureColumnCW);
+        closedWorkTable.getColumns().add(lockOutDeviceIdColumnCW);
+        closedWorkTable.getColumns().add(lotoProcedureCodeColumnCW);
+        closedWorkTable.getColumns().add(holderColumnCW);
+        closedWorkTable.getColumns().add(statusColumnCW);
+        closedWorkTable.setPlaceholder(
+                new Label(PropertiesLoader.GetText("SupervisorView.closedWorkTable.placeHolder"))
+        );
+    }
+
+    private void setDescriptionListeners() {
+        workFrontTable.getSelectionModel().selectedItemProperty().addListener((_, _, selected) -> {
+            if (selected == null) {
+                workFrontDescArea.clear();
+                return;
+            }
+            workFrontDescArea.setText(selected.getDescription());
+        });
+
+        closedWorkTable.getSelectionModel().selectedItemProperty().addListener((_, _, selected) -> {
+            if (selected == null) {
+                closedWorkDescArea.clear();
+                return;
+            }
+            closedWorkDescArea.setText(selected.getDescription());
+        });
     }
 
     /**
@@ -140,13 +215,19 @@ public class SupervisorMainController implements SupervisorMainView {
                     break;
 
                 case "Tag":
-                    workFrontFilList.setPredicate(p ->
-                            p.getPlantElementTag().toLowerCase().contains(newValue.toLowerCase().trim()));
+                    workFrontFilList.setPredicate(p -> {
+                        String criteria = newValue == null ? "" : newValue.toLowerCase().trim();
+                        String tag = p.getPlantElementTag() == null ? "" : p.getPlantElementTag().toLowerCase();
+                        return tag.contains(criteria);
+                    });
                     break;
 
                 case "Holder":
-                    workFrontFilList.setPredicate(p ->
-                            p.getHolderName().toLowerCase().contains(newValue.toLowerCase().trim()));
+                    workFrontFilList.setPredicate(p -> {
+                        String criteria = newValue == null ? "" : newValue.toLowerCase().trim();
+                        String holder = p.getHolderName() == null ? "" : p.getHolderName().toLowerCase();
+                        return holder.contains(criteria);
+                    });
                     break;
 
                 case "Start Date":
@@ -182,5 +263,14 @@ public class SupervisorMainController implements SupervisorMainView {
             }
 
         });
+
+        searchCriteriaSelector.getSelectionModel().selectedItemProperty().addListener((_, _, newValue) -> {
+            if (newValue != null) {
+                workOrderSearchField.setText("");
+            }
+        });
+    }
+
+    public void reviewWorkOrder() {
     }
 }

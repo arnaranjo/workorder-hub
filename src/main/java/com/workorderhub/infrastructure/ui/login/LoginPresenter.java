@@ -85,7 +85,8 @@ public class LoginPresenter implements LoginOutput {
 
                 SupervisorMainPresenter supervisorPresenter = new SupervisorMainPresenter();
                 SupervisorMainInteractor supervisorInteractor = new SupervisorMainInteractor(
-                        supervisorPresenter
+                        supervisorPresenter,
+                        new DBWorkOrder()
                 );
 
                 viewLoader.registerController(SupervisorMainController.class, ()-> {

@@ -15,11 +15,11 @@
             <Font size="18.0"/>
         </font>
     </Label>
-    <TabPane>
+    <TabPane VBox.vgrow="ALWAYS">
         <Tab text="Open / Ongoing">
             <BorderPane>
                 <center>
-                    <VBox spacing="10.0" BorderPane.alignment="CENTER">
+                    <VBox spacing="10.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
                         <padding>
                             <Insets bottom="20.0" right="20.0" top="20.0"/>
                         </padding>
@@ -52,7 +52,7 @@
         <Tab text="Closed">
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                 <center>
-                    <VBox prefWidth="200.0" spacing="10.0" styleClass="side-panel" BorderPane.alignment="CENTER">
+                    <VBox spacing="10.0" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
                         <padding>
                             <Insets bottom="20.0" right="20.0" top="20.0"/>
                         </padding>
@@ -77,9 +77,9 @@
                         <Label text="Start Date"/>
                         <DatePicker fx:id="startDatePicker"/>
                         <Button layoutX="30.0" layoutY="140.0" mnemonicParsing="false"
-                                prefWidth="160.0" text="Search"/>
+                                onAction="#searchClosedWork" prefWidth="160.0" text="Search"/>
                         <Separator layoutX="30.0" layoutY="100.0" prefWidth="200.0"/>
-                        <Button mnemonicParsing="false" prefWidth="160.0"
+                        <Button onAction="#reviewWorkOrder" mnemonicParsing="false" prefWidth="160.0"
                                 text="Review"/>
                     </VBox>
                 </left>
