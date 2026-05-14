@@ -28,8 +28,6 @@
     -fx-background-color: -fx-bg-secondary;
     -fx-padding: 12;
     -fx-spacing: 10;
-    -fx-border-color: #D0D0D0;
-    -fx-border-width: 0 1 0 0;
 }
 
 .content-panel {
@@ -80,7 +78,6 @@
 
 .button.secondary {
     -fx-background-color: transparent;
-    -fx-border-color: -fx-primary;
     -fx-text-fill: -fx-primary;
 }
 
@@ -101,24 +98,26 @@
 }
 
 .tab-pane .tab-header-background {
-    -fx-background-color: -fx-bg-secondary;
+    -fx-background-color: -fx-bg-primary;
 }
 
 .tab-pane .tab {
-    -fx-background-color: -fx-bg-secondary;
     -fx-padding: 6 12;
+    -fx-border-width: 2 2 0 2;
+    -fx-border-color: #D0D0D0;
 }
 
 .tab-pane .tab:selected {
-    -fx-background-color: -fx-primary;
+    -fx-background-color: -fx-bg-secondary;
 }
 
 .tab-pane .tab:selected .tab-label {
-    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
 }
 
 .accordion .titled-pane > .title {
-    -fx-background-color: -fx-bg-secondary;
+    -fx-background-color: -fx-primary-light;
     -fx-font-weight: bold;
 }
 
@@ -126,4 +125,3 @@
     -fx-background: -fx-bg-primary;
     -fx-background-color: transparent;
 }
-

@@ -9,7 +9,7 @@
     -fx-primary-dark: #073b4c;
 
     /* Color primario claro - usado en fondos de selección, highlights */
-    -fx-primary-light: #adb5bd;
+    -fx-primary-light: #118ab2;
 }
 
 .root {
@@ -39,13 +39,5 @@
     -fx-bg-primary: #f8f9fa;
 
     /* Color de fondo secundario - usado en sidebar, headers, paneles oscuros */
-    -fx-bg-secondary: #e9ecef;
-}
-
-.root {
-    /* Color de borde - usado en inputs, tablas, separadores */
-    -fx-border-color: #ced4da;
-
-    /* Color de borde en foco - usado cuando un elemento está activo/seleccionado */
-    -fx-border-focus: #dee2e6;
+    -fx-bg-secondary: #f8f9fa;
 }
