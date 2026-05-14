@@ -20,29 +20,29 @@ INSERT INTO spare_part_category(category_name)
 
 INSERT INTO spare_part (spare_part_name, spare_part_number, spare_part_description, spare_part_stock, spare_part_category_id)
     VALUES
-        ('Centrifugal Pump', 'EQ001', 'Grundfos CM3-5 high-pressure centrifugal pump, 50 Hz, 220V, 2.2 kW', 12, 1),
-        ('Air Compressor', 'EQ002', 'Ingersoll Rand UP5-7.5TAS rotary screw air compressor, 7.5 HP', 8, 1),
-        ('Circuit Breaker', 'EL001', 'Schneider Electric NSX100F, 100A circuit breaker, 3-pole, 415V', 25, 2),
-        ('Control Relay', 'EL002', 'Siemens 3RT2026-1AK60 contactor relay, 24V DC coil, 3 NO', 60, 2),
-        ('Transformer', 'EL003', 'ABB dry-type transformer, 11kV/400V, 500 kVA', 5, 2),
-        ('Bearing', 'ME001', 'SKF 6305 deep groove ball bearing, 25 mm bore, 62 mm OD', 150, 3),
-        ('Valve Actuator', 'ME002', 'Rotork IQ3 electric valve actuator, 240V AC, torque 150 Nm', 10, 3),
-        ('Pressure Gauge', 'IN001', 'WIKA 213.53 stainless steel pressure gauge, 0-10 bar, 63mm dial', 30, 4),
-        ('Thermocouple', 'IN002', 'Omega K-type thermocouple, stainless steel, 300 mm probe length, 0-400°C', 50, 4),
-        ('Flow Meter', 'IN003', 'Yokogawa AXF electromagnetic flowmeter, DN100, 4-20 mA output', 6, 4);
+        ('Centrifugal Pump Cartridge', 'EQ001', 'Cartridge assembly for centrifugal feed pump P-101, 2.2 kW, 220 V, 50 Hz', 6, 1),
+        ('Air Compressor Service Kit', 'EQ002', 'Service kit for screw air compressor C-201 including filters and separator', 10, 1),
+        ('Molded Case Circuit Breaker', 'EL001', '3-pole 100 A circuit breaker for MCC bucket, 415 V', 20, 2),
+        ('Contactor Relay 24VDC', 'EL002', 'Control relay for motor starter panel, coil 24 VDC, 3 NO contacts', 40, 2),
+        ('Control Transformer', 'EL003', 'Dry-type control transformer 480 VAC to 120 VAC, 1.5 kVA', 8, 2),
+        ('Pump Bearing Set', 'ME001', 'Bearing set for process pump shaft, 25 mm bore, sealed type', 80, 3),
+        ('Electric Valve Actuator', 'ME002', 'Quarter-turn electric actuator for isolation valves, 240 VAC, 150 Nm', 12, 3),
+        ('Pressure Gauge 0-10 bar', 'IN001', 'Stainless steel pressure gauge, 63 mm dial, process connection 1/4 in NPT', 25, 4),
+        ('K-Type Thermocouple', 'IN002', 'Mineral insulated thermocouple, 300 mm probe, operating range 0 to 400 deg C', 35, 4),
+        ('Magnetic Flow Transmitter', 'IN003', 'Flow transmitter for DN100 magnetic meter, 4-20 mA output with HART', 10, 4);
 
 INSERT INTO plant_element (element_tag, element_description, element_location)
     VALUES
-        ('FV-101', 'Flow Control Valve', 'Reactor Area - Unit 1'),
-        ('PT-202', 'Pressure Transmitter, Range 0-100 psi', 'Compressor Room - Unit 3'),
-        ('LV-303', 'Level Control Valve, 3-inch, Pneumatic Actuated', 'Storage Tank Area - Unit 4'),
-        ('TT-404', 'Temperature Transmitter, Range -50 to 300°C', 'Distillation Column - Unit 2'),
-        ('XV-505', 'Emergency Shut-off Valve, Remote Actuated', 'Boiler Room - Unit 5'),
-        ('FT-606', 'Flow Transmitter, Magnetic Flow Range 0-500 gpm', 'Cooling Tower - Unit 1'),
-        ('CV-707', 'Control Valve', 'Heat Exchanger - Unit 2'),
-        ('PV-808', 'Pressure Relief Valve, Set Pressure 120 psi', 'Steam Generation Area - Unit 3'),
-        ('IT-909', 'Inductive Transmitter, Range 0-1000 rpm', 'Pump Station - Unit 4'),
-        ('HV-010', 'Hand Valve, 3-inch', 'Chemical Storage - Unit 5');
+        ('P-101', 'Reactor feed centrifugal pump, 2.2 kW process service', 'Reactor Area - Unit 1'),
+        ('C-201', 'Plant air compressor package, 7.5 HP screw type', 'Utilities Building - Unit 1'),
+        ('T-301', 'Storage tank level control station with 3 in control valve', 'Tank Farm - Unit 3'),
+        ('TT-401', 'Distillation column top temperature transmitter, range 0 to 300 deg C', 'Distillation Area - Unit 2'),
+        ('XV-501', 'Emergency isolation valve with remote electric actuator', 'Boiler House - Unit 4'),
+        ('FT-601', 'Cooling water flow transmitter for main header, range 0 to 500 gpm', 'Cooling Tower - Unit 5'),
+        ('E-701', 'Shell and tube heat exchanger for reactor effluent cooling', 'Process Area - Unit 2'),
+        ('PSV-801', 'Steam header safety relief valve set at 120 psi', 'Steam System - Unit 4'),
+        ('M-901', 'Agitator drive motor with speed feedback transmitter', 'Reactor Area - Unit 1'),
+        ('HV-011', 'Manual isolation valve, 3 in carbon steel body', 'Chemical Storage - Unit 3');
 
 INSERT INTO employee_role (role_name)
     VALUES
@@ -52,15 +52,15 @@ INSERT INTO employee_role (role_name)
 
 INSERT INTO user_credentials (user_name, user_password)
     VALUES
-        ('plantmanager', 'jsmith123!'),
-        ('emilydavis', 'edavis024!'),
-        ('michaeljhonson', 'mjhonson158!');
+        ('plantmanager', 'test1!'),
+        ('emilydavis', 'test2!'),
+        ('michaeljhonson', 'test3!');
 
 INSERT INTO employee (employee_name, phone_number, company_email, role_id, user_credentials_id)
     VALUES
         ('John Smith', '555-1234', 'john.smith@chemplant.com', 1, 1),
-        ('Emily Davis', '555-2345', 'emily.davis@chemplant.com', 1, 2),
-        ('Michael Johnson', '555-3456', 'michael.johnson@chemplant.com', 1, 3),
+        ('Emily Davis', '555-2345', 'emily.davis@chemplant.com', 2, 2),
+        ('Michael Johnson', '555-3456', 'michael.johnson@chemplant.com', 3, 3),
         ('Sophia Lee', '555-4567', 'sophia.lee@chemplant.com', 2, NULL),
         ('Olivia Green', '555-6789', 'olivia.green@chemplant.com', 3, NULL),
         ('David Brown', '555-5678', 'david.brown@chemplant.com', 3, NULL),
@@ -73,26 +73,26 @@ INSERT INTO employee (employee_name, phone_number, company_email, role_id, user_
 
 INSERT INTO work_procedure (work_procedure_code, work_procedure_name)
     VALUES
-        ('WP-001', 'Filter Replacement Procedure'),
-        ('WP-002', 'Pipeline Cleaning Procedure'),
-        ('WP-003', 'Heat Exchanger Maintenance Procedure'),
-        ('WP-004', 'Compressor Lubrication Procedure'),
-        ('WP-005', 'Pump Alignment and Balancing Procedure'),
-        ('WP-006', 'Distillation Column Inspection'),
-        ('WP-007', 'Boiler Water Treatment Procedure'),
-        ('WP-008', 'Cooling Tower Disinfection Procedure'),
-        ('WP-009', 'Valve Seal Replacement Procedure'),
-        ('WP-010', 'Condenser Tube Cleaning Procedure');
+        ('WP-001', 'P-101 Feed Pump Preventive Maintenance'),
+        ('WP-002', 'C-201 Air Compressor Lubrication and Filter Change'),
+        ('WP-003', 'T-301 Tank Level Control Loop Calibration'),
+        ('WP-004', 'TT-401 Distillation Temperature Transmitter Calibration'),
+        ('WP-005', 'XV-501 Emergency Isolation Valve Functional Test'),
+        ('WP-006', 'FT-601 Cooling Water Flow Transmitter Verification'),
+        ('WP-007', 'E-701 Heat Exchanger Mechanical Cleaning'),
+        ('WP-008', 'PSV-801 Steam Relief Valve Inspection and Setpoint Check'),
+        ('WP-009', 'M-901 Agitator Motor Alignment and Coupling Check'),
+        ('WP-010', 'HV-011 Manual Isolation Valve Packing Replacement');
 
 INSERT INTO loto_procedure (loto_procedure_code, loto_procedure_name)
     VALUES
-        ('LP-001', 'Pump Lockout Procedure'),
-        ('LP-002', 'Blower Lockout Procedure'),
-        ('LP-003', 'Electrical Panel Lockout Procedure'),
-        ('LP-004', 'Air Compressor Lockout Procedure'),
-        ('LP-005', 'Conveyor System Lockout Procedure'),
-        ('LP-006', 'Heat Exchanger Lockout Procedure'),
-        ('LP-007', 'Reactor Mixer Lockout Procedure'),
-        ('LP-008', 'Cooling Tower Fan Lockout Procedure'),
-        ('LP-009', 'Steam Valve Lockout Procedure'),
-        ('LP-010', 'Boiler Control Panel Lockout Procedure');
+        ('LP-001', 'LOTO for P-101 Feed Pump and Associated MCC Feeder'),
+        ('LP-002', 'LOTO for C-201 Air Compressor and Receiver Isolation'),
+        ('LP-003', 'LOTO for T-301 Tank Inlet and Outlet Isolation Valves'),
+        ('LP-004', 'LOTO for TT-401 Instrument Loop and Junction Box Power'),
+        ('LP-005', 'LOTO for XV-501 Emergency Valve Electrical Actuator'),
+        ('LP-006', 'LOTO for FT-601 Flow Meter Impulse and Signal Isolation'),
+        ('LP-007', 'LOTO for E-701 Heat Exchanger Process and Utility Lines'),
+        ('LP-008', 'LOTO for PSV-801 Upstream Steam Block Valve'),
+        ('LP-009', 'LOTO for M-901 Agitator Motor and Mechanical Energy'),
+        ('LP-010', 'LOTO for HV-011 Chemical Storage Isolation Boundary');

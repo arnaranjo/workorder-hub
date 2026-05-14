@@ -1,7 +1,7 @@
 CREATE TABLE work_order (
     work_order_id BIGINT UNSIGNED NOT NULL,
-    work_description VARCHAR(255) NOT NULL,
-    work_comments VARCHAR(255) DEFAULT NULL,
+    work_description TEXT NOT NULL,
+    work_comments TEXT DEFAULT NULL,
     work_start_date DATE DEFAULT NULL,
     work_end_date DATE DEFAULT NULL,
     holder INT UNSIGNED NOT NULL,
