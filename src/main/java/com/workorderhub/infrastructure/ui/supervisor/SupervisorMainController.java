@@ -1,14 +1,15 @@
 package com.workorderhub.infrastructure.ui.supervisor;
 
 import com.workorderhub.core.caseuse.supervisor.RequestClosedWork;
+import com.workorderhub.core.caseuse.supervisor.RequestReviewWorkOrder;
 import com.workorderhub.core.caseuse.supervisor.SupervisorMainInput;
 import com.workorderhub.core.caseuse.supervisor.SupervisorMainView;
 import com.workorderhub.infrastructure.common.PropertiesLoader;
+import com.workorderhub.infrastructure.common.Util;
 import com.workorderhub.infrastructure.models.WorkFrontModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -146,6 +147,26 @@ public class SupervisorMainController implements SupervisorMainView {
         interactor.retrieveClosedWork(new RequestClosedWork(startDatePicker.getValue()));
     }
 
+    @FXML
+    private void reviewWorkFrontWorkOrder() {
+        if (workFrontTable.getSelectionModel().isEmpty()) {
+            Util.showMessage("supervisorView.noSelectedTitle", "supervisorView.noSelectedMessage");
+            return;
+        }
+        long workOrderId = workFrontTable.getSelectionModel().getSelectedItem().getWorkOrderId();
+        interactor.reviewWorkOrder(new RequestReviewWorkOrder(workOrderId));
+    }
+
+    @FXML
+    private void reviewClosedWorkOrder() {
+        if (closedWorkTable.getSelectionModel().isEmpty()) {
+            Util.showMessage("supervisorView.noSelectedTitle", "supervisorView.noSelectedMessage");
+            return;
+        }
+        long workOrderId = closedWorkTable.getSelectionModel().getSelectedItem().getWorkOrderId();
+        interactor.reviewWorkOrder(new RequestReviewWorkOrder(workOrderId));
+    }
+
     private void buildWorkFrontTable() {
         workFrontTable.getColumns().add(workOrderIdColumnWF);
         workFrontTable.getColumns().add(startDateColumnWF);
@@ -271,6 +292,4 @@ public class SupervisorMainController implements SupervisorMainView {
         });
     }
 
-    public void reviewWorkOrder() {
-    }
 }

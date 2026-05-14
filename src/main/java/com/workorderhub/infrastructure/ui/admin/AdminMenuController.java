@@ -185,6 +185,8 @@ public class AdminMenuController {
 
         // Reset the AppState to ensure there is no data from previous work order creation processes.
         AppState.getInstance().resetWorkOrder();
+        // Set the admin mode to true in the AppState to ensure that the work order form loads with the correct functionalities.
+        AppState.getInstance().setAdminMode(true);
 
         WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
         WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();
@@ -193,6 +195,7 @@ public class AdminMenuController {
             public void onNewWorkOrder() {
                 AppState.getInstance().resetWorkOrder();
                 adminMainController.retrieveWorkFront();
+
             }
 
             @Override
@@ -277,6 +280,8 @@ public class AdminMenuController {
 
             // Set the selected work order ID in the AppState to ensure that the edit view loads the correct work order data.
             AppState.getInstance().setWorkOrderId(selectedWorkOrder.getWorkOrderId());
+            // Set the admin mode to true in the AppState to ensure that the work order form loads with the correct functionalities.
+            AppState.getInstance().setAdminMode(true);
 
             WorkOrderMainPresenter mainPresenter = new WorkOrderMainPresenter();
             WorkOrderDataPresenter dataPresenter = new WorkOrderDataPresenter();

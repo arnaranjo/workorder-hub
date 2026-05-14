@@ -2,6 +2,7 @@ package com.workorderhub.core.caseuse.supervisor;
 
 import com.workorderhub.core.caseuse.workorder.WorkFrontRow;
 import com.workorderhub.core.entity.StatusEnum;
+import com.workorderhub.core.entity.WorkOrderElement;
 import com.workorderhub.core.gateway.WorkOrderGateway;
 
 import java.time.LocalDate;
@@ -56,5 +57,20 @@ public class SupervisorMainInteractor implements SupervisorMainInput {
                 )).toList();
 
         output.displayClosedWorkList(closedWorkList);
+    }
+
+    @Override
+    public void reviewWorkOrder(RequestReviewWorkOrder request) {
+        if (request.workOrderId() <= 0) {
+            return;
+        }
+
+        WorkOrderElement workOrderElement = workOrderGateway.getWorkFrontElement(request.workOrderId());
+
+        if (workOrderElement == null) {
+            return;
+        }
+
+        output.loadWorkOrderView(new ResponseReviewWorkOrder(request.workOrderId()));
     }
 }

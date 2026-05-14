@@ -556,9 +556,13 @@ public class DBWorkOrder implements WorkOrderGateway {
             PreparedStatement statement = sqlManager.prepareStatement(sql);
 
             statement.setLong(1, workOrderInfo.getWorkOrderId());
-            statement.setString(2, workOrderInfo.getDescription());
+            if (workOrderInfo.getDescription() == null) {
+                statement.setNull(2, Types.LONGVARCHAR);
+            } else {
+                statement.setString(2, workOrderInfo.getDescription());
+            }
             if (workOrderInfo.getComments() == null) {
-                statement.setNull(3, Types.NULL);
+                statement.setNull(3, Types.LONGVARCHAR);
             } else {
                 statement.setString(3, workOrderInfo.getComments());
             }
@@ -648,9 +652,13 @@ public class DBWorkOrder implements WorkOrderGateway {
             sqlManager = DBConnection.DBConnect();
             PreparedStatement statement = sqlManager.prepareStatement(sql);
 
-            statement.setString(1, workOrderInfo.getDescription());
+            if (workOrderInfo.getDescription() == null) {
+                statement.setNull(1, Types.LONGVARCHAR);
+            } else {
+                statement.setString(1, workOrderInfo.getDescription());
+            }
             if (workOrderInfo.getComments() == null) {
-                statement.setNull(2, Types.NULL);
+                statement.setNull(2, Types.LONGVARCHAR);
             } else {
                 statement.setString(2, workOrderInfo.getComments());
             }
@@ -736,7 +744,7 @@ public class DBWorkOrder implements WorkOrderGateway {
             PreparedStatement statement = sqlManager.prepareStatement(sql);
 
             if (comment == null) {
-                statement.setNull(1, Types.NULL);
+                statement.setNull(1, Types.LONGVARCHAR);
             } else {
                 statement.setString(1, comment);
             }

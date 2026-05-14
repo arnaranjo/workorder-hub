@@ -1,10 +1,6 @@
 package com.workorderhub.infrastructure.common;
 
 
-import com.workorderhub.infrastructure.models.StatusModel;
-
-import java.util.List;
-
 /**
  * AppState loads fixed lists, object references or catalogs to make them available in the app.
  * CODE REFERENCE
@@ -15,8 +11,9 @@ public final class AppState {
     private static volatile AppState instance;
     private String loggedUser = null;
     private int loggedUserId = 0;
-    private List<StatusModel> workOrderStatusList;
     private long workOrderId = 0;
+    private boolean adminMode = false;
+    private boolean supervisorMode = false;
 
     /**
      * REF. [1]
@@ -60,14 +57,6 @@ public final class AppState {
         return loggedUserId;
     }
 
-    public List<StatusModel> getWorkOrderStatusList() {
-        return workOrderStatusList;
-    }
-
-    public void setWorkOrderStatusList(List<StatusModel> workOrderStatusList) {
-        this.workOrderStatusList = workOrderStatusList;
-    }
-
     /**
      * Gets the work order ID from the app state.
      * @return the work order ID, or 0 if no work order ID is set
@@ -85,9 +74,44 @@ public final class AppState {
     }
 
     /**
-     * Resets the work order ID in the app state.
+     * Gets whether the app is currently in supervisor mode.
+     * @return true when supervisor mode is active, false otherwise.
+     */
+    public boolean isSupervisorMode() {
+        return supervisorMode;
+    }
+
+    /**
+     * Gets whether the app is currently in admin mode.
+     * @return true when admin mode is active, false otherwise.
+     */
+    public boolean isAdminMode() {
+        return adminMode;
+    }
+
+    /**
+     * Sets admin mode in the app state.
+     * @param adminMode true to enable admin mode, false to disable it.
+     */
+    public void setAdminMode(boolean adminMode) {
+        this.adminMode = adminMode;
+    }
+
+    /**
+     * Sets supervisor mode in the app state.
+     * @param supervisorMode true to enable supervisor mode, false to disable it.
+     */
+    public void setSupervisorMode(boolean supervisorMode) {
+        this.supervisorMode = supervisorMode;
+    }
+
+    /**
+     * Resets work order context in the app state.
+     * It clears the selected work order and disables admin/supervisor modes.
      */
     public void resetWorkOrder(){
         this.workOrderId = 0;
+        this.adminMode = false;
+        this.supervisorMode = false;
     }
 }

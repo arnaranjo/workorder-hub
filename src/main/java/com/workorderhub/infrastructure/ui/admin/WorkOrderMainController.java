@@ -78,23 +78,37 @@ public class WorkOrderMainController implements WorkOrderMainView {
 
         this.workOrderId = AppState.getInstance().getWorkOrderId();
 
-        // Check if we are creating a new work order or editing an existing one.
-        mainLabel.setStyle(PropertiesLoader.GetText("workOrder.defaultStyle"));
-        if (workOrderId == 0) {
-            mainLabel.setText(PropertiesLoader.GetText("workOrder.defaultNew"));
-            createButton.setDisable(false);
+        // In supervisor mode the form is read-only.
+        if (AppState.getInstance().isSupervisorMode()) {
+            createButton.setDisable(true);
             updateButton.setDisable(true);
-
-        } else {
+            mainLabel.setStyle(PropertiesLoader.GetText("workOrder.defaultStyle"));
             mainLabel.setText(
                     PropertiesLoader.GetText("workOrder.defaultEdit")
-                    + ": " + workOrderId
+                            + ": " + workOrderId
             );
-
-            createButton.setDisable(true);
-            updateButton.setDisable(false);
             interactor.loadWorkOrderElement(new RequestLoadWorkOrder(workOrderId));
 
+        } else if (AppState.getInstance().isAdminMode()) {
+
+            // Check if we are creating a new work order or editing an existing one.
+            mainLabel.setStyle(PropertiesLoader.GetText("workOrder.defaultStyle"));
+            if (workOrderId == 0) {
+                mainLabel.setText(PropertiesLoader.GetText("workOrder.defaultNew"));
+                createButton.setDisable(false);
+                updateButton.setDisable(true);
+
+            } else {
+                mainLabel.setText(
+                        PropertiesLoader.GetText("workOrder.defaultEdit")
+                        + ": " + workOrderId
+                );
+
+                createButton.setDisable(true);
+                updateButton.setDisable(false);
+                interactor.loadWorkOrderElement(new RequestLoadWorkOrder(workOrderId));
+
+            }
         }
     }
 
