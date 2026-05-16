@@ -6,6 +6,7 @@ INSERT INTO status(order_status)
 
 INSERT INTO category(category_name, category_description)
     VALUES
+        ('Standard', 'Use a standard work permit for routine maintenance and non-hazardous activities.'),
         ('Cold work', 'Use a cold work permit if the work will not produce sufficient heat or energy to ignite flammable materials.'),
         ('Hot work', 'Use a hot work permit for all cutting, welding, soldering and brazing activities.'),
         ('Hoisting', 'Use a hoisting permit if the work required hoisting and lifting operations greater than 1 meter.'),
