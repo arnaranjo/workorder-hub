@@ -314,7 +314,7 @@ public class WorkOrderInteractor implements WorkOrderInput {
         Integer permitLotoProcedureId = request.getWorkPermitLotoProcedureId();
         boolean hasRequestedPermit = hasWorkPermitData(permitDescription, permitLockDevices, permitLotoProcedureId);
 
-        if (!hasText(permitDescription)) {
+        if (hasRequestedPermit && !hasText(permitDescription)) {
             dataOutput.displayError(WorkOrderEnum.WORK_PERMIT_DESCRIPTION_ERROR);
             return;
         }

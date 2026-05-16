@@ -276,13 +276,14 @@ public class PlantElementController implements PlantElementView {
     public void addPlantElementItem(RowPlantElement rowPlantElement) {
         PlantElementModel model = new PlantElementModel(
                 rowPlantElement.elementId(),
+                rowPlantElement.elementTag(),
                 rowPlantElement.elementDescription(),
-                rowPlantElement.elementLocation(),
                 rowPlantElement.elementLocation(),
                 rowPlantElement.inspectionDate(),
                 rowPlantElement.inspectionFrequency()
         );
         plantElementsObsList.add(model);
+        plantElementsTable.refresh();
     }
 
     @Override

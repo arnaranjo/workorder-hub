@@ -363,6 +363,11 @@ public class WorkOrderDataController implements WorkOrderDataView {
 
     @Override
     public void setParticipantList(List<ParticipantModel> participantList) {
+        if (this.participantList == null) {
+            this.participantList = new ArrayList<>();
+        }
+        // Replace instead of accumulate to avoid duplicates if called multiple times (e.g. during load)
+        this.participantList.clear();
         this.participantList.addAll(participantList);
     }
 
